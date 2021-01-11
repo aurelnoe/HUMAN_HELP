@@ -212,6 +212,37 @@ class MissionDAO extends BddConnect
         }       
     }
 
+    // public function searchMission(int $idPays=null,int $idTypeActivite=null) {
+    //     try {
+    //         $newConnect = new BddConnect();
+    //         $db = $newConnect->connexion();
+        
+    //         $query = "SELECT * FROM mission WHERE " . if(empty($_GET)){
+    //                                                     1;
+    //                                                 }else if(!empty($_GET['idPays']) && empty($_GET['idTypeActivite'])){
+    //                                                     'idPays' = $idPays;
+    //                                                 }else if(!empty($_GET['idTypeActivite'])){
+    //                                                     'idTypeActivite' = $idTypeActivite;
+    //                                                 }else if(!empty($_GET['idPays']) && !empty($_GET['idTypeActivite'])){
+    //                                                     'idPays' = $idPays . 'AND idTypeActivite = ' . $idTypeActivite ;
+    //                                                 } . "";
+    //         $stmt = $db->prepare($query);
+    //         $stmt->bindParam(':id', $id);
+    //         $stmt->execute();  
+
+    //         $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
+                                  
+    //         return $missions;
+    //     } 
+    //     catch (PDOException $e){
+    //         throw new DAOException($e->getMessage(),$e->getCode());
+    //     }  
+    //     finally{
+    //         $db = null;
+    //         $stmt = null;   
+    //     }
+    // }
+
 /**************** CHERCHE TOUTES LES MISSIONS PAR TYPE D'ACTIVITE *******/
     public function searchMissionByTypeActivite($idTypeActivite){
         try {

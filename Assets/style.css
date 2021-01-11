@@ -1,7 +1,7 @@
 /*-------------DEBUT CODE GENERAL CSS--------------*/
 .navbardev{
   max-width: 100%;
-  box-sizing: content-box;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -18,6 +18,53 @@ body{
 
 .container{
   margin-top: 50px;  /*Temporaire pour navbar dev*/
+}
+
+.chosen-container {
+  width: 100%!important;
+  height: auto;
+  
+}
+
+.chosen-container-single{
+  background-color: #58b368!important;
+}
+
+.chosen-container-single .chosen-single{
+  background: none;
+  background-color: #228b22;
+  color: black;
+  padding: 15px;
+  height: 100%;
+  font-size: 24px;
+}
+.chosen-search {
+  background-color: white;
+}
+.chosen-container-single .chosen-with-drop .chosen-single div{
+  background-color: #58b368!important;
+  background-image: none!important;
+  
+}
+.chosen-container-single .chosen-single div b {
+  background: none;
+  /* background-image: url("../Assets/chosen/angle-arrow-down.png");
+  background-size: cover;
+  background-position: center;
+  margin: auto;
+  background-repeat: no-repeat; */
+}
+.chosen-container-single .chosen-single div{
+  padding: 15px;
+  width: 50px;
+}
+
+.chosen-container .chosen-drop {
+  background-color: #58b368;
+}
+.chosen-container .chosen-results{
+  color: black;
+  font-size: 16px;
 }
 
 .logo1 {
