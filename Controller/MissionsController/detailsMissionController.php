@@ -11,6 +11,7 @@ $_GET = array_map('htmlentities',$_GET);
 $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
+
 if(!empty($_GET))
 {
     $serviceMission = new ServiceMission(); 
@@ -39,8 +40,6 @@ if(!empty($_GET))
 
     elseif(!empty($_GET['action']) && isset($_GET['action']))
     {
-        $_POST = array_map('htmlentities', $_POST);
-
         if (!empty($_POST) && isset($_POST)) 
         {
             if($_GET['action'] == 'update' && isset($_POST['idMission']))

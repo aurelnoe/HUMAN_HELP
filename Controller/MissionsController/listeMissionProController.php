@@ -83,7 +83,6 @@ if(!empty($_GET['action']) && isset($_GET['action']) && $professionnel)
             $telEtablissement = $_POST['telEtablissement'];
             $dateAjoutEtablissement = date("Y-m-d"); 
             $idUtilisateur = $_POST['idUtilisateur'];
-            //$idTypeActivite = $_POST['idTypeActivite'];
             $idPays = $_POST['idPays'];
     
             $etablissement->setDenomination($denomination)
@@ -94,7 +93,6 @@ if(!empty($_GET['action']) && isset($_GET['action']) && $professionnel)
                             ->setTelEtablissement($telEtablissement)
                             ->setDateAjoutEtablissement($dateAjoutEtablissement)
                             ->setIdUtilisateur($idUtilisateur)
-                            //->setIdTypeActivite($idTypeActivite)
                             ->setIdPays($idPays);
             try {
                 $serviceEtablissement->add($etablissement);            

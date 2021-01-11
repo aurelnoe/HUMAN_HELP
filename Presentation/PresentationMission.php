@@ -4,7 +4,7 @@ require("../../Presentation/PresentationCommun.php");
 function listeMissionsPro($missions,$newTypeActivite=null,$newPays=null,$etablissementPro=null,$utilisateur,$errorCode=null) 
 {
     echo head();
-    ?> 
+    ?>
     <body>
         <?php
         include("../../Templates/Bases/navbarDev.php");
