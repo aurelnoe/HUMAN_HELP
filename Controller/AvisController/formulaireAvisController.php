@@ -2,7 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
 include_once(PATH_BASE . "/Services/ServiceAvis.php");
 include_once(PATH_BASE . "/Services/ServiceBlog.php");
-include_once(PATH_BASE . "Presentation/PresentationBlog.php");
+include_once(PATH_BASE . "/Presentation/PresentationBlog.php");
 
 if (isset($_GET['action'])) 
 { 

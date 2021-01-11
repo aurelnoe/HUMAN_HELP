@@ -1,6 +1,9 @@
 <?php
-include_once("C:/xampp/htdocs/HUMAN_HELP/Controller/AvisController/formulaireAvisController.php");
-require("../../Presentation/PresentationCommun.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once(PATH_BASE . "/Presentation/PresentationCommun.php");
+include_once(PATH_BASE . "/Controller/AvisController/formulaireAvisController.php");
+
+
 
 function formulaireArticle(string $title, $article=null, string $titleBtn, string $action, int $idArticle = null)
 {
@@ -249,7 +252,7 @@ function listeAvis($avis,$idArticle)
             </div>
             <div>
             <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>
-            <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=add&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>&temoignage=<?php echo $newTemoigange; ; ?>" class="btn btn-success w-25">Modifier</a>
+            <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=update&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-success w-25">Modifier</a>
             </div>
 
             <hr class="my-4">
@@ -260,6 +263,7 @@ function listeAvis($avis,$idArticle)
     <script>
     
     var temoignage = document.getElementById("modifTemoignage");
+
     console.log(temoignage);
     
     temoignage.addEventListener('click', function (e){
@@ -290,9 +294,9 @@ function listeAvis($avis,$idArticle)
 
         var myClickedElement = e.target;
         myClickedElement.appendChild(input);
-        this.firstElementChild.select();          // select la valeur par défaut du input l'élément sélectonné
+        this.firstElementChild.select(); 
+                                                 // select la valeur par défaut du input l'élément sélectonné
     })
-
 
 
 </script>
