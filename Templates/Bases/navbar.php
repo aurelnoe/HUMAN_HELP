@@ -58,7 +58,7 @@ include_once("C:/xampp/htdocs/HUMAN_HELP/Controller/HeaderController/headerContr
 			<h1 class="slogan">Aider comme vous ne l'avez encore jamais fait</h1>
 			<form action="/HUMAN_HELP/Controller/MissionsController/searchMissionsController.php">
 				<div class="row justify-content-md-center search_box">
-					<div class="col-md-3 col-lg-3 my-1 btn-group">
+					<div class="col-md-3 col-lg-3 my-1 btn-group rounded">
 						<select data-placeholder="Pays" name="idPays" id="selectPays" class="autosubmit chosen">
 							<option value="">
 							</option>
@@ -78,7 +78,7 @@ include_once("C:/xampp/htdocs/HUMAN_HELP/Controller/HeaderController/headerContr
 										<?php echo utf8_encode($typeActivite->getTypeActivite()); ?>
 								</option>
 							<?php } ?>
-							</select>
+						</select>
 					</div>
 				</div>	
 			</form>

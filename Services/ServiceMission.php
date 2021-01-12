@@ -65,6 +65,16 @@ class ServiceMission
     }
 
     /************ PAGE LISTE MISSION PRO ***********/
+    public function searchMissions($getIdPays,$getIdTypeActivite,$getTypeFormation)
+    {
+        try {
+            return $this->missionDAO->searchMissions($getIdPays,$getIdTypeActivite,$getTypeFormation);      
+        }
+        catch (DAOException $de) {
+            throw new ServiceException($de->getMessage(),$de->getCode());
+        }  
+    }
+    /************ PAGE LISTE MISSION PRO ***********/
     public function searchMissionByPro($idEtablissement)
     {
         try {

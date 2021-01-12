@@ -508,7 +508,7 @@ function listeMissions($medecines=null,$donations=null,$enseignements=null,$cons
 <?php
 }
 
-function detailsMission($mission,$newPays=null,$newTypeActivite=null,$newEtablissement=null,$professionnel)
+function detailsMission($mission,$newPays=null,$newTypeActivite=null,$newEtablissement=null,$professionnel,$errorCode=null,$message=null)
 {
     echo head();
     ?> 
@@ -517,9 +517,9 @@ function detailsMission($mission,$newPays=null,$newTypeActivite=null,$newEtablis
         include("../../Templates/Bases/navbarDev.php");
 
         include("../../Templates/Bases/navbar.php");
-        if($errorCode && $errorCode == 9999){
-            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-        }
+        // if($errorCode && $errorCode == 9999){
+        //     echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+        // }
         ?>
         <div class="container justify-content p-4">
 
@@ -772,7 +772,7 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
 <?php
 }
 
-function searchMission($missions,$title=null)
+function searchMission($missions,$title=null,$errorCode=null)
 {
     echo head();
     ?>
@@ -782,7 +782,12 @@ function searchMission($missions,$title=null)
         include("../../Templates/Bases/navbar.php");
         ?>
         <div class="container text-center ">
-
+            <?php
+            if($errorCode == 1062){
+                $message = "Un problème est survenu lors de la recherche";
+                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+            }
+            ?>
             <h1 class="h1-select"><?php echo $title; ?></h1>
             
             <hr class="my-4 hrGreen ">

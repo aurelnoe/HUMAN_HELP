@@ -13,16 +13,15 @@ $_POST = array_map('htmlentities',$_POST);
 
 if (!empty($_GET)) 
 {
-    $newSearch = new ServiceMission();
-    $newTypeActivite = new ServiceTypeActivite();
-    $newPays = new ServicePays();
+    $serviceMission = new ServiceMission();
+    $serviceTypeActivite = new ServiceTypeActivite();
+    $servicePays = new ServicePays();
 
     //TRI PAR TYPE ACTIVITE  
     if (!empty($_GET['idTypeActivite'])) {
         try {
-            $missions = $newSearch->searchMissionByTypeActivite($_GET['idTypeActivite']);
-    
-            $typeActivite = $newTypeActivite->searchById($_GET['idTypeActivite']);
+            $missions = $serviceMission->searchMissionByTypeActivite($_GET['idTypeActivite']);
+            $typeActivite = $serviceTypeActivite->searchById($_GET['idTypeActivite']);
             $title = utf8_encode(ucfirst($typeActivite->getTypeActivite()));
             
             echo searchMission($missions,$title);   
@@ -34,9 +33,8 @@ if (!empty($_GET))
     }//TRI PAR PAYS 
     else if (!empty($_GET['idPays'])) {
         try {
-            $missions = $newSearch->searchMissionByPays($_GET['idPays']);
-    
-            $pays = $newPays->searchById($_GET['idPays']);
+            $missions = $serviceMission->searchMissionByPays($_GET['idPays']);
+            $pays = $servicePays->searchById($_GET['idPays']);
             $title = ucfirst($pays->getNomPays());
     
             echo searchMission($missions,$title);
@@ -48,7 +46,7 @@ if (!empty($_GET))
     //TRI PAR TYPE FORMATION 
     else if (!empty($_GET['typeFormation'])) {
         try {
-            $missions = $newSearch->searchMissionByTypeFormation($_GET['typeFormation']);
+            $missions = $serviceMission->searchMissionByTypeFormation($_GET['typeFormation']);
             if ($_GET['typeFormation']==0) {
                 $title = 'Missions à distance';
             }
@@ -61,5 +59,38 @@ if (!empty($_GET))
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     }
+
+    // try { 
+            
+    //     if (!empty($_GET['idPays']) && empty($_GET['idTypeActivite'])){
+    //         $pays = $servicePays->searchById($_GET['idPays']);
+    //         $title = ucfirst($pays->getNomPays());  
+    //         $missions = $serviceMission->searchMissions($_GET['idPays'],null,null);
+    //     }
+    //     else if (empty($_GET['idPays']) && !empty($_GET['idTypeActivite'])) {
+    //         $typeActivite = $serviceTypeActivite->searchById($_GET['idTypeActivite']);
+    //         $title = utf8_encode(ucfirst($typeActivite->getTypeActivite()));
+    //         $missions = $serviceMission->searchMissions(null,$_GET['idTypeActivite'],null);
+    //     }
+    //     else if (!empty($_GET['idPays']) && !empty($_GET['idTypeActivite'])) {      
+    //         $pays = $servicePays->searchById($_GET['idPays']);
+    //         $typeActivite = $serviceTypeActivite->searchById($_GET['idTypeActivite']);
+    //         $title = utf8_encode(ucfirst($typeActivite->getTypeActivite())) ." / " . ucfirst($pays->getNomPays());
+    //         $missions = $serviceMission->searchMissions($_GET['idPays'],$_GET['idTypeActivite'],null);
+    //     }
+    //     else if (!empty($_GET['typeFormation'])){
+    //         if ($_GET['typeFormation']==0) {
+    //             $title = 'Missions à distance';
+    //         }
+    //         else {
+    //             $title = 'Missions sur le terrain';
+    //         }
+    //         $missions = $serviceMission->searchMissions(null,null,$_GET['typeFormation']);
+    //     }
+    //     echo searchMission($missions,$title);    
+    // }
+    // catch (ServiceException $se) {
+    //         header('Location: ' . $_SERVER['HTTP_REFERER']);
+    // }
 }
 ?>
