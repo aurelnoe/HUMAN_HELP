@@ -167,7 +167,7 @@ class BlogDAO extends BddConnect
             return $article[0];
         } 
         catch (PDOException $e){
-            throw new DAOException("La mission n'a pas été trouvé dans la base de données",9999);
+            throw new DAOException("L'article n'a pas été trouvé dans la base de données",9999);
         }  
         finally{
             $db = null;
