@@ -16,9 +16,6 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
     {
         if ($_GET['action'] == 'add') 
         {
-            // echo'<pre>';
-            // var_dump($_POST);
-            // echo '</pre>';
             $auteur = utf8_decode(($_POST['auteur']));
             $temoignage = ($_POST['temoignage']);
             $dateCommentaire = date("Y-m-d");
@@ -42,19 +39,19 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             }
         }
         /************************** MODIFIE AVIS ***************************/
-        elseif ($_GET['action'] == 'update' && isset($_POST['idAvis'])) 
+        elseif ($_GET['action'] == 'update' && isset($_POST['idArticle']))
         { 
             
             $idAvis = ($_POST['idAvis']);
             $auteur = utf8_decode(($_POST['auteur']));
-            $temoignage = ($_POST['temoignage']);
+            $temoignage = ($_GET['temoignage']);
             $dateCommentaire = date("Y-m-d");
             $idUtilisateur =  ($_POST['idUtilisateur']);
             $idArticle = ($_POST['idArticle']);
 
             $avis = new Avis();
 
-            $avis->setIdArticle($idAvis)
+            $avis->setIdAvis($idAvis)
                     ->setAuteur($auteur)
                     ->setTemoignage($temoignage)
                     ->setDateCommentaire($dateCommentaire)
@@ -65,8 +62,9 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             $service = new ServiceBlog();  
             try{
                 $newUpdate->update($avis); 
-                $article = $service->searchById($_GET['idArticle']);
-                echo detailArticle($article,$avis);
+                // $article = $service->searchById($_POST['idArticle']);
+                // echo detailArticle($article,$avis);
+                // die;
             }
             catch (ServiceException $se) {
                 header('Location: ../../index.php');
@@ -107,6 +105,8 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
         $article = $service->searchById($_GET['idArticle']);
         $avis = $avisService->searchByIdArticle($_GET['idArticle']);
         echo detailArticle($article,$avis);
+        // var_dump($_POST) ;
+        // var_dump($_GET) ;
     }
     catch (ServiceException $se) {
         header('Location: ../../index.php');

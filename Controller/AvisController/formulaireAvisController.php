@@ -8,28 +8,28 @@ $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 
-if (isset($_GET['action'])) 
-{ 
-    $newAvis = new ServiceAvis();
-    $newArticle = new ServiceBlog();
+// if (isset($_GET['action'])) 
+// { 
+//     $newAvis = new ServiceAvis();
+//     $newArticle = new ServiceBlog();
 
-    if ($_GET['action'] == 'update' && isset($_GET['idAvis'])) 
-    {  
+//     if ($_GET['action'] == 'update' && isset($_GET['idAvis'])) 
+//     {  
         // if (isset($_SESSION['profil']) && $_SESSION['profil']=='utilisateur') {
         //     header('Location: ../../index.php');
         // }
-       try{
-            $avis = $newAvis->searchById($_GET['idAvis']);
-            $article = $newArticle->searchById($_GET['idArticle']); 
-            $idArticle = $_GET['idArticle'];
-            $idAvis = $_GET['idAvis'];
-            $temoignage=$avis->getTemoignage();
+    //    try{
+    //         $avis = $newAvis->searchById($_GET['idAvis']);
+    //         $article = $newArticle->searchById($_GET['idArticle']); 
+    //         $idArticle = $_GET['idArticle'];
+    //         $idAvis = $_GET['idAvis'];
+    //         $temoignage=$avis->getTemoignage();
 
-            echo detailArticle($article,$avis,$temoignage);
-       }
-       catch (ServiceException $se) {
-        header('Location: ../../index.php');
-        }
+    //         echo detailArticle($article,$avis,$temoignage);
+    //    }
+    //    catch (ServiceException $se) {
+    //     header('Location: ../../index.php');
+    //     }
         
         
         // var_dump($avis);
@@ -37,7 +37,7 @@ if (isset($_GET['action']))
         // $titleBtn = 'Modifier le commentaire';
         // $action = 'update';
        
-    } 
+    // } 
     // else if ($_GET['action'] == 'add') {
     //     $title = "Ajout d'un commentaire";
     //     $titleBtn = 'ajouter le commentaire';
@@ -46,4 +46,4 @@ if (isset($_GET['action']))
     //     echo FormulaireAvis();
     //     die;
     // }
-}
+// }

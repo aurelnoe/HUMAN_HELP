@@ -21,7 +21,7 @@ class Avis
     /**
      * Get the value of idAvis
      */ 
-    public function getIdAvis():int
+    public function getIdAvis()
     {
         return $this->idAvis ;
     }
@@ -31,7 +31,7 @@ class Avis
      *
      * @return  self
      */ 
-    public function setIdAvis(int $idAvis ):self
+    public function setIdAvis( $idAvis ):self
     {
         $this->idAvis= $idAvis ;
 
@@ -101,7 +101,7 @@ class Avis
     /**
      * Get the value of idUtilisateur
      */ 
-    public function getIdUtilisateur():int
+    public function getIdUtilisateur()
     {
         return $this->idUtilisateur;
     }
@@ -111,7 +111,7 @@ class Avis
      *
      * @return  self
      */ 
-    public function setIdUtilisateur(int $idUtilisateur):self
+    public function setIdUtilisateur( $idUtilisateur):self
     {
         $this->idUtilisateur = $idUtilisateur;
 
