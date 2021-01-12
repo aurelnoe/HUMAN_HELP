@@ -6,6 +6,10 @@ include_once(PATH_BASE . "/Services/ServiceAvis.php");
 include_once(PATH_BASE . "/Presentation/PresentationBlog.php");
 include_once(PATH_BASE . "/Exceptions/ServiceException.php");
 
+$_GET = array_map('htmlentities',$_GET); 
+$_COOKIE = array_map('htmlentities',$_COOKIE);
+$_REQUEST = array_map('htmlentities',$_REQUEST);
+$_POST = array_map('htmlentities',$_POST);
 if (!empty($_GET)) {
 
     $service = new ServiceBlog();
