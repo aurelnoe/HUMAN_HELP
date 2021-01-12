@@ -216,4 +216,70 @@ function modifMotDePasse()
     <?php
 }
 
+function detailUtilisateur($utilisateur = null){
+    echo head();
+    ?>
+    <body>
+        <?php
+        include("../../Templates/Bases/navbarDev.php");
+        include("../../Templates/Bases/navbar.php");
+        ?>
+    <div class="container">
+        <div>
+            <h2>Détail des informations personnelles</h2> 
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-sm-12 m-5">
+                <h3>Mes coordonnées:</h3>
+                <div class="row">
+                    <div class="col-9 mr-auto">
+                        <p>Civilité :</p>
+                        <p>Nom :</p>
+                        <p>Prénom :</p>
+                        <p>Date de naissance :</p>
+                        <p>Adresse mail :</p>
+                        <p>Numéro de téléphone :</p>
+                    </div></br>
+                    <div class="col-3">
+                        <p>Monsieur</p>
+                        <p><?php echo $utilisateur->getNomUtil() ?></p>
+                        <p><?php echo $utilisateur->getPrenomUtil() ?></p>
+                        <!-- <p>D< echo $utilisateur->getDateDeNaissance() </p> -->
+                        <p><?php echo $utilisateur->getMailUtil() ?></p>
+                        <p><?php echo $utilisateur->getTelUtil() ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 m-5">
+                <h3>Votre adresse :</h3>
+                <div class="row">
+                    <div class="col-9 mr-auto">
+                        <p>Numéro, libellé de la voie :</p>
+                        <p><?php //$utilisateur->getVilleUtil(); ?></p>
+                        <p>Code postale :</p>
+                        <p>Complément d'adresse :</p>
+                    </div>
+                    <div class="col-3">
+                        <p><?php echo $utilisateur->getAdresseUtil() ?></p>
+                        <p><?php echo $utilisateur->getVilleUtil() ?></p>
+                        <p><?php echo $utilisateur->getCodePostalUtil() ?></p>
+                        <p>-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+    </div>
+<?php      
+        include("../../Templates/Bases/footer.php") 
+        ?>
+    </body>
+    </html>
+<?php
+
+}
+
 

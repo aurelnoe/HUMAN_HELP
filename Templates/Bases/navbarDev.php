@@ -28,7 +28,7 @@
               Compte perso
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="/HUMAN_HELP/Templates/Compte_personnel/details_compte.php">
+              <a class="dropdown-item" href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=detailUtilisateur">
                 Details compte
               </a>
               <a class="dropdown-item" href="/HUMAN_HELP/Templates/Compte_personnel/form_modif_compte.php">

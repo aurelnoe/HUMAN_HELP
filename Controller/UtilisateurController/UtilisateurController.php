@@ -184,4 +184,10 @@ if(!empty($_GET['action']) && isset($_GET['action']))
             die;
         }
     }
+
+    elseif ($_GET['action'] == 'detailUtilisateur'){
+        // var_dump($_SESSION);
+        $utilisateur = $service->searchUserbyMail($_SESSION['mailUtil']);
+        echo detailUtilisateur($utilisateur);
+    }
 }

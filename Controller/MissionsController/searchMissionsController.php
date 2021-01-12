@@ -18,7 +18,7 @@ if (!empty($_GET))
     $newPays = new ServicePays();
 
     //TRI PAR TYPE ACTIVITE  
-    if (isset($_GET['idTypeActivite'])) {
+    if (!empty($_GET['idTypeActivite'])) {
         try {
             $missions = $newSearch->searchMissionByTypeActivite($_GET['idTypeActivite']);
     
@@ -32,7 +32,7 @@ if (!empty($_GET))
         }
 
     }//TRI PAR PAYS 
-    else if (isset($_GET['idPays'])) {
+    else if (!empty($_GET['idPays'])) {
         try {
             $missions = $newSearch->searchMissionByPays($_GET['idPays']);
     
@@ -46,7 +46,7 @@ if (!empty($_GET))
         }
     }
     //TRI PAR TYPE FORMATION 
-    else if (isset($_GET['typeFormation'])) {
+    else if (!empty($_GET['typeFormation'])) {
         try {
             $missions = $newSearch->searchMissionByTypeFormation($_GET['typeFormation']);
             if ($_GET['typeFormation']==0) {

@@ -56,37 +56,32 @@ include_once("C:/xampp/htdocs/HUMAN_HELP/Controller/HeaderController/headerContr
 
 		<div class="header_slogan">
 			<h1 class="slogan">Aider comme vous ne l'avez encore jamais fait</h1>
-
-			<div class="row justify-content-md-center search_box">
-				<div class="col-md-3 col-lg-3 my-1 btn-group">
-					<button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-						Pays
-					</button>
-					<ul class="dropdown-menu">
-						<?php foreach ($allPays as $pays) { ?>
-							<li>
-								<a class="dropdown-item" href="/HUMAN_HELP/Controller/MissionsController/searchMissionsController.php?idPays=<?php echo $pays->getIdPays();?>">
-									<?php echo $pays->getNomPays(); ?>
-								</a>
-							</li>
-						<?php } ?>
-					</ul>
-				</div>
-				<div class="col-md-3 col-lg-3 my-1 btn-group">
-					<button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-						Activité
-					</button>
-					<ul class="dropdown-menu">
-						<?php foreach ($allTypeActivite as $typeActivite) { ?>
-							<li>
-								<a class="dropdown-item" href="/HUMAN_HELP/Controller/MissionsController/searchMissionsController.php?idTypeActivite=<?php echo $typeActivite->getIdTypeActivite(); ?>">
-									<?php echo $typeActivite->getTypeActivite(); ?>
-								</a>
-							</li>
-						<?php } ?>
-					</ul>
-				</div>
-			</div>
+			<form action="/HUMAN_HELP/Controller/MissionsController/searchMissionsController.php">
+				<div class="row justify-content-md-center search_box">
+					<div class="col-md-3 col-lg-3 my-1 btn-group">
+						<select data-placeholder="Pays" name="idPays" id="selectPays" class="autosubmit chosen">
+							<option value="">
+							</option>
+							<?php foreach ($allPays as $pays) { ?>
+								<option class="" value="<?php echo $pays->getIdPays();?>" <?php echo isset($_GET['idPays']) && $_GET['idPays']==$pays->getIdPays() ? 'selected' : ''; ?>>
+									<?php echo utf8_encode($pays->getNomPays()); ?>
+								</option>
+							<?php } ?>
+						</select>
+					</div>				
+					<div class="col-md-3 col-lg-3 my-1 btn-group">
+						<select data-placeholder="Activité" name="idTypeActivite" id="selectTypeActivite" class="autosubmit chosen">
+							<option value="">
+							</option>
+							<?php foreach ($allTypeActivite as $typeActivite) { ?>
+								<option class="" value="<?php echo $typeActivite->getIdTypeActivite(); ?>" <?php echo isset($_GET['idTypeActivite']) && $_GET['idTypeActivite']==$typeActivite->getIdTypeActivite() ? 'selected' : ''; ?>>
+										<?php echo utf8_encode($typeActivite->getTypeActivite()); ?>
+								</option>
+							<?php } ?>
+							</select>
+					</div>
+				</div>	
+			</form>
 		</div>
 	</div>
 </div>
