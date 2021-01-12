@@ -4,6 +4,11 @@ include_once(PATH_BASE . "/Services/ServiceAvis.php");
 include_once(PATH_BASE . "/Services/ServiceBlog.php");
 include_once(PATH_BASE . "/Presentation/PresentationBlog.php");
 
+$_GET = array_map('htmlentities',$_GET); 
+$_COOKIE = array_map('htmlentities',$_COOKIE);
+$_REQUEST = array_map('htmlentities',$_REQUEST);
+$_POST = array_map('htmlentities',$_POST);
+
 /************************** AJOUT Avis ***************************/
 if (!empty($_GET['action']) && isset($_GET['action'])) {
 
@@ -14,11 +19,11 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             // echo'<pre>';
             // var_dump($_POST);
             // echo '</pre>';
-            $auteur = utf8_decode(htmlentities($_POST['auteur']));
-            $temoignage = htmlentities($_POST['temoignage']);
+            $auteur = utf8_decode(($_POST['auteur']));
+            $temoignage = ($_POST['temoignage']);
             $dateCommentaire = date("Y-m-d");
-            $idUtilisateur =  htmlentities($_POST['idUtilisateur']);
-            $idArticle = htmlentities($_POST['idArticle']);
+            $idUtilisateur =  ($_POST['idUtilisateur']);
+            $idArticle = ($_POST['idArticle']);
 
             $avis = new Avis();
 
@@ -40,12 +45,12 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
         elseif ($_GET['action'] == 'update' && isset($_POST['idAvis'])) 
         { 
             
-            $idAvis = htmlentities($_POST['idAvis']);
-            $auteur = utf8_decode(htmlentities($_POST['auteur']));
-            $temoignage = htmlentities($_POST['temoignage']);
+            $idAvis = ($_POST['idAvis']);
+            $auteur = utf8_decode(($_POST['auteur']));
+            $temoignage = ($_POST['temoignage']);
             $dateCommentaire = date("Y-m-d");
-            $idUtilisateur =  htmlentities($_POST['idUtilisateur']);
-            $idArticle = htmlentities($_POST['idArticle']);
+            $idUtilisateur =  ($_POST['idUtilisateur']);
+            $idArticle = ($_POST['idArticle']);
 
             $avis = new Avis();
 

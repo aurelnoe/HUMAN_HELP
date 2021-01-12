@@ -4,6 +4,10 @@ session_start();
 include_once(PATH_BASE . "/Services/ServiceBlog.php");
 include_once(PATH_BASE . "/Presentation/PresentationBlog.php");
 
+$_GET = array_map('htmlentities',$_GET); 
+$_COOKIE = array_map('htmlentities',$_COOKIE);
+$_REQUEST = array_map('htmlentities',$_REQUEST);
+$_POST = array_map('htmlentities',$_POST);
 /************************** AJOUT ARTICLE ***************************/
 if (!empty($_GET['action']) && isset($_GET['action'])) {
 
@@ -14,11 +18,11 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             // echo'<pre>';
             // var_dump($_POST);
             // echo '</pre>';
-            $titreArticle = utf8_decode(htmlentities($_POST['titreArticle']));
-            $descriptionArticle = htmlentities($_POST['descriptionArticle']);
-            $dateArticle = htmlentities($_POST['dateArticle']);
+            $titreArticle = utf8_decode(($_POST['titreArticle']));
+            $descriptionArticle = ($_POST['descriptionArticle']);
+            $dateArticle = ($_POST['dateArticle']);
             $dateAjoutArticle = date("Y-m-d");
-            $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : htmlentities($_POST['imageArticle']);
+            $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : ($_POST['imageArticle']);
 
             $article = new Blog();
 
@@ -41,12 +45,12 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
         /************************** MODIFIE ARTICLE ***************************/
         elseif ($_GET['action'] == 'update' && isset($_POST['idArticle'])) 
         { 
-            $idArticle = htmlentities($_POST['idArticle']);
-            $titreArticle = utf8_decode(htmlentities($_POST['titreArticle']));
-            $descriptionArticle = htmlentities($_POST['descriptionArticle']);
-            $dateArticle = htmlentities($_POST['dateArticle']);
+            $idArticle = ($_POST['idArticle']);
+            $titreArticle = utf8_decode(($_POST['titreArticle']));
+            $descriptionArticle = ($_POST['descriptionArticle']);
+            $dateArticle = ($_POST['dateArticle']);
             $dateAjoutArticle = date("Y-m-d");
-            $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : htmlentities($_POST['imageArticle']);
+            $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : ($_POST['imageArticle']);
 
             $article = new Blog();
 
