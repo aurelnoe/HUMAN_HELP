@@ -140,7 +140,7 @@ class BlogDAO extends BddConnect
              return $articles;
          } 
          catch (PDOException $e){
-            throw new DAOException($e->getMessage(),$e->getCode());
+            throw new DAOException("Aucun article n'a été trouvé dans la base de données", 9998);
         }  
         finally{
             $db = null;
@@ -167,7 +167,7 @@ class BlogDAO extends BddConnect
             return $article[0];
         } 
         catch (PDOException $e){
-            throw new DAOException($e->getMessage(),$e->getCode());
+            throw new DAOException("La mission n'a pas été trouvé dans la base de données",9999);
         }  
         finally{
             $db = null;
