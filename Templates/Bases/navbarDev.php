@@ -31,9 +31,6 @@
               <a class="dropdown-item" href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=detailUtilisateur">
                 Details compte
               </a>
-              <a class="dropdown-item" href="/HUMAN_HELP/Templates/Compte_personnel/form_modif_compte.php">
-                Modification infos perso
-              </a>
             </div>
           </div>   
         </li>

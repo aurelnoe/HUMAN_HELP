@@ -76,18 +76,18 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
 
                 <div class="form-group mb-0">
                     <label for="nomUtil">Nom</label>
-                    <input type="text" class="form-control" name="nomUtil" placeholder="" value="<?php echo ($_GET['action'] == 'update') ? $mission->getNomUtilisateur() : ''; ?>" required>
+                    <input type="text" class="form-control" name="nomUtil" placeholder="" value="<?php echo ($_GET['action'] == 'formModif') ? $utilisateur->getNomUtil() : ''; ?>" required>
                 </div>
             ​
                 <div class="mb-2 form-group">
                     <label for="prenom">Prénom</label>
-                    <input type="text" class="form-control" name="prenomUtil" placeholder="" value="<?php echo ($_GET['action'] == 'update') ? $mission->getPrenomUtilisateur() : ''; ?>" required>
+                    <input type="text" class="form-control" name="prenomUtil" placeholder="" value="<?php echo ($_GET['action'] == 'formModif') ? $utilisateur->getPrenomUtil() : ''; ?>" required>
                 </div>   
 
                 <div class="mb-2 form-group">
                     <label for="dateNaissance">Date de naissance</label>
                     <div class="input-group date"  data-provide="datepicker">
-                        <input type="date" class="form-control" name="dateNaissance" placeholder="jj/mm/aaaa" value="<?php if(($_GET['action']) == 'update'){echo $utilisateur->getDateNaissance();}?>" required>
+                        <input type="date" class="form-control" name="dateNaissance" placeholder="jj/mm/aaaa" value="" required> 
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
@@ -96,12 +96,12 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
                         
                 <div class="mb-2 form-group">
                     <label for="mailUtil">email</label>
-                    <input type="email" name="mailUtil" value="<?php if(($_GET['action']) == 'update'){echo $utilisateur->getEmailUtil();}?>" class="form-control" id="emailUser" aria-describedby="emailHelp" required pattern="^\w{2,}@\w{2,}\.\w{2,}$">
+                    <input type="email" name="mailUtil" value="<?php if(($_GET['action']) == 'formModif'){echo $utilisateur->getMailUtil();}?>" class="form-control" id="emailUser" aria-describedby="emailHelp" required pattern="^\w{2,}@\w{2,}\.\w{2,}$">
                 </div>
 
                 <div class="form-group">
                     <label for="telUtil">Numéro de téléphone:</label>    ​
-                    <input class="form-control" type="phone" id="phone" name="telUtil" value="<?php echo ($_GET['action'] == 'update') ? $utilisateur->getTelUtil() : ''; ?>">
+                    <input class="form-control" type="phone" id="phone" name="telUtil" value="<?php echo ($_GET['action'] == 'formModif') ? $utilisateur->getTelUtil() : ''; ?>">
                 </div>  
 
                 <div class="mb-2 form-group">
@@ -117,12 +117,12 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
                 <div class="form-row">
                     <div class="col-md-6 mb-2 form-group">
                         <label for="villeUtil">Ville</label>
-                        <input type="text" class="form-control" name="villeUtil" id="villeUtil" required>
+                        <input type="text" class="form-control" name="villeUtil" id="villeUtil" value="<?php echo ($_GET['action'] == 'formModif') ? $utilisateur->getVilleUtil() : ''; ?>" required>
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label for="codePostalUtil">Code postal</label>
-                        <input name="codePostalUtil" type="number" class="form-control" id="codePostalUtil" value="<?php echo ($_GET['action'] == 'update') ? $utilisateur->getCodePostalUtil() : ''; ?>" required>
+                        <input name="codePostalUtil" type="number" class="form-control" id="codePostalUtil" value="<?php echo ($_GET['action'] == 'formModif') ? $utilisateur->getCodePostalUtil() : ''; ?>" required>
                     </div>
                 </div>
 
@@ -131,8 +131,8 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
                         Pays de résidence
                     </label>
                     <select type="number" name="idPays" class="custom-select list-group d-block h-50 w-100" required>
-                        <option class="list-group-item" value="<?php echo (($_GET['action']) == 'update') ? $mission->getIdPays() : '' ?>">
-                            <?php echo (($_GET['action']) == 'update') ? $newPays->searchNameById($mission->getIdPays()) : 'Choisissez...' ?>
+                        <option class="list-group-item" value="<?php echo (($_GET['action']) == 'formModif') ? $utilisateur->getIdPays() : '' ?>">
+                            <?php echo (($_GET['action']) == 'formModif') ? $newPays->searchNameById($utilisateur->getIdPays()) : 'Choisissez...' ?>
                         </option>
                         <?php foreach ($allPays as $pays) : ?>
                             <option value=<?php echo $pays->getIdPays(); ?> class="list-group-item">
@@ -251,6 +251,8 @@ function detailUtilisateur($utilisateur = null){
                     </div>
                 </div>
             </div>
+            
+            
         </div>
         <div class="row">
             <div class="col-sm-12 m-5">
@@ -271,6 +273,11 @@ function detailUtilisateur($utilisateur = null){
                 </div>
             </div>
         </div>
+        <div class="col-10 col-md-6 m-auto">
+                    <a class="btn btnGreen w-100 my-4 " href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formModif">
+                        Modifier les informations personnelles
+                    </a>
+                </div>
         <hr class="my-4">
     </div>
 <?php      
@@ -281,5 +288,3 @@ function detailUtilisateur($utilisateur = null){
 <?php
 
 }
-
-

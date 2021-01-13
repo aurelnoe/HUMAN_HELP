@@ -65,7 +65,7 @@ class Utilisateur
      *
      * @return  self
      */ 
-    public function setnomUtil(string $nomUtil):self
+    public function setNomUtil(string $nomUtil):self
     {
         $this->nomUtil = $nomUtil;
 

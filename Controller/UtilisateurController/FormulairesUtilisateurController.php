@@ -31,10 +31,11 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     }
     elseif ($_GET['action'] == 'formModif')
     {   
+        session_start();
         try {
             $allPays = $newPays->searchAll();
             $service = new ServiceUtilisateur();
-            $utilisateur = $service->searchById($_GET('idUtilisateur'));
+            $utilisateur = $service->searchById(($_SESSION ['idUtil']));
     
             echo formulairesUtilisateur('Modifier',$utilisateur,'Modifier','update',$allPays);
             die;
@@ -42,7 +43,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
         catch (ServiceException $se) {
             $allPays = $newPays->searchAll();
             $service = new ServiceUtilisateur();
-            $utilisateur = $service->searchById($_GET('idUtilisateur'));
+            $utilisateur = $service->searchById(($_SESSION['idUtil']));
     
             echo formulairesUtilisateur('Modifier',$utilisateur,'Modifier','update',$allPays,$se->getCode());
             die;
