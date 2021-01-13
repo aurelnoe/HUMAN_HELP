@@ -3,6 +3,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
 session_start();
 include_once(PATH_BASE . "/Services/ServiceAvis.php");
 include_once(PATH_BASE . "/Services/ServiceBlog.php");
+include_once(PATH_BASE . "/Services/ServiceUtilisateur.php");
 include_once(PATH_BASE . "/Presentation/PresentationBlog.php");
 
 $_GET = array_map('htmlentities',$_GET); 
@@ -76,6 +77,7 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
 
             $service = new ServiceBlog(); 
             $avisService = new ServiceAvis(); 
+            $utilisateurService = new ServiceUtilisateur();
             try{            
                 $delete = new ServiceAvis();
                 $delete->delete($_GET['idAvis']);
@@ -83,6 +85,7 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
                 // $avis = $avisService->searchByIdArticle($_GET['idArticle']);
     
                 // echo detailArticle($article,$avis);
+                
             }
             catch (ServiceException $se) {
                 header('Location: ../../index.php');
@@ -99,10 +102,14 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
 // echo listeAvis($avis);
     $service = new ServiceBlog(); 
     $avisService = new ServiceAvis();
+    $utilisateurService = new ServiceUtilisateur();
     try{
         $article = $service->searchById($_GET['idArticle']);
         $avis = $avisService->searchByIdArticle($_GET['idArticle']);
-        echo detailArticle($article,$avis);
+        $pseudoUser = $utilisateurService->searchUserNameById($_SESSION['idUtil']);
+        $idUser = $_SESSION['idUtil'];
+        $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
+        echo detailArticle($article,$avis,$admin,$idUser, $pseudoUser,null);
         // var_dump($_POST) ;
         // var_dump($_GET) ;
     }

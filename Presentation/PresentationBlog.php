@@ -1,7 +1,9 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . "/HUMAN_HELP/config.php");
 include_once(PATH_BASE . "/Presentation/PresentationCommun.php");
-include_once(PATH_BASE . "/Controller/AvisController/formulaireAvisController.php");
+// include_once(PATH_BASE . "/Controller/AvisController/formulaireAvisController.php");
+include_once(PATH_BASE . "/Services/ServiceUtilisateur.php");
+
 
 
 
@@ -146,7 +148,7 @@ function listeArticle($articles, $admin)
 <?php
 }
 
-function detailArticle($article, $avis, $admin = null)
+function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil=null, $AllPseudoUtil=null)
 {
     echo head();
 ?>
@@ -199,9 +201,9 @@ function detailArticle($article, $avis, $admin = null)
             <?php } ?>
             <?php
             if (!empty($_SESSION)) {
-            echo FormulaireAvis($article->getIdArticle());
+            echo FormulaireAvis($article->getIdArticle(),$idUtil, $pseudoUtil);
             }
-            echo listeAvis($avis, $article->getIdArticle());
+            echo listeAvis($avis, $article->getIdArticle(), $AllPseudoUtil);
 
 
             ?>
@@ -217,7 +219,7 @@ function detailArticle($article, $avis, $admin = null)
 <?php
 }
 
-function FormulaireAvis(int $idArticle)
+function FormulaireAvis(int $idArticle,$idUtil=null, $pseudoUtil=null)
 {
 ?>
     <div class="container col-12 col-md-10 pt-2 my-2 border rounded">
@@ -226,9 +228,9 @@ function FormulaireAvis(int $idArticle)
 
         <form class="col-5 offset-3" action="/HUMAN_HELP//Controller/AvisController/listeAvisController.php?action=add&idArticle=<?php echo $idArticle; ?>" method="POST">
             <input type="hidden" id="idArticle" name="idArticle" value="<?php echo $idArticle; ?>">
-            <input type="hidden" id="auteurAvis" name="auteur" value="TestAuteur2">
+            <input type="hidden" id="auteurAvis" name="auteur" value="<?php echo $pseudoUtil; ?>">
             <input type="hidden" name="dateCommentaire" value="<?php echo date("F j, Y, g:i a"); ?>">
-            <input type="hidden" id="idUtilisateur" name="idUtilisateur" value="1">
+            <input type="hidden" id="idUtilisateur" name="idUtilisateur" value="<?php echo $idUtil; ?>">
             <textarea class="col mb-3 offset-2" name="temoignage"  placeholder="Ecrivez votre commentaire..." id="temoignage"> </textarea>
             <button class="btn btnGreen btn-lg btn-block mb-3 offset-2" type="submit">Poster un commentaire</button>
         </form>
@@ -236,7 +238,7 @@ function FormulaireAvis(int $idArticle)
     </div>
 <?php
 }
-function listeAvis($avis, $idArticle)
+function listeAvis($avis, $idArticle,$AllPseudoUser)
 {
 
 ?>
@@ -244,12 +246,15 @@ function listeAvis($avis, $idArticle)
         <h1 style="font-size: 24px;">Commentaires : </h1>
     <?php } ?>
     <div>
-        <?php ?>
+        <?php 
+            $serviceUtilisateur = new ServiceUtilisateur;
+        ?>
         <?php foreach ($avis as $commentaire) { ?>
 
             <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdAvis(); ?>>
+            <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdUtilisateur(); ?>>
             <div style="background: #eee ; border-radius:10px;">
-                <p><span style="font-weight: bold;"> De <?php ?> :</span><span id="modifTemoignage"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
+                <p><span style="font-weight: bold;"> De <?php echo ($serviceUtilisateur->searchUserNameById($commentaire->getIdUtilisateur()));?> :</span><span id="modifTemoignage"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
             </div>
             <?php if (!empty($_SESSION)) {?>
             <div>
