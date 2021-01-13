@@ -796,36 +796,36 @@ function searchMission($missions,$title=null,$errorCode=null)
                 if (!empty($missions)) 
                 {   ?>
                     <div class="card-group my-4">
-                        <div class="row mx-0 my-2">
-                    <?php
-                    foreach ($missions as $mission) {
-                        ?>
-                        <div class="card card-select col-12 col-md-5">
-                            <div class="card-body">
-                                <img src="\HUMAN_HELP\images\enseignementThai.jpg" height="auto" width="100%" alt="">
-                                <div class="text-card-select">
-                                    <div class="text-center mx-auto my-1">
-                                        <h2 class="my-2">Titre de la mission</h2>
-                                        <p><?php echo $mission->getTitreMission(); ?>
-                                        </p>
-                                    </div>
-                                    <div class="text-center mx-auto my-1">
-                                        <h2 class="my-2">Description</h2>
-                                        <p><?php echo $mission->getDescriptionMission(); ?></p>
+                        <div class="row mx-0 my-2 m-auto">
+                        <?php
+                        foreach ($missions as $mission) {
+                            ?>
+                            <div class="card card-select col-12 col-md-5">
+                                <div class="card-body">
+                                    <img src="\HUMAN_HELP\images\enseignementThai.jpg" height="auto" width="100%" alt="">
+                                    <div class="text-card-select">
+                                        <div class="text-center mx-auto my-1">
+                                            <h2 class="my-2">Titre de la mission</h2>
+                                            <p><?php echo $mission->getTitreMission(); ?>
+                                            </p>
+                                        </div>
+                                        <div class="text-center mx-auto my-1">
+                                            <h2 class="my-2">Description</h2>
+                                            <p><?php echo $mission->getDescriptionMission(); ?></p>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="card-footer">
+                                    <a href="detailsMissionController.php?idMission=<?php echo $mission->getIdMission();?>" class="btn btn-primary my-1 col-12 col-md-6">
+                                        Détails de la mission
+                                    </a>
+                                </div>
                             </div>
-                            <div class="card-footer">
-                                <a href="detailsMissionController.php?idMission=<?php echo $mission->getIdMission();?>" class="btn btn-primary my-1 col-12 col-md-6">
-                                    Détails de la mission
-                                </a>
-                            </div>
-                        </div>
                         <?php
-                    }
-                    ?>
-                    </div>            
-                </div>
+                        }
+                        ?>
+                        </div>            
+                    </div>
                 <?php
                 }else {
                 ?>

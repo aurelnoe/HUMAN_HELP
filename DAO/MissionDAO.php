@@ -70,7 +70,7 @@ class MissionDAO extends BddConnect
             $getIdPays = $mission->getIdPays();
             $getIdEtablissement = $mission->getIdEtablissement();
             $getIdTypeActivite = $mission->getIdTypeActivite();
-            //varDump($idMission);
+            
             $query = "UPDATE mission 
                         SET titreMission = :titreMission,
                             descriptionMission = :descriptionMission,

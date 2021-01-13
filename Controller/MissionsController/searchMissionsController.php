@@ -29,8 +29,8 @@ if (!empty($_GET))
         catch (ServiceException $se) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
-
-    }//TRI PAR PAYS 
+    }
+    //TRI PAR PAYS 
     else if (!empty($_GET['idPays'])) {
         try {
             $missions = $serviceMission->searchMissionByPays($_GET['idPays']);

@@ -13,6 +13,8 @@ class UtilisateurDAO extends BddConnect
             $newConnect = new BddConnect();
             $db = $newConnect->connexion();
             
+            $getCivilite = $utilisateur->getCivilite();
+            $getPseudo = $utilisateur->getPseudo();
             $getNomUtil = $utilisateur->getNomUtil();
             $getPrenomUtil = $utilisateur->getPrenomUtil();           
             $getAdresseUtil = $utilisateur->getAdresseUtil();
@@ -21,16 +23,19 @@ class UtilisateurDAO extends BddConnect
             $getMailUtil = $utilisateur->getMailUtil();
             $getTelUtil = $utilisateur->getTelUtil();
             $getPasswordUtil = $utilisateur->getPasswordUtil();
+            $getDateNaissance = $utilisateur->getDateNaissance()->format('Y-m-d');
             $getDateInscriptionUtil = $utilisateur->getDateInscriptionUtil()->format('Y-m-d');
             $getIdRole = $utilisateur->getIdRole();
             $getIdPays = $utilisateur->getIdPays();
             
-            $query ="INSERT INTO utilisateur VALUES (NULL,:nomUtil,:prenomUtil,:adresseUtil,:codePostalUtil,
-                                                :villeUtil,:mailUtil,:telUtil,:passwordUtil,
+            $query ="INSERT INTO utilisateur VALUES (NULL,:civilite,:pseudo,:nomUtil,:prenomUtil,:adresseUtil,:codePostalUtil,
+                                                :villeUtil,:mailUtil,:telUtil,:passwordUtil,:dateNaissance,
                                                 :dateInscriptionUtil,:idRole,:idPays)";
 
             $stmt = $db->prepare($query);
 
+            $stmt->bindParam(':civilite', $getCivilite);
+            $stmt->bindParam(':pseudo', $getPseudo);
             $stmt->bindParam(':nomUtil', $getNomUtil);
             $stmt->bindParam(':prenomUtil', $getPrenomUtil);
             $stmt->bindParam(':adresseUtil', $getAdresseUtil);
@@ -39,6 +44,7 @@ class UtilisateurDAO extends BddConnect
             $stmt->bindParam(':mailUtil', $getMailUtil);
             $stmt->bindParam(':telUtil', $getTelUtil);
             $stmt->bindParam(':passwordUtil', $getPasswordUtil);
+            $stmt->bindParam(':dateNaissance', $getDateNaissance);
             $stmt->bindParam(':dateInscriptionUtil', $getDateInscriptionUtil);
             $stmt->bindParam(':idRole', $getIdRole);
             $stmt->bindParam(':idPays', $getIdPays);
@@ -62,6 +68,8 @@ class UtilisateurDAO extends BddConnect
             $db = $newConnect->connexion();
 
             $getIdUtilisateur = $utilisateur->getIdUtilisateur();
+            $getCivilite = $utilisateur->getCivilite();
+            $getPseudo = $utilisateur->getPseudo();
             $getNomUtil = $utilisateur->getNomUtil();
             $getPrenomUtil = $utilisateur->getPrenomUtil();           
             $getAdresseUtil = $utilisateur->getAdresseUtil();
@@ -70,12 +78,15 @@ class UtilisateurDAO extends BddConnect
             $getMailUtil = $utilisateur->getMailUtil();
             $getTelUtil = $utilisateur->getTelUtil();
             $getPasswordUtil = $utilisateur->getPasswordUtil();
+            $getDateNaissance = $utilisateur->getDateNaissance()->format('Y-m-d');
             $getDateInscriptionUtil = $utilisateur->getDateInscriptionUtil()->format('Y-m-d');
             $getIdRole = $utilisateur->getIdRole();
             $getIdPays = $utilisateur->getIdPays();
 
             $query ="UPDATE utilisateur  
-            SET nomUtil = :nomUtil,
+            SET civilite = :civilite,
+                pseudo = :pseudo,
+                nomUtil = :nomUtil,
                 prenomUtil = :prenomUtil,
                 adresseUtil = :adresseUtil,
                 codePostalUtil = :codePostalUtil,
@@ -83,6 +94,7 @@ class UtilisateurDAO extends BddConnect
                 mailUtil = :mailUtil,
                 telUtil = :telUtil,
                 passwordUtil = :passwordUtil,
+                dateNaissance = :dateNaissance,
                 dateInscriptionUtil = :dateInscriptionUtil,
                 idRole = :idRole,
                 idPays = :idPays
@@ -90,6 +102,8 @@ class UtilisateurDAO extends BddConnect
 
             $stmt = $db->prepare($query);
 
+            $stmt->bindParam(':civilite', $getCivilite);
+            $stmt->bindParam(':pseudo', $getPseudo);
             $stmt->bindParam(':nomUtil', $getNomUtil);
             $stmt->bindParam(':prenomUtil', $getPrenomUtil);
             $stmt->bindParam(':adresseUtil', $getAdresseUtil);
@@ -98,6 +112,7 @@ class UtilisateurDAO extends BddConnect
             $stmt->bindParam(':mailUtil', $getMailUtil);
             $stmt->bindParam(':telUtil', $getTelUtil);
             $stmt->bindParam(':passwordUtil', $getPasswordUtil);
+            $stmt->bindParam(':dateNaissance', $getDateNaissance);
             $stmt->bindParam(':dateInscriptionUtil', $getDateInscriptionUtil);
             $stmt->bindParam(':idRole', $getIdRole);
             $stmt->bindParam(':idPays', $getIdPays);
