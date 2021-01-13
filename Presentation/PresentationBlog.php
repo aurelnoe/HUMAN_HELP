@@ -198,8 +198,9 @@ function detailArticle($article, $avis, $admin = null)
                 </div>
             <?php } ?>
             <?php
+            if (!empty($_SESSION)) {
             echo FormulaireAvis($article->getIdArticle());
-
+            }
             echo listeAvis($avis, $article->getIdArticle());
 
 
@@ -250,10 +251,11 @@ function listeAvis($avis, $idArticle)
             <div style="background: #eee ; border-radius:10px;">
                 <p><span style="font-weight: bold;"> De <?php ?> :</span><span id="modifTemoignage"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
             </div>
+            <?php if (!empty($_SESSION)) {?>
             <div>
                 <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>
             </div>
-
+            <?php } ?>
             <hr class="my-4">
 
         <?php } ?>

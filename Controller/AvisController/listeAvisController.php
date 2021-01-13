@@ -1,5 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+session_start();
 include_once(PATH_BASE . "/Services/ServiceAvis.php");
 include_once(PATH_BASE . "/Services/ServiceBlog.php");
 include_once(PATH_BASE . "/Presentation/PresentationBlog.php");
@@ -10,7 +11,7 @@ $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 
 /************************** AJOUT Avis ***************************/
-if (!empty($_GET['action']) && isset($_GET['action'])) {
+if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
 
     if (!empty($_POST) && isset($_POST)) 
     {
@@ -71,16 +72,17 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
     /**************************************** SUPPRIME AVIS ************************/
     elseif ($_GET['action'] == 'delete') {
         if (!empty($_GET['idAvis'])) {
-            $delete = new ServiceAvis();
-            $delete->delete($_GET['idAvis']);
+
 
             $service = new ServiceBlog(); 
             $avisService = new ServiceAvis(); 
-            try{
-                $article = $service->searchById($_GET['idArticle']);
-                $avis = $avisService->searchByIdArticle($_GET['idArticle']);
+            try{            
+                $delete = new ServiceAvis();
+                $delete->delete($_GET['idAvis']);
+                // $article = $service->searchById($_GET['idArticle']);
+                // $avis = $avisService->searchByIdArticle($_GET['idArticle']);
     
-                echo detailArticle($article,$avis);
+                // echo detailArticle($article,$avis);
             }
             catch (ServiceException $se) {
                 header('Location: ../../index.php');
