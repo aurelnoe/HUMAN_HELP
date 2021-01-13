@@ -22,6 +22,8 @@ class Utilisateur
     {
         return
         $this->idUtilisateur .
+        $this->civilite .
+        $this->pseudo .
         $this->nomUtil .
         $this->prenomUtil .
         $this->adresseUtil .

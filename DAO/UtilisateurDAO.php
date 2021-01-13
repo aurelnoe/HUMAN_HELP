@@ -224,4 +224,29 @@ class UtilisateurDAO extends BddConnect
             $stmt = null;   
         }
     }
+
+    //*********************FONCTION CHERCHER PSEUDO UTILISATEUR PAR ID**************** */
+    public function searchUserNameById($idUtilisateur)
+    {
+        try
+        {
+            $newConnect = new BddConnect();
+            $db = $newConnect->connexion();
+
+            $query = "SELECT pseudo FROM utilisateur WHERE idUtilisateur = :idUtilisateur";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":idUtilisateur", $idUtilisateur);
+            $stmt->execute();
+            $utilisateur = $stmt->fetchAll(PDO::FETCH_CLASS,'Utilisateur');
+
+            return $utilisateur[0];
+        }
+        catch (PDOException $e){
+            throw new DAOException($e->getMessage(),$e->getCode());
+        }  
+        finally{
+            $db = null;
+            $stmt = null;   
+        }
+    }
 }
