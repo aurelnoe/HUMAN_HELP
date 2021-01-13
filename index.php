@@ -16,11 +16,8 @@ include_once("Presentation/PresentationAccueil.php");
     
     echo (isset($_GET['action']) && $_GET['action']=='ajout') ? '<div class="alert alert-success text-center">L\'utilisateur a été ajouté avec succès !</div>': '';
     
-
     echo accueil($articles,$missionsADistance,$allMissions,$newTypeActivite,$newPays); 
-    ?>
-
-    <?php      
+         
     include("Templates/Bases/footer.php") 
     ?>
 </body>

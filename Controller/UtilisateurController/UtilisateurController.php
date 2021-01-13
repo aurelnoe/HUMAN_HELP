@@ -15,7 +15,7 @@ $_POST = array_map('htmlentities',$_POST);
 /************************** AJOUT UTILISATEUR ***************************/
 if(!empty($_GET['action']) && isset($_GET['action']))
 {
-    $service = new ServiceUtilisateur();
+    $serviceUtilisateur = new ServiceUtilisateur();
 
     if ($_GET['action'] == 'add')
     {
@@ -54,7 +54,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                         ->setIdRole($idRole)
                         ->setIdPays($idPays);
             try {
-                $service->add($utilisateur);
+                $serviceUtilisateur->add($utilisateur);
     
                 if ($idRole==1) {     //Particulier
                     header("location: ../../index.php?action=ajout");
@@ -69,7 +69,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                     $action = 'addEtablissement';
                     $newPays = new ServicePays();
                     $allPays = $newPays->searchAll();
-                    $user = $service->searchUserbyMail($mailUtil);
+                    $user = $serviceUtilisateur->searchUserbyMail($mailUtil);
                     $idUtil = $user->getIdUtilisateur();
 
                     $_SESSION['mailUtil'] = $mailUtil;
@@ -134,7 +134,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                          ->setIdRole($idRole)
                          ->setIdPays($idPays);
             try {
-                $service->update($utilisateur);
+                $serviceUtilisateur->update($utilisateur);
     
                 //echo detailsCompte();
                 header("location: ../../index.php");
@@ -152,7 +152,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
         if (!empty($_GET['idUtilisateur'])) 
         {   
             try {
-                $service->delete($_GET['idUtilisateur']);
+                $serviceUtilisateur->delete($_GET['idUtilisateur']);
                 header("location: ../../index.php");
                 die;
             } 
@@ -166,7 +166,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     {      
         try 
         {
-            $objectUser = $service->searchUserbyMail($_POST['mailUtil']);
+            $objectUser = $serviceUtilisateur->searchUserbyMail($_POST['mailUtil']);
             $password = $_POST['password'];
             if (!empty($objectUser) && password_verify($password,$objectUser->getPasswordUtil()))
             {
@@ -189,7 +189,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
 
     elseif ($_GET['action'] == 'detailUtilisateur'){
         // var_dump($_SESSION);
-        $utilisateur = $service->searchUserbyMail($_SESSION['mailUtil']);
+        $utilisateur = $serviceUtilisateur->searchUserbyMail($_SESSION['mailUtil']);
         echo detailUtilisateur($utilisateur);
     }
 }
