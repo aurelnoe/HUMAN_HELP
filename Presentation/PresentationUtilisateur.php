@@ -270,6 +270,8 @@ function detailUtilisateur($utilisateur = null){
                     </div>
                 </div>
             </div>
+            
+            
         </div>
         <div class="row">
             <div class="col-sm-12 m-5">
@@ -290,6 +292,11 @@ function detailUtilisateur($utilisateur = null){
                 </div>
             </div>
         </div>
+        <div class="col-10 col-md-6 m-auto">
+                    <a class="btn btnGreen w-100 my-4 " href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formModif">
+                        Modifier les informations personnelles
+                    </a>
+                </div>
         <hr class="my-4">
     </div>
 <?php      
@@ -298,7 +305,7 @@ function detailUtilisateur($utilisateur = null){
     </body>
     </html>
 <?php
-
+ 
 }
 
 

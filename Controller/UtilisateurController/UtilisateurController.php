@@ -57,7 +57,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                 $service->add($utilisateur);
     
                 if ($idRole==1) {     //Particulier
-                    header("location: ../../index.php");
+                    header("location: ../../index.php?action=ajout");
                     die;
                 }
                 elseif($idRole==2) {  //Professionnel
@@ -71,21 +71,10 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                     $allPays = $newPays->searchAll();
                     $user = $service->searchUserbyMail($mailUtil);
                     $idUtil = $user->getIdUtilisateur();
-                    
-                    $_SESSION['idRole'] = $idRole;
+
                     $_SESSION['mailUtil'] = $mailUtil;
                     $_SESSION['idUtil'] = $idUtil;
-    
-                    if ($idRole == 1) {
-                        $role = 'particulier';
-                    }
-                    elseif ($idRole == 2 ) {
-                        $role = 'professionnel';
-                    }
-                    elseif ($idRole == 3 ) {
-                        $role = 'admin';
-                    }
-                    $_SESSION['role'] = $role;
+                    $_SESSION['role'] = nameRole($idRole);
     
                     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
                     
