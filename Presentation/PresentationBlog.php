@@ -1,11 +1,11 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . "/HUMAN_HELP/config.php");
 include_once(PATH_BASE . "/Presentation/PresentationCommun.php");
 include_once(PATH_BASE . "/Controller/AvisController/formulaireAvisController.php");
 
 
 
-function formulaireArticle(string $title, $article=null, string $titleBtn, string $action, int $idArticle = null)
+function formulaireArticle(string $title, $article = null, string $titleBtn, string $action, int $idArticle = null)
 {
     echo head();
 ?>
@@ -76,7 +76,7 @@ function formulaireArticle(string $title, $article=null, string $titleBtn, strin
 <?php
 }
 
-function listeArticle($articles,$admin)
+function listeArticle($articles, $admin)
 {
     echo head();
 ?>
@@ -118,10 +118,10 @@ function listeArticle($articles,$admin)
                         <div class="m-auto my-1">
                             <a href="/HUMAN_HELP/Controller/BlogController/detailsBlogController.php?idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btnGreen w-50">Lire l'article</a>
                         </div>
-                        <?php if($admin){ ?>
-                        <div class="m-auto">
-                        <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?action=delete&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-danger w-50">Supprimer</a>
-                        </div>
+                        <?php if ($admin) { ?>
+                            <div class="m-auto">
+                                <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?action=delete&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-danger w-50">Supprimer</a>
+                            </div>
                         <?php } ?>
                     </div>
                 </div>
@@ -132,10 +132,10 @@ function listeArticle($articles,$admin)
             }
             ?>
         </div>
-        <?php if($admin){ ?>
-        <div class="col-10 col-md-6 m-auto">
-            <a class="btn btnGreen w-100 mb-4" href="/HUMAN_HELP/Controller/BlogController/formulaireArticleController.php?action=add">Ajouter un nouvel article</a>
-        </div>
+        <?php if ($admin) { ?>
+            <div class="col-10 col-md-6 m-auto">
+                <a class="btn btnGreen w-100 mb-4" href="/HUMAN_HELP/Controller/BlogController/formulaireArticleController.php?action=add">Ajouter un nouvel article</a>
+            </div>
         <?php } ?>
         <?php
         include("../../Templates/Bases/footer.php")
@@ -146,7 +146,7 @@ function listeArticle($articles,$admin)
 <?php
 }
 
-function detailArticle($article,$avis,$temoignage=null,$admin=null)
+function detailArticle($article, $avis, $admin = null)
 {
     echo head();
 ?>
@@ -184,25 +184,26 @@ function detailArticle($article,$avis,$temoignage=null,$admin=null)
                     <hr class="hrGreen">
                 </div>
             </div>
-           
+
 
             <hr class="my-4">
 
             <div class="text-center my-3">
                 <a href="listeBlogController.php" class="btn btnGreen w-50">Retour à la liste des articles</a>
             </div>
-            <?php if($admin){ ?>
-            <div class="offset-4">
-                <a href="/HUMAN_HELP/Controller/BlogController/formulaireArticleController.php?action=update&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-primary col-12 col-md-3 my-2 w-50">Modifier</a>
-                <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?action=delete&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-danger col-12 col-md-3 my-2 w-50">Supprimer</a>
-            </div> 
+            <?php if ($admin) { ?>
+                <div class="offset-4">
+                    <a href="/HUMAN_HELP/Controller/BlogController/formulaireArticleController.php?action=update&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-primary col-12 col-md-3 my-2 w-50">Modifier</a>
+                    <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?action=delete&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-danger col-12 col-md-3 my-2 w-50">Supprimer</a>
+                </div>
             <?php } ?>
-            <?php 
-                echo FormulaireAvis($article->getIdArticle(),$temoignage); 
-                
-                echo listeAvis($avis,$article->getIdArticle());
-            
-            
+            <?php
+            if (!empty($_SESSION)) {
+            echo FormulaireAvis($article->getIdArticle());
+            }
+            echo listeAvis($avis, $article->getIdArticle());
+
+
             ?>
         </div>
 
@@ -216,91 +217,132 @@ function detailArticle($article,$avis,$temoignage=null,$admin=null)
 <?php
 }
 
-function FormulaireAvis(int $idArticle,$temoignage=null)
+function FormulaireAvis(int $idArticle)
 {
 ?>
     <div class="container col-12 col-md-10 pt-2 my-2 border rounded">
 
-    <h2 class="text-center my-2 pb-2">Commenter l'article</h2>
+        <h2 class="text-center my-2 pb-2">Commenter l'article</h2>
 
-        <form class="col-5 offset-3" action="/HUMAN_HELP//Controller/AvisController/listeAvisController.php?action=<?php  if ((!empty($temoignage))) { echo "update";}else{echo "add";} ?>&idArticle=<?php echo $idArticle; ?>" method="POST">
-        <input type="hidden" name="idArticle" value="<?php echo $idArticle; ?>">
-        <input type="hidden" name="auteur" value="TestAuteur2">
-        <input type="hidden" name="dateCommentaire" value="<?php echo date("F j, Y, g:i a");?>">
-        <input type="hidden" name="idUtilisateur" value="1">
-        <textarea class="col mb-3 offset-2" name="temoignage" id="temoignage" placeholder="Ecrivez votre commentaire..."> <?php  if ((!empty($temoignage))) { echo $temoignage;} ?></textarea>
+        <form class="col-5 offset-3" action="/HUMAN_HELP//Controller/AvisController/listeAvisController.php?action=add&idArticle=<?php echo $idArticle; ?>" method="POST">
+            <input type="hidden" id="idArticle" name="idArticle" value="<?php echo $idArticle; ?>">
+            <input type="hidden" id="auteurAvis" name="auteur" value="TestAuteur2">
+            <input type="hidden" name="dateCommentaire" value="<?php echo date("F j, Y, g:i a"); ?>">
+            <input type="hidden" id="idUtilisateur" name="idUtilisateur" value="1">
+            <textarea class="col mb-3 offset-2" name="temoignage"  placeholder="Ecrivez votre commentaire..." id="temoignage"> </textarea>
             <button class="btn btnGreen btn-lg btn-block mb-3 offset-2" type="submit">Poster un commentaire</button>
         </form>
 
     </div>
 <?php
 }
-function listeAvis($avis,$idArticle)
+function listeAvis($avis, $idArticle)
 {
 
-?> 
-<?php if(!empty($avis)){?>
-<h1 style="font-size: 24px;">Commentaires : </h1>
-<?php } ?>
+?>
+    <?php if (!empty($avis)) { ?>
+        <h1 style="font-size: 24px;">Commentaires : </h1>
+    <?php } ?>
     <div>
-    <?php ?>
-        <?php foreach ($avis as $commentaire){?>
-        
-            <?php $newTemoignage="";?>
-            <div style="background: #eee ; border-radius:10px;">
-                <p><span style="font-weight: bold;"> De <?php echo $commentaire->getAuteur(); ?> :</span><span id="modifTemoignage"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
-            </div>
-            <div>
-            <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>
-            <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=update&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-success w-25">Modifier</a>
-            </div>
+        <?php ?>
+        <?php foreach ($avis as $commentaire) { ?>
 
+            <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdAvis(); ?>>
+            <div style="background: #eee ; border-radius:10px;">
+                <p><span style="font-weight: bold;"> De <?php ?> :</span><span id="modifTemoignage"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
+            </div>
+            <?php if (!empty($_SESSION)) {?>
+            <div>
+                <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>
+            </div>
+            <?php } ?>
             <hr class="my-4">
 
-        <?php }?>
+        <?php } ?>
 
     </div>
     <script>
-    
-    var temoignage = document.getElementById("modifTemoignage");
+        var temoignage = document.getElementById("modifTemoignage");
+        var auteur = document.getElementById("auteurAvis").value;
+        var idAvis = document.getElementById("idAvis").value;
+        var idUtilisateur = document.getElementById("idUtilisateur").value;
+        var idArticle = document.getElementById("idArticle").value;
+        // console.log(auteur);
 
-    console.log(temoignage);
-    
-    temoignage.addEventListener('click', function (e){
+        temoignage.addEventListener('click', function(e) {
 
-        this.setAttribute('data-clicked','yes');
-        this.setAttribute('data-text',this.innerHTML);
+            this.setAttribute('data-clicked', 'yes');
+            this.setAttribute('data-text', this.innerHTML);
 
-        var input = document.createElement("input");
+
+
+            var input = document.createElement("input");
             input.type = "text";
-            input.value = this.innerHTML;         // garder la valeur de la cellule dans l'input
-        
-    
+            input.value = this.innerText; // garder la valeur de la cellule dans l'input
+//***************************************************************************************** */
+            var input2 = document.createElement("input");
+            input2.name ="auteur";
+            input2.type = "hidden";
+            input2.value = auteur;
+            input2.textContent = auteur;
 
-            input.onblur = function() {               // onblur éxécute le code quand la personne sort d'un input il y a aussi change et focusOut
-            var temoignage = input.parentElement;
-            var originalText = input.parentElement.getAttribute("data-text");
-            var currentText = this.value;
+            var input3 = document.createElement("input");
+            input3.name ="idAvis";
+            input3.type = "hidden";
+            input3.value = idAvis;
+            input3.textContent = idAvis;
 
-            if(originalText != currentText) {
-                temoignage.removeAttribute('data-clicked');
-                temoignage.removeAttribute('data-text');
-                temoignage.innerHTML = currentText;
+            var input4 = document.createElement("input");
+            input4.name ="idUtilisateur";
+            input4.type = "hidden";
+            input4.value = idUtilisateur;
+            input4.textContent = idUtilisateur;
+
+            var input5 = document.createElement("input");
+            input5.name ="idArticle";
+            input5.type = "hidden";
+            input5.value = idArticle;
+            input5.textContent = idArticle;
+
+// *********************************************************************************************
+
+            input.onblur = function() { // onblur éxécute le code quand la personne sort d'un input il y a aussi change et focusOut
+                var temoignage = input.parentElement;
+                var originalText = input.parentElement.getAttribute("data-text");
+                var currentText = this.value;
+
+                if (originalText != currentText) {
+                    temoignage.removeAttribute('data-clicked');
+                    temoignage.removeAttribute('data-text');
+                    temoignage.innerHTML = currentText;
+
+                    var my_form = document.createElement('FORM');
+                    my_form.name = 'myForm';
+                    my_form.method = 'POST';
+                    my_form.action = "/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=update" +  "&idArticle=" + idArticle + "&temoignage=" + this.value;
+                    document.body.appendChild(my_form);
+                    my_form.appendChild(input2);
+                    my_form.appendChild(input3);
+                    my_form.appendChild(input4);
+                    my_form.appendChild(input5);
+                    console.log(my_form);
+                   
+                    my_form.submit();
+                }
             }
-        }
 
 
-        this.innerHTML = "";                      // clear la td quand on clique
+            this.innerHTML = ""; // clear la td quand on clique
 
-        var myClickedElement = e.target;
-        myClickedElement.appendChild(input);
-        this.firstElementChild.select(); 
-                                                 // select la valeur par défaut du input l'élément sélectonné
-    })
+            var myClickedElement = e.target;
+            myClickedElement.appendChild(input);
+            this.firstElementChild.select();
+            // console.log(temoignage);
 
 
-</script>
+        })
+    </script>
+
 <?php
 }
 ?>
-

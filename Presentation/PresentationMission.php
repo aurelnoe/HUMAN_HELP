@@ -508,7 +508,7 @@ function listeMissions($medecines=null,$donations=null,$enseignements=null,$cons
 <?php
 }
 
-function detailsMission($mission,$newPays=null,$newTypeActivite=null,$newEtablissement=null,$professionnel)
+function detailsMission($mission,$newPays=null,$newTypeActivite=null,$newEtablissement=null,$professionnel,$errorCode=null,$message=null)
 {
     echo head();
     ?> 
@@ -517,9 +517,9 @@ function detailsMission($mission,$newPays=null,$newTypeActivite=null,$newEtablis
         include("../../Templates/Bases/navbarDev.php");
 
         include("../../Templates/Bases/navbar.php");
-        if($errorCode && $errorCode == 9999){
-            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-        }
+        // if($errorCode && $errorCode == 9999){
+        //     echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+        // }
         ?>
         <div class="container justify-content p-4">
 
@@ -772,7 +772,7 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
 <?php
 }
 
-function searchMission($missions,$title=null)
+function searchMission($missions,$title=null,$errorCode=null)
 {
     echo head();
     ?>
@@ -782,7 +782,12 @@ function searchMission($missions,$title=null)
         include("../../Templates/Bases/navbar.php");
         ?>
         <div class="container text-center ">
-
+            <?php
+            if($errorCode == 1062){
+                $message = "Un problème est survenu lors de la recherche";
+                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+            }
+            ?>
             <h1 class="h1-select"><?php echo $title; ?></h1>
             
             <hr class="my-4 hrGreen ">
@@ -791,36 +796,36 @@ function searchMission($missions,$title=null)
                 if (!empty($missions)) 
                 {   ?>
                     <div class="card-group my-4">
-                        <div class="row mx-0 my-2">
-                    <?php
-                    foreach ($missions as $mission) {
-                        ?>
-                        <div class="card card-select col-12 col-md-5">
-                            <div class="card-body">
-                                <img src="\HUMAN_HELP\images\enseignementThai.jpg" height="auto" width="100%" alt="">
-                                <div class="text-card-select">
-                                    <div class="text-center mx-auto my-1">
-                                        <h2 class="my-2">Titre de la mission</h2>
-                                        <p><?php echo $mission->getTitreMission(); ?>
-                                        </p>
-                                    </div>
-                                    <div class="text-center mx-auto my-1">
-                                        <h2 class="my-2">Description</h2>
-                                        <p><?php echo $mission->getDescriptionMission(); ?></p>
+                        <div class="row mx-0 my-2 m-auto">
+                        <?php
+                        foreach ($missions as $mission) {
+                            ?>
+                            <div class="card card-select col-12 col-md-5">
+                                <div class="card-body">
+                                    <img src="\HUMAN_HELP\images\enseignementThai.jpg" height="auto" width="100%" alt="">
+                                    <div class="text-card-select">
+                                        <div class="text-center mx-auto my-1">
+                                            <h2 class="my-2">Titre de la mission</h2>
+                                            <p><?php echo $mission->getTitreMission(); ?>
+                                            </p>
+                                        </div>
+                                        <div class="text-center mx-auto my-1">
+                                            <h2 class="my-2">Description</h2>
+                                            <p><?php echo $mission->getDescriptionMission(); ?></p>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="card-footer">
+                                    <a href="detailsMissionController.php?idMission=<?php echo $mission->getIdMission();?>" class="btn btn-primary my-1 col-12 col-md-6">
+                                        Détails de la mission
+                                    </a>
+                                </div>
                             </div>
-                            <div class="card-footer">
-                                <a href="detailsMissionController.php?idMission=<?php echo $mission->getIdMission();?>" class="btn btn-primary my-1 col-12 col-md-6">
-                                    Détails de la mission
-                                </a>
-                            </div>
-                        </div>
                         <?php
-                    }
-                    ?>
-                    </div>            
-                </div>
+                        }
+                        ?>
+                        </div>            
+                    </div>
                 <?php
                 }else {
                 ?>

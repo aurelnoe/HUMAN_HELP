@@ -21,6 +21,9 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     {
         if (!empty($_POST) && isset($_POST)) 
         {         
+            
+            $civilite = $_POST['civilite'];
+            $pseudo = $_POST['pseudo'];
             $nomUtil = utf8_decode($_POST['nomUtil']);
             $prenomUtil = $_POST['prenomUtil'];           
             $adresseUtil = $_POST['adresseUtil'];
@@ -29,28 +32,32 @@ if(!empty($_GET['action']) && isset($_GET['action']))
             $mailUtil = $_POST['mailUtil'];
             $telUtil = $_POST['telUtil'];
             $passwordUtil = $_POST['passwordUtil'];
+            $dateNaissance = new DateTime($_POST['dateNaissance']);
             $dateInscriptionUtil = date("Y-m-d");
             $idRole = $_POST['idRole'];
             $idPays = $_POST['idPays'];
             
             $utilisateur = new Utilisateur();
 
-            $utilisateur->setNomUtil($nomUtil)
-                         ->setPrenomUtil($prenomUtil)
-                         ->setAdresseUtil($adresseUtil)
-                         ->setCodePostalUtil($codePostalUtil)
-                         ->setVilleUtil($villeUtil)
-                         ->setMailUtil($mailUtil)
-                         ->setTelUtil($telUtil)
-                         ->setPasswordUtil($passwordUtil)
-                         ->setDateInscriptionUtil($dateInscriptionUtil)
-                         ->setIdRole($idRole)
-                         ->setIdPays($idPays);
+            $utilisateur->setCivilite($civilite)
+                        ->setPseudo($pseudo)
+                        ->setNomUtil($nomUtil)
+                        ->setPrenomUtil($prenomUtil)
+                        ->setAdresseUtil($adresseUtil)
+                        ->setCodePostalUtil($codePostalUtil)
+                        ->setVilleUtil($villeUtil)
+                        ->setMailUtil($mailUtil)
+                        ->setTelUtil($telUtil)
+                        ->setPasswordUtil($passwordUtil)
+                        ->setDateNaissance($dateNaissance)
+                        ->setDateInscriptionUtil($dateInscriptionUtil)
+                        ->setIdRole($idRole)
+                        ->setIdPays($idPays);
             try {
                 $service->add($utilisateur);
     
                 if ($idRole==1) {     //Particulier
-                    header("location: ../../index.php");
+                    header("location: ../../index.php?action=ajout");
                     die;
                 }
                 elseif($idRole==2) {  //Professionnel
@@ -64,21 +71,10 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                     $allPays = $newPays->searchAll();
                     $user = $service->searchUserbyMail($mailUtil);
                     $idUtil = $user->getIdUtilisateur();
-                    
-                    $_SESSION['idRole'] = $idRole;
+
                     $_SESSION['mailUtil'] = $mailUtil;
                     $_SESSION['idUtil'] = $idUtil;
-    
-                    if ($idRole == 1) {
-                        $role = 'particulier';
-                    }
-                    elseif ($idRole == 2 ) {
-                        $role = 'professionnel';
-                    }
-                    elseif ($idRole == 3 ) {
-                        $role = 'admin';
-                    }
-                    $_SESSION['role'] = $role;
+                    $_SESSION['role'] = nameRole($idRole);
     
                     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
                     
@@ -106,6 +102,8 @@ if(!empty($_GET['action']) && isset($_GET['action']))
         if(!empty($_POST) && isset($_POST))
         {
             $idUtilisateur = $_POST['idUtilisateur'];
+            $civilite = $_POST['civilite'];
+            $pseudo = $_POST['pseudo'];
             $nomUtil = $_POST['nomUtil'];
             $prenomUtile = $_POST['prenomUtil'];           
             $adresseUtil = $_POST['adresseUtil'];
@@ -114,12 +112,15 @@ if(!empty($_GET['action']) && isset($_GET['action']))
             $mailUtil = $_POST['mailUtil'];
             $telUtil = $_POST['telUtil'];
             $passwordUtil = $_POST['passwordUtil'];
-            $dateInscriptionUtil = $_POST['dateInscrption'];
+            $datenaissance = new DateTime($_POST['dateNaissance']);
+            $dateInscriptionUtil = $_POST['dateInscriptionUtil'];
             $idRole = $_POST['idRole'];
             $idPays = $_POST['idPays'];
 
             $utilisateur = new Utilisateur();
-            $utilisatueur->setIdUtilisateur($utilisateur)
+            $utilisatueur->setIdUtilisateur($idUtilisateur)
+                         ->setCivilite($civilite)
+                         ->setPseudo($pseudo)
                          ->setNomUtil($nomUtil)
                          ->setPrenomUtil($prenomUtil)
                          ->setAdresseUtil($adresseUtil)
@@ -128,9 +129,10 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                          ->setMailUtil($mailUtil)
                          ->setTelUtil($telUtil)
                          ->setPasswordUtil($passwordUtil)
+                         ->setDateNaissance($dateNaissance)
                          ->setDateInscriptionUtil($dateInscriptionUtil)
-                         ->setIdRoleUtil($idRoleUtil)
-                         ->setIdPaysUtil($idPaysUtil);
+                         ->setIdRole($idRole)
+                         ->setIdPays($idPays);
             try {
                 $service->update($utilisateur);
     

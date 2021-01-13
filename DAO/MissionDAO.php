@@ -70,7 +70,7 @@ class MissionDAO extends BddConnect
             $getIdPays = $mission->getIdPays();
             $getIdEtablissement = $mission->getIdEtablissement();
             $getIdTypeActivite = $mission->getIdTypeActivite();
-            //varDump($idMission);
+            
             $query = "UPDATE mission 
                         SET titreMission = :titreMission,
                             descriptionMission = :descriptionMission,
@@ -212,36 +212,40 @@ class MissionDAO extends BddConnect
         }       
     }
 
-    // public function searchMission(int $idPays=null,int $idTypeActivite=null) {
-    //     try {
-    //         $newConnect = new BddConnect();
-    //         $db = $newConnect->connexion();
+    public function searchMissions(int $getIdPays=null,int $getIdTypeActivite=null,int $getTypeFormation=null) {
+        try {
+            $newConnect = new BddConnect();
+            $db = $newConnect->connexion();
         
-    //         $query = "SELECT * FROM mission WHERE " . if(empty($_GET)){
-    //                                                     1;
-    //                                                 }else if(!empty($_GET['idPays']) && empty($_GET['idTypeActivite'])){
-    //                                                     'idPays' = $idPays;
-    //                                                 }else if(!empty($_GET['idTypeActivite'])){
-    //                                                     'idTypeActivite' = $idTypeActivite;
-    //                                                 }else if(!empty($_GET['idPays']) && !empty($_GET['idTypeActivite'])){
-    //                                                     'idPays' = $idPays . 'AND idTypeActivite = ' . $idTypeActivite ;
-    //                                                 } . "";
-    //         $stmt = $db->prepare($query);
-    //         $stmt->bindParam(':id', $id);
-    //         $stmt->execute();  
+            if(empty($_GET)){
+                $query = "SELECT * FROM mission WHERE 1";
+            }else if(!empty($getTypeFormation)){
+                $query = "SELECT * FROM mission WHERE typeFormation = :typeFormation";
+            }else if(!empty($getIdPays) && empty($getIdTypeActivite)){
+                $query = "SELECT * FROM mission WHERE idPays = :idPays";
+            }else if(empty($getIdPays) && !empty($getIdTypeActivite)){
+                $query = "SELECT * FROM mission WHERE idTypeActivite = :idTypeActivite";
+            }else if(!empty($getIdPays) && !empty($getIdTypeActivite)){
+                $query = "SELECT * FROM mission WHERE idPays = :idPays AND idTypeActivite = :idTypeActivite" ;
+            };
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(':idPays', $getIdPays);
+            $stmt->bindParam(':idTypeActivite', $getIdTypeActivite);
+            $stmt->bindParam(':typeFormation', $getTypeFormation);
+            $stmt->execute();  
 
-    //         $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
+            $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
                                   
-    //         return $missions;
-    //     } 
-    //     catch (PDOException $e){
-    //         throw new DAOException($e->getMessage(),$e->getCode());
-    //     }  
-    //     finally{
-    //         $db = null;
-    //         $stmt = null;   
-    //     }
-    // }
+            return $missions;
+        } 
+        catch (PDOException $e){
+            throw new DAOException($e->getMessage(),$e->getCode());
+        }  
+        finally{
+            $db = null;
+            $stmt = null;   
+        }
+    }
 
 /**************** CHERCHE TOUTES LES MISSIONS PAR TYPE D'ACTIVITE *******/
     public function searchMissionByTypeActivite($idTypeActivite){

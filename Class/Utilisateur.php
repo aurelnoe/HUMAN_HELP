@@ -3,6 +3,8 @@
 class Utilisateur
 {
     private $idUtilisateur;
+    private $civilite;
+    private $pseudo;
     private $nomUtil;
     private $prenomUtil;
     private $adresseUtil;
@@ -11,6 +13,7 @@ class Utilisateur
     private $mailUtil;
     private $telUtil;
     private $passwordUtil;
+    private $dateNaissance;
     private $dateInscriptionUtil;
     private $idRole;
     private $idPays;
@@ -19,6 +22,8 @@ class Utilisateur
     {
         return
         $this->idUtilisateur .
+        $this->civilite .
+        $this->pseudo .
         $this->nomUtil .
         $this->prenomUtil .
         $this->adresseUtil .
@@ -48,6 +53,46 @@ class Utilisateur
     public function setIdUtilisateur(int $idUtilisateur):self
     {
         $this->idUtilisateur = $idUtilisateur;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of civilite
+     */ 
+    public function getCivilite(): int
+    {
+        return $this->civilite;
+    }
+
+    /**
+     * Set the value of civilite
+     *
+     * @return  self
+     */ 
+    public function setCivilite(int $civilite):self
+    {
+        $this->civilite = $civilite;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pseudo
+     */ 
+    public function getPseudo():?string
+    {
+        return $this->pseudo;
+    }
+
+    /**
+     * Set the value of pseudo
+     *
+     * @return  self
+     */ 
+    public function setPseudo(?string $pseudo):self
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
@@ -213,6 +258,26 @@ class Utilisateur
     }
 
     /**
+     * Get the value of dateNaissance
+     */ 
+    public function getDateNaissance():DateTime
+    {
+        return $this->dateNaissance;
+    }
+
+    /**
+     * Set the value of dateNaissance
+     *
+     * @return  self
+     */ 
+    public function setDateNaissance(DateTime $dateNaissance):self
+    {
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    /**
      * Get the value of dateInscriptionUtil
      */ 
     public function getDateInscriptionUtil():dateTime
@@ -272,6 +337,4 @@ class Utilisateur
         return $this;
     }
 }
-
-
 ?>

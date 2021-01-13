@@ -6,21 +6,22 @@ include_once("Presentation/PresentationAccueil.php");
 <html lang="en">    
 <head>
     <?php include("head.php"); ?>
+    <title>ACCUEIL</title>
 </head>
 <body>
     <?php
     include("Templates/Bases/navbarDev.php");
 
     include("Templates/Bases/navbar.php");
-    ?>
-    <head><title>ACCUEIL</title></head>
+    
+    echo (isset($_GET['action']) && $_GET['action']=='ajout') ? '<div class="alert alert-success text-center">L\'utilisateur a été ajouté avec succès !</div>': '';
+    
 
-    <?php 
     echo accueil($articles,$missionsADistance,$allMissions,$newTypeActivite,$newPays); 
     ?>
 
-<?php      
-include("Templates/Bases/footer.php") 
-?>
+    <?php      
+    include("Templates/Bases/footer.php") 
+    ?>
 </body>
 </html>

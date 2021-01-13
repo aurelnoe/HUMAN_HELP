@@ -1,5 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+session_start();
 include_once(PATH_BASE . "/Services/ServiceAvis.php");
 include_once(PATH_BASE . "/Services/ServiceBlog.php");
 include_once(PATH_BASE . "/Presentation/PresentationBlog.php");
@@ -10,16 +11,12 @@ $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 
 /************************** AJOUT Avis ***************************/
-if (!empty($_GET['action']) && isset($_GET['action'])) {
+if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
 
     if (!empty($_POST) && isset($_POST)) 
     {
         if ($_GET['action'] == 'add') 
         {
-            // echo'<pre>';
-            // var_dump($_POST);
-            // echo '</pre>';
-            $auteur = utf8_decode(($_POST['auteur']));
             $temoignage = ($_POST['temoignage']);
             $dateCommentaire = date("Y-m-d");
             $idUtilisateur =  ($_POST['idUtilisateur']);
@@ -27,8 +24,7 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
 
             $avis = new Avis();
 
-            $avis->setAuteur($auteur)
-                ->setTemoignage($temoignage)
+            $avis->setTemoignage($temoignage)
                 ->setDateCommentaire($dateCommentaire)
                 ->setIdUtilisateur($idUtilisateur)
                 ->setIdArticle($idArticle);
@@ -42,20 +38,18 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             }
         }
         /************************** MODIFIE AVIS ***************************/
-        elseif ($_GET['action'] == 'update' && isset($_POST['idAvis'])) 
+        elseif ($_GET['action'] == 'update' && isset($_POST['idArticle']))
         { 
             
             $idAvis = ($_POST['idAvis']);
-            $auteur = utf8_decode(($_POST['auteur']));
-            $temoignage = ($_POST['temoignage']);
+            $temoignage = ($_GET['temoignage']);
             $dateCommentaire = date("Y-m-d");
             $idUtilisateur =  ($_POST['idUtilisateur']);
             $idArticle = ($_POST['idArticle']);
 
             $avis = new Avis();
 
-            $avis->setIdArticle($idAvis)
-                    ->setAuteur($auteur)
+            $avis->setIdAvis($idAvis)
                     ->setTemoignage($temoignage)
                     ->setDateCommentaire($dateCommentaire)
                     ->setIdUtilisateur($idUtilisateur)
@@ -65,8 +59,9 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             $service = new ServiceBlog();  
             try{
                 $newUpdate->update($avis); 
-                $article = $service->searchById($_GET['idArticle']);
-                echo detailArticle($article,$avis);
+                // $article = $service->searchById($_POST['idArticle']);
+                // echo detailArticle($article,$avis);
+                // die;
             }
             catch (ServiceException $se) {
                 header('Location: ../../index.php');
@@ -77,16 +72,17 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
     /**************************************** SUPPRIME AVIS ************************/
     elseif ($_GET['action'] == 'delete') {
         if (!empty($_GET['idAvis'])) {
-            $delete = new ServiceAvis();
-            $delete->delete($_GET['idAvis']);
+
 
             $service = new ServiceBlog(); 
             $avisService = new ServiceAvis(); 
-            try{
-                $article = $service->searchById($_GET['idArticle']);
-                $avis = $avisService->searchByIdArticle($_GET['idArticle']);
+            try{            
+                $delete = new ServiceAvis();
+                $delete->delete($_GET['idAvis']);
+                // $article = $service->searchById($_GET['idArticle']);
+                // $avis = $avisService->searchByIdArticle($_GET['idArticle']);
     
-                echo detailArticle($article,$avis);
+                // echo detailArticle($article,$avis);
             }
             catch (ServiceException $se) {
                 header('Location: ../../index.php');
@@ -107,6 +103,8 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
         $article = $service->searchById($_GET['idArticle']);
         $avis = $avisService->searchByIdArticle($_GET['idArticle']);
         echo detailArticle($article,$avis);
+        // var_dump($_POST) ;
+        // var_dump($_GET) ;
     }
     catch (ServiceException $se) {
         header('Location: ../../index.php');

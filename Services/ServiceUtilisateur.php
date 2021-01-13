@@ -55,6 +55,19 @@ class ServiceUtilisateur
         }   
     }
 
+    public function searchUserNameById($idUtilisateur)
+    {
+        try 
+        {          
+            return $this->utilisateurDAO->searchUserNameById($idUtilisateur);
+        }
+        catch (DAOException $de) {
+            throw new ServiceException($de->getMessage(),$de->getCode());
+        }
+    }
+
+
+
     /************ PAGE DETAIL Utilisateur *********/
     public function searchById($idUtilisateur)
     {

@@ -31,7 +31,7 @@ if(!empty($_GET))
             }else{
                 $typeFormation = 'sur le terrain';
             }
-            echo detailsMission($mission,$typeFormation,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel);       
+            echo detailsMission($mission,$typeFormation,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel,null,null);       
         }
         catch (ServiceException $se) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);

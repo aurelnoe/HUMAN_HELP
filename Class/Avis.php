@@ -3,7 +3,6 @@
 class Avis
 {
     private $idAvis ;
-    private $auteur;
     private $temoignage;
     private $dateCommentaire;
     private $idUtilisateur;
@@ -21,7 +20,7 @@ class Avis
     /**
      * Get the value of idAvis
      */ 
-    public function getIdAvis():int
+    public function getIdAvis()
     {
         return $this->idAvis ;
     }
@@ -31,32 +30,13 @@ class Avis
      *
      * @return  self
      */ 
-    public function setIdAvis(int $idAvis ):self
+    public function setIdAvis( $idAvis ):self
     {
         $this->idAvis= $idAvis ;
 
         return $this;
     }
 
-    /**
-     * Get the value of auteurAvis
-     */ 
-    public function getAuteur():string
-    {
-        return $this->auteur;
-    }
-
-    /**
-     * Set the value of auteurAvis
-     *
-     * @return  self
-     */ 
-    public function setAuteur(string $auteur):self
-    {
-        $this->auteur = $auteur;
-
-        return $this;
-    }
     /**
      * Get the value of temoignage
      */ 
@@ -101,7 +81,7 @@ class Avis
     /**
      * Get the value of idUtilisateur
      */ 
-    public function getIdUtilisateur():int
+    public function getIdUtilisateur()
     {
         return $this->idUtilisateur;
     }
@@ -111,7 +91,7 @@ class Avis
      *
      * @return  self
      */ 
-    public function setIdUtilisateur(int $idUtilisateur):self
+    public function setIdUtilisateur( $idUtilisateur):self
     {
         $this->idUtilisateur = $idUtilisateur;
 

@@ -64,14 +64,33 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
                     <label for="idRole">Role</label>
                     <div class="row">
                         <div class="custom-control col-4 col-md-3 custom-radio mx-4">
-                            <input name="idRole" value="1" id="particulier" type="radio" class="custom-control-input">
+                            <input name="idRole" value="1" id="particulier" type="radio" class="custom-control-input" <?php echo ($action=='update' && $utilisateur->getIdRole()==0) ? 'checked' : '' ?>>
                             <label for="particulier" class="custom-control-label">Particulier</label>
                         </div>
                         <div class="custom-control col-4 col-md-3 custom-radio mx-2">
-                            <input name="idRole" value="2" id="professionnel" type="radio" class="custom-control-input">
+                            <input name="idRole" value="2" id="professionnel" type="radio" class="custom-control-input" <?php echo ($action=='update' && $utilisateur->getIdRole()==1) ? 'checked' : '' ?>>
                             <label for="professionnel" class="custom-control-label">Professionnel</label>
                         </div>
                     </div>  
+                </div>
+
+                <div class="d-block mb-2 form-group">
+                    <label for="civilite">Civilite</label>
+                    <div class="row">
+                        <div class="custom-control col-4 col-md-3 custom-radio mx-4">
+                            <input name="civilite" value="1" id="homme" type="radio" class="custom-control-input">
+                            <label for="homme" class="custom-control-label">Homme</label>
+                        </div>
+                        <div class="custom-control col-4 col-md-3 custom-radio mx-2">
+                            <input name="civilite" value="2" id="femme" type="radio" class="custom-control-input">
+                            <label for="femme" class="custom-control-label">Femme</label>
+                        </div>
+                    </div>  
+                </div>
+
+                <div class="form-group mb-0">
+                    <label for="pseudo">Pseudo</label>
+                    <input type="text" class="form-control" name="pseudo" placeholder="" value="<?php echo ($_GET['action'] == 'update') ? $utilisateur->getPseudo() : ''; ?>" required>
                 </div>
 
                 <div class="form-group mb-0">
@@ -86,8 +105,8 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
 
                 <div class="mb-2 form-group">
                     <label for="dateNaissance">Date de naissance</label>
-                    <div class="input-group date"  data-provide="datepicker">
-                        <input type="date" class="form-control" name="dateNaissance" placeholder="jj/mm/aaaa" value="" required> 
+                    <div class="input-group"  data-provide="datepicker">
+                        <input type="date" class="form-control" name="dateNaissance" placeholder="jj/mm/aaaa" value="<?php echo ($_GET['action'] == 'formmodif') ? $utilisateur->getDateNaissance()->format('Y-m-d')  : ''; ?>" required>
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
@@ -111,7 +130,7 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
 
                 <div class="mb-2 form-group">
                     <label for="adresseUtil">Num et libellé de la voie</label>
-                    <input type="text" class="form-control" name="adresseUtil" id="adresseUtil">
+                    <input type="text" class="form-control" name="adresseUtil" id="adresseUtil" value="<?php echo ($_GET['action'] == 'update') ? $utilisateur->getAdresseUtil() : ''; ?>">
                 </div>
 
                 <div class="form-row">
@@ -136,7 +155,7 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
                         </option>
                         <?php foreach ($allPays as $pays) : ?>
                             <option value=<?php echo $pays->getIdPays(); ?> class="list-group-item">
-                                <?php echo $pays->getNomPays(); ?>
+                                <?php echo utf8_encode($pays->getNomPays()); ?>
                             </option>
                         <?php endforeach ?>
                     </select>
@@ -286,5 +305,5 @@ function detailUtilisateur($utilisateur = null){
     </body>
     </html>
 <?php
-
+ 
 }
