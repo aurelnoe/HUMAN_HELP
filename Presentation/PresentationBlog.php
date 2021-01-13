@@ -146,7 +146,7 @@ function listeArticle($articles, $admin)
 <?php
 }
 
-function detailArticle($article, $avis, $temoignage = null, $admin = null)
+function detailArticle($article, $avis, $admin = null)
 {
     echo head();
 ?>
@@ -198,7 +198,7 @@ function detailArticle($article, $avis, $temoignage = null, $admin = null)
                 </div>
             <?php } ?>
             <?php
-            echo FormulaireAvis($article->getIdArticle(), $temoignage);
+            echo FormulaireAvis($article->getIdArticle());
 
             echo listeAvis($avis, $article->getIdArticle());
 
@@ -216,7 +216,7 @@ function detailArticle($article, $avis, $temoignage = null, $admin = null)
 <?php
 }
 
-function FormulaireAvis(int $idArticle, $temoignage = null)
+function FormulaireAvis(int $idArticle)
 {
 ?>
     <div class="container col-12 col-md-10 pt-2 my-2 border rounded">
@@ -248,7 +248,7 @@ function listeAvis($avis, $idArticle)
 
             <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdAvis(); ?>>
             <div style="background: #eee ; border-radius:10px;">
-                <p><span style="font-weight: bold;"> De <?php echo $commentaire->getAuteur(); ?> :</span><span id="modifTemoignage"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
+                <p><span style="font-weight: bold;"> De <?php ?> :</span><span id="modifTemoignage"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
             </div>
             <div>
                 <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>

@@ -16,7 +16,6 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
     {
         if ($_GET['action'] == 'add') 
         {
-            $auteur = utf8_decode(($_POST['auteur']));
             $temoignage = ($_POST['temoignage']);
             $dateCommentaire = date("Y-m-d");
             $idUtilisateur =  ($_POST['idUtilisateur']);
@@ -24,8 +23,7 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
 
             $avis = new Avis();
 
-            $avis->setAuteur($auteur)
-                ->setTemoignage($temoignage)
+            $avis->setTemoignage($temoignage)
                 ->setDateCommentaire($dateCommentaire)
                 ->setIdUtilisateur($idUtilisateur)
                 ->setIdArticle($idArticle);
@@ -43,7 +41,6 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
         { 
             
             $idAvis = ($_POST['idAvis']);
-            $auteur = utf8_decode(($_POST['auteur']));
             $temoignage = ($_GET['temoignage']);
             $dateCommentaire = date("Y-m-d");
             $idUtilisateur =  ($_POST['idUtilisateur']);
@@ -52,7 +49,6 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             $avis = new Avis();
 
             $avis->setIdAvis($idAvis)
-                    ->setAuteur($auteur)
                     ->setTemoignage($temoignage)
                     ->setDateCommentaire($dateCommentaire)
                     ->setIdUtilisateur($idUtilisateur)

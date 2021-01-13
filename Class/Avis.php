@@ -3,7 +3,6 @@
 class Avis
 {
     private $idAvis ;
-    private $auteur;
     private $temoignage;
     private $dateCommentaire;
     private $idUtilisateur;
@@ -38,25 +37,6 @@ class Avis
         return $this;
     }
 
-    /**
-     * Get the value of auteurAvis
-     */ 
-    public function getAuteur():string
-    {
-        return $this->auteur;
-    }
-
-    /**
-     * Set the value of auteurAvis
-     *
-     * @return  self
-     */ 
-    public function setAuteur(string $auteur):self
-    {
-        $this->auteur = $auteur;
-
-        return $this;
-    }
     /**
      * Get the value of temoignage
      */ 

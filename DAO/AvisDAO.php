@@ -17,18 +17,16 @@ class AvisDAO extends BddConnect
             $db = $newConnect->connexion();
 
            
-            $getAuteur = $avis->getAuteur();
             $getTemoignage = $avis->getTemoignage();
             $getDateCommentaire = $avis->getDateCommentaire()->format('Y-m-d'); 
             $getIdUtilisateur = $avis->getIdUtilisateur();
             $getIdArticle = $avis->getIdArticle();
             
 
-            $query = "INSERT INTO avis VALUES (NULL,:auteur,:temoignage,:dateCommentaire,
+            $query = "INSERT INTO avis VALUES (NULL,:temoignage,:dateCommentaire,
                                                     :idUtilisateur,:idBlog)";            
             $stmt = $db->prepare($query); 
-            
-            $stmt->bindParam(':auteur', $getAuteur);           
+                       
             $stmt->bindParam(':temoignage', $getTemoignage);
             $stmt->bindParam(':dateCommentaire', $getDateCommentaire);
             $stmt->bindParam(':idUtilisateur', $getIdUtilisateur);
@@ -57,7 +55,6 @@ class AvisDAO extends BddConnect
             $db = $newConnect->connexion();
 
             $getIdAvis = $avis->getIdAvis();
-            $getAuteur = $avis->getAuteur();
             $getTemoignage = $avis->getTemoignage();
             $getDateCommentaire = $avis->getDateCommentaire()->format('Y-m-d'); 
             $getIdUtilisateur = $avis->getIdUtilisateur();
@@ -65,8 +62,7 @@ class AvisDAO extends BddConnect
             
 
             $query = "UPDATE avis 
-            SET auteur = :auteur,
-                temoignage = :temoignage,
+            SET temoignage = :temoignage,
                 dateCommentaire = :dateCommentaire,
                 idUtilisateur = :idUtilisateur,
                 idBlog = :idBlog
@@ -74,8 +70,7 @@ class AvisDAO extends BddConnect
 
             $stmt = $db->prepare($query); 
 
-            $stmt->bindParam(':idAvis', $getIdAvis);
-            $stmt->bindParam(':auteur', $getAuteur);           
+            $stmt->bindParam(':idAvis', $getIdAvis);           
             $stmt->bindParam(':temoignage', $getTemoignage);
             $stmt->bindParam(':dateCommentaire', $getDateCommentaire);
             $stmt->bindParam(':idUtilisateur', $getIdUtilisateur);
