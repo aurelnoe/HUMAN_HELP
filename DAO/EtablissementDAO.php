@@ -3,10 +3,11 @@ include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
 require_once(PATH_BASE . "/Class/Etablissement.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
+include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
-class EtablissementDAO 
+class EtablissementDAO  implements DAOInterface,EtablissementInterface
 {
-    public function add(Etablissement $etablissement)
+    public function add(object $etablissement)
     {
         try {
             $newConnect = new BddConnect();
@@ -49,7 +50,7 @@ class EtablissementDAO
         } 
     }
 
-    public function update(Etablissement $etablissement)
+    public function update(object $etablissement)
     { 
         try 
         {
@@ -105,7 +106,7 @@ class EtablissementDAO
     }
 
     /******************* DELETE MISSION*****************************/
-    public function delete($idEtablissement)
+    public function delete(int $idEtablissement)
     {
         try 
         {
@@ -130,7 +131,7 @@ class EtablissementDAO
         }        
     }
 
-    public function searchById($idEtablissement)
+    public function searchById(int $idEtablissement)
     {
         try 
         {
@@ -180,7 +181,7 @@ class EtablissementDAO
         }
     }
 
-    public function searchNameById($idEtablissement)
+    public function searchNameById(int $idEtablissement)
     {
         try
         {
@@ -205,7 +206,7 @@ class EtablissementDAO
         }
     }
 
-    public function searchEtablissementByIdUtilisateur($idUtilisateur)
+    public function searchEtablissementByIdUtilisateur(int $idUtilisateur)
     {
         try
         {

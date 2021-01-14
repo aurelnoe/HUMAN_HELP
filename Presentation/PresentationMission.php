@@ -139,7 +139,7 @@ function searchMission($missions,$title=null,$errorCode=null)
                 if (!empty($missions)) 
                 {   ?>
                     <div class="card-group my-4">
-                        <div class="row mx-0 my-2 m-auto">
+                        <div class="row mx-0 my-2 m-auto w-100">
                         <?php
                         foreach ($missions as $mission) {
                             ?>

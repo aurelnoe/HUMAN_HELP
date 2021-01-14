@@ -3,8 +3,9 @@ include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
 include_once(PATH_BASE . "/Class/Pays.php");
 require_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
+include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
-class PaysDAO extends BddConnect
+class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
 {
     //*************FONCTION AJOUTER UN PAYS*********************/
     public function add(object $pays)
@@ -73,7 +74,7 @@ class PaysDAO extends BddConnect
 
     //*********************FONCTION SUPPRIMER PAYS**************** */
 
-    public function delete($idPays)
+    public function delete(int $idPays)
     {
         try
         {
@@ -122,7 +123,7 @@ class PaysDAO extends BddConnect
 
     //*********************FONCTION CHERCHER PAYS PAR ID**************** */
 
-    public function searchById($idPays)
+    public function searchById(int $idPays)
     {
         try
         {
@@ -147,7 +148,7 @@ class PaysDAO extends BddConnect
         }
     }
 
-    public function searchNameById($idPays)
+    public function searchNameById(int $idPays)
     {
         try
         {
@@ -172,7 +173,7 @@ class PaysDAO extends BddConnect
         }
     }
 
-    public function searchIdByName($namePays)
+    public function searchIdByName(string $namePays)
     {
         try
         {
@@ -197,7 +198,7 @@ class PaysDAO extends BddConnect
         }
     }
 
-    public function searchContinentById($idPays)
+    public function searchContinentById(int $idPays)
     {
         try
         {
