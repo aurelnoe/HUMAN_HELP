@@ -252,9 +252,9 @@ function listeAvis($avis, $idArticle,$AllPseudoUser)
         <?php foreach ($avis as $commentaire) { ?>
 
             <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdAvis(); ?>>
-            <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdUtilisateur(); ?>>
-            <div style="background: #eee ; border-radius:10px;">
-                <p><span style="font-weight: bold;"> De <?php echo ($serviceUtilisateur->searchUserNameById($commentaire->getIdUtilisateur()));?> :</span><span id="modifTemoignage"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
+            <input type=hidden id="idUtil" value=<?php echo $commentaire->getIdUtilisateur(); ?>>
+            <div class="avis" style="background: #eee ; border-radius:10px;">
+                <p><span style="font-weight: bold;"> De <?php echo ($serviceUtilisateur->searchUserNameById($commentaire->getIdUtilisateur()));?> :</span><span id="<?php echo "modifTemoignage" . $commentaire->getIdAvis(); ?>"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
             </div>
             <?php if (!empty($_SESSION)) {?>
             <div>
@@ -267,12 +267,17 @@ function listeAvis($avis, $idArticle,$AllPseudoUser)
 
     </div>
     <script>
-        var temoignage = document.getElementById("modifTemoignage");
+        
+        $('.avis span').click(function(e){
+           var currentId = e.currentTarget.id;
+        
+        var temoignage = document.getElementById(currentId);
         var auteur = document.getElementById("auteurAvis").value;
         var idAvis = document.getElementById("idAvis").value;
         var idUtilisateur = document.getElementById("idUtilisateur").value;
         var idArticle = document.getElementById("idArticle").value;
         // console.log(auteur);
+   
 
         temoignage.addEventListener('click', function(e) {
 
@@ -346,6 +351,7 @@ function listeAvis($avis, $idArticle,$AllPseudoUser)
 
 
         })
+    })
     </script>
 
 <?php
