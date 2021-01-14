@@ -1,4 +1,4 @@
-<footer>
+<footer class="mt-4">
     <div class="row text-center">
         <div class="col-xl-4 col-md-12">
             <ul class="list-footer list-group list-group-flush">

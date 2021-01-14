@@ -216,22 +216,22 @@ class MissionDAO extends BddConnect
         try {
             $newConnect = new BddConnect();
             $db = $newConnect->connexion();
-        
-            if(empty($_GET)){
-                $query = "SELECT * FROM mission WHERE 1";
-            }else if(!empty($getTypeFormation)){
-                $query = "SELECT * FROM mission WHERE typeFormation = :typeFormation";
-            }else if(!empty($getIdPays) && empty($getIdTypeActivite)){
-                $query = "SELECT * FROM mission WHERE idPays = :idPays";
+
+            $selectAllWhere ='SELECT * FROM mission WHERE';
+            $query = $selectAllWhere . 1;
+            if(!empty($getIdPays) && empty($getIdTypeActivite)){
+                $query = "$selectAllWhere idPays = $getIdPays";
             }else if(empty($getIdPays) && !empty($getIdTypeActivite)){
-                $query = "SELECT * FROM mission WHERE idTypeActivite = :idTypeActivite";
+                $query = "$selectAllWhere idTypeActivite = $getIdTypeActivite";
             }else if(!empty($getIdPays) && !empty($getIdTypeActivite)){
-                $query = "SELECT * FROM mission WHERE idPays = :idPays AND idTypeActivite = :idTypeActivite" ;
-            };
+                $query = "$selectAllWhere idPays = $getIdPays AND idTypeActivite = $getIdTypeActivite" ;
+            }else if(!empty($getTypeFormation) && $getIdPays==null && $getIdTypeActivite==null){
+                $query = "$selectAllWhere typeFormation = $getTypeFormation";
+            }
             $stmt = $db->prepare($query);
             $stmt->bindParam(':idPays', $getIdPays);
-            $stmt->bindParam(':idTypeActivite', $getIdTypeActivite);
             $stmt->bindParam(':typeFormation', $getTypeFormation);
+            $stmt->bindParam(':idTypeActivite', $getIdTypeActivite);
             $stmt->execute();  
 
             $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
@@ -247,79 +247,79 @@ class MissionDAO extends BddConnect
         }
     }
 
-/**************** CHERCHE TOUTES LES MISSIONS PAR TYPE D'ACTIVITE *******/
-    public function searchMissionByTypeActivite($idTypeActivite){
-        try {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+// /**************** CHERCHE TOUTES LES MISSIONS PAR TYPE D'ACTIVITE *******/
+//     public function searchMissionByTypeActivite($idTypeActivite){
+//         try {
+//             $newConnect = new BddConnect();
+//             $db = $newConnect->connexion();
         
-            $query = "SELECT * FROM mission WHERE idTypeActivite = :idTypeActivite";
-            $stmt = $db->prepare($query);
-            $stmt->bindParam(":idTypeActivite", $idTypeActivite);
-            $stmt->execute();       
+//             $query = "SELECT * FROM mission WHERE idTypeActivite = :idTypeActivite";
+//             $stmt = $db->prepare($query);
+//             $stmt->bindParam(":idTypeActivite", $idTypeActivite);
+//             $stmt->execute();       
 
-            $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
+//             $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
                                         
-            return $missions;
-        } 
-        catch (PDOException $e){
-            throw new DAOException($e->getMessage(),$e->getCode());
-        }  
-        finally{
-            $db = null;
-            $stmt = null;   
-        }       
-    }
+//             return $missions;
+//         } 
+//         catch (PDOException $e){
+//             throw new DAOException($e->getMessage(),$e->getCode());
+//         }  
+//         finally{
+//             $db = null;
+//             $stmt = null;   
+//         }       
+//     }
 
 
-/**************** CHERCHE TOUTES LES MISSIONS PAR PAYS *******/
-    public function searchMissionByPays( $idPays){
-        try{
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+// /**************** CHERCHE TOUTES LES MISSIONS PAR PAYS *******/
+//     public function searchMissionByPays( $idPays){
+//         try{
+//             $newConnect = new BddConnect();
+//             $db = $newConnect->connexion();
             
-            $query = "SELECT * FROM mission WHERE idPays = :idPays";
+//             $query = "SELECT * FROM mission WHERE idPays = :idPays";
 
-            $stmt = $db->prepare($query);
-            $stmt->bindParam(":idPays", $idPays);
-            $stmt->execute();       
+//             $stmt = $db->prepare($query);
+//             $stmt->bindParam(":idPays", $idPays);
+//             $stmt->execute();       
 
-            $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
+//             $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
                     
-            return $missions;
-        }       
-        catch (PDOException $e){
-            throw new DAOException($e->getMessage(),$e->getCode());
-        }  
-        finally{
-            $db = null;
-            $stmt = null;   
-        }
-    }
+//             return $missions;
+//         }       
+//         catch (PDOException $e){
+//             throw new DAOException($e->getMessage(),$e->getCode());
+//         }  
+//         finally{
+//             $db = null;
+//             $stmt = null;   
+//         }
+//     }
 
-    public function searchMissionByTypeFormation(int $typeFormation){
-        try{
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+    // public function searchMissionByTypeFormation(int $typeFormation){
+    //     try{
+    //         $newConnect = new BddConnect();
+    //         $db = $newConnect->connexion();
             
-            $query = "SELECT * FROM mission WHERE typeFormation = :typeFormation";
+    //         $query = "SELECT * FROM mission WHERE typeFormation = :typeFormation";
 
-            $stmt = $db->prepare($query);
-            $stmt->bindParam(":typeFormation", $typeFormation);
-            $stmt->execute();       
+    //         $stmt = $db->prepare($query);
+    //         $stmt->bindParam(":typeFormation", $typeFormation);
+    //         $stmt->execute();       
 
-            $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
+    //         $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
                     
-            return $missions;
-        }       
-        catch (PDOException $e){
-            throw new DAOException($e->getMessage(),$e->getCode());
-        }  
-        finally{
-            $db = null;
-            $stmt = null;   
-        }
-    }
+    //         return $missions;
+    //     }       
+    //     catch (PDOException $e){
+    //         throw new DAOException($e->getMessage(),$e->getCode());
+    //     }  
+    //     finally{
+    //         $db = null;
+    //         $stmt = null;   
+    //     }
+    // }
 }
 
 ?>

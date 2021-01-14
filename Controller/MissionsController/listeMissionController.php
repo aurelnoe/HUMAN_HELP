@@ -12,34 +12,20 @@ $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 
 try {
-    $newMission = new ServiceMission();
-    $newtypeActivite = new ServiceTypeActivite();
-    $newPays = new ServicePays();
-    
-    $medecines = $newMission->searchMissionByTypeActivite(1);
-    $donations = $newMission->searchMissionByTypeActivite(2);
-    $enseignements = $newMission->searchMissionByTypeActivite(3);
-    $constructions = $newMission->searchMissionByTypeActivite(4);
-    $traductions = $newMission->searchMissionByTypeActivite(5);
-    
+    $serviceMission = new ServiceMission();
+    $serviceTypeActivite = new ServiceTypeActivite();
+    $servicePays = new ServicePays();  
     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
     
-    echo listeMissions($medecines,$donations,$enseignements,$constructions,$traductions,$newtypeActivite,$newPays,$professionnel);  
+    echo listeMissions($serviceMission,$serviceTypeActivite,$servicePays,$professionnel);  
 } 
 catch (ServiceException $se) {
-    $newMission = new ServiceMission();
-    $newtypeActivite = new ServiceTypeActivite();
-    $newPays = new ServicePays();
-    
-    $medecines = $newMission->searchMissionByTypeActivite(1);
-    $donations = $newMission->searchMissionByTypeActivite(2);
-    $enseignements = $newMission->searchMissionByTypeActivite(3);
-    $constructions = $newMission->searchMissionByTypeActivite(4);
-    $traductions = $newMission->searchMissionByTypeActivite(5);
-    
+    $serviceMission = new ServiceMission();
+    $serviceTypeActivite = new ServiceTypeActivite();
+    $servicePays = new ServicePays();
     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
     
-    echo listeMissions($medecines,$donations,$enseignements,$constructions,$traductions,$newtypeActivite,$newPays,$professionnel,$se->getCode());  
+    echo listeMissions($serviceMission,$serviceTypeActivite,$servicePays,$professionnel,$se->getCode());  
 
 }
 

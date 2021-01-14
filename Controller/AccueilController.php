@@ -16,7 +16,7 @@ $mission = new ServiceMission();
 $newPays = new ServicePays();
 $newTypeActivite = new ServiceTypeActivite();
 
-$missionsADistance = $mission->searchMissionByTypeFormation(1);
+$missionsADistance = $mission->searchMissions(null,null,A_DISTANCE);
 $allMissions = $mission->searchAll();
 
 $articles = $service->searchAll();

@@ -17,3 +17,15 @@ function nameRole($idRole): string
     }
     return $role;
 }
+
+/***** ID BASE DE DONNEES */
+
+define('ID_MEDECINE',1);
+define('ID_DONATION',2);
+define('ID_ENSEIGNEMENT',3);
+define('ID_CONSTRUCTION',4);
+define('ID_TRADUCTION',5);
+
+
+define('A_DISTANCE',1);
+define('SUR_LE_TERRAIN',2);

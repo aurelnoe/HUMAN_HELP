@@ -64,7 +64,7 @@ class ServiceMission
         } 
     }
 
-    /************ PAGE LISTE MISSION PRO ***********/
+    /************ FILTRER LES MISSIONS ***********/
     public function searchMissions($getIdPays,$getIdTypeActivite,$getTypeFormation)
     {
         try {
@@ -74,6 +74,7 @@ class ServiceMission
             throw new ServiceException($de->getMessage(),$de->getCode());
         }  
     }
+
     /************ PAGE LISTE MISSION PRO ***********/
     public function searchMissionByPro($idEtablissement)
     {
@@ -83,36 +84,6 @@ class ServiceMission
         catch (DAOException $de) {
             throw new ServiceException($de->getMessage(),$de->getCode());
         }  
-    }
-    /************ PAGE MISSION PAR TYPE ACTIVITE ***********/
-    public function searchMissionByTypeActivite($idTypeActivite)
-    {
-        try {
-            return $this->missionDAO->searchMissionByTypeActivite($idTypeActivite);
-        }
-        catch (DAOException $de) {
-            throw new ServiceException($de->getMessage(),$de->getCode());
-        } 
-    }
-
-    public function searchMissionByPays($idPays)
-    {
-        try {
-            return $this->missionDAO->searchMissionByPays($idPays);
-        }
-        catch (DAOException $de) {
-            throw new ServiceException($de->getMessage(),$de->getCode());
-        } 
-    }
-
-    public function searchMissionByTypeFormation($typeFormation)
-    {
-        try {
-            return $this->missionDAO->searchMissionByTypeFormation($typeFormation);
-        }
-        catch (DAOException $de) {
-            throw new ServiceException($de->getMessage(),$de->getCode());
-        } 
     }
 
     /**
