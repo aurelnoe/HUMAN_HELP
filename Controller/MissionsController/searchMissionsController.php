@@ -18,7 +18,7 @@ if (!empty($_GET))
     $servicePays = new ServicePays();
 
     //TRI PAR TYPE ACTIVITE  
-    if (!empty($_GET['idTypeActivite'])) {
+    if (!empty($_GET['idTypeActivite']) && empty($_GET['idPays'])) {
         try {
             $missions = $serviceMission->searchMissions(null,$_GET['idTypeActivite'],null);
             $typeActivite = $serviceTypeActivite->searchById($_GET['idTypeActivite']);
@@ -31,11 +31,25 @@ if (!empty($_GET))
         }
     }
     //TRI PAR PAYS 
-    else if (!empty($_GET['idPays'])) {
+    else if (!empty($_GET['idPays']) && empty($_GET['idTypeActivite'])) {
         try {
             $missions = $serviceMission->searchMissions($_GET['idPays'],null,null);
             $pays = $servicePays->searchById($_GET['idPays']);
             $title = ucfirst($pays->getNomPays());
+    
+            echo searchMission($missions,$title);
+        } 
+        catch (ServiceException $se) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
+    }
+    //TRI PAR PAYS 
+    else if (!empty($_GET['idPays']) && !empty($_GET['idTypeActivite'])) {
+        try {
+            $missions = $serviceMission->searchMissions($_GET['idPays'],null,null);
+            $typeActivite = $serviceTypeActivite->searchById($_GET['idTypeActivite']);
+            $pays = $servicePays->searchById($_GET['idPays']);
+            $title = ucfirst($pays->getNomPays()) . ' / ' . utf8_encode(ucfirst($typeActivite->getTypeActivite()));
     
             echo searchMission($missions,$title);
         } 

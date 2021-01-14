@@ -229,9 +229,6 @@ class MissionDAO extends BddConnect
                 $query = "$selectAllWhere typeFormation = $getTypeFormation";
             }
             $stmt = $db->prepare($query);
-            $stmt->bindParam(':idPays', $getIdPays);
-            $stmt->bindParam(':typeFormation', $getTypeFormation);
-            $stmt->bindParam(':idTypeActivite', $getIdTypeActivite);
             $stmt->execute();  
 
             $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
