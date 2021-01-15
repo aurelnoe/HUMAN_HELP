@@ -9,7 +9,7 @@ function commentCaMarche():void
         <?php
         include("../../Templates/Bases/navbarDev.php");
 
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
         <div class="container">
 		<h1 class="text-center">Comment ça marche ?</h1>

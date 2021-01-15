@@ -16,7 +16,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
         <?php
         include("../../Templates/Bases/navbarDev.php");
 
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
         <div class="container col-12 col-md-6 pt-4 my-4 border rounded">
 
@@ -87,7 +87,7 @@ function listeArticle($articles, $admin)
         <?php
         include("../../Templates/Bases/navbarDev.php");
 
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
         <div class="container">
             <h2 class="text-center my-4">Liste des articles</h2>
@@ -157,7 +157,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
         <?php
         include("../../Templates/Bases/navbarDev.php");
 
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
         <div class="container">
 
@@ -238,7 +238,7 @@ function FormulaireAvis(int $idArticle,$idUtil=null, $pseudoUtil=null)
     </div>
 <?php
 }
-function listeAvis($avis, $idArticle,$AllPseudoUser)
+function listeAvis($avis, $idArticle)
 {
 
 ?>

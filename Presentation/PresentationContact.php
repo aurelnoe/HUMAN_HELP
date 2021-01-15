@@ -9,7 +9,7 @@ function formulaireContact()
         <?php
         include("../../Templates/Bases/navbarDev.php");
 
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
     <div class="container col-12 col-md-6 pt-4 my-4 border rounded">
 
