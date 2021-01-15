@@ -2,14 +2,15 @@
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
 include_once(PATH_BASE . "/Class/Avis.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
+include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
-class AvisDAO extends BddConnect 
+class AvisDAO extends BddConnect implements DAOInterface,AvisInterface
 {
     //probablement mettre une fonction IsAdmin
 
      /******************* FONCTION AJOUTER UN AVIS/COMMENTAIRE *****************************/
 
-     public function add(Avis $avis)
+     public function add(Object $avis)
     {   
         try {
 
@@ -45,9 +46,9 @@ class AvisDAO extends BddConnect
     }
 
 
-    /******************* FONCTION MODIFIER UN ARTICLE *****************************/
+    /******************* FONCTION MODIFIER UN AVIS *****************************/
 
-    public function update(Avis $avis)
+    public function update(Object $avis)
     {   
         try {
 
@@ -90,7 +91,7 @@ class AvisDAO extends BddConnect
         }         
     }
 
-     /******************* FONCTION SUPPRIMER UN ARTICLE*****************************/
+     /******************* FONCTION SUPPRIMER UN AVIS*****************************/
 
      public function delete($idAvis)
      {
@@ -170,7 +171,7 @@ class AvisDAO extends BddConnect
             $stmt = null;   
         }       
     }
-/**************** FONCTION CHERCHER AVIS PAR ARTICLE ***********************/ 
+/**************** FONCTION CHERCHER AVIS PAR ID ARTICLE ***********************/ 
 public function searchByIdArticle($idBlog)
     {
         try 

@@ -3,14 +3,15 @@ include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
 include_once(PATH_BASE . "/Class/Blog.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
+include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
-class BlogDAO extends BddConnect 
+class BlogDAO extends BddConnect implements DAOInterface
 {
     //probablement mettre une fonction IsAdmin
 
      /******************* FONCTION AJOUTER UN ARTICLE *****************************/
 
-     public function add(Blog $article)
+     public function add(Object $article)
     {   
         try {
 
@@ -50,7 +51,7 @@ class BlogDAO extends BddConnect
 
     /******************* FONCTION MODIFIER UN ARTICLE *****************************/
 
-    public function update(Blog $article)
+    public function update(Object $article)
     {   
         try {
 
