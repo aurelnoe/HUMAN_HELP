@@ -73,8 +73,8 @@ function commentCaMarche():void
 		}
 		?>
 	</div>
-		<?php      
-    include("../../Templates/Bases/footer.php") 
+	<?php      
+    	echo footer();
     ?>
 </body>
 </html>

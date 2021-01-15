@@ -70,7 +70,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
             </form>
         </div>
         <?php
-        include("../../Templates/Bases/footer.php")
+            echo footer();
         ?>
     </body>
 
@@ -140,7 +140,7 @@ function listeArticle($articles, $admin)
             </div>
         <?php } ?>
         <?php
-        include("../../Templates/Bases/footer.php")
+         echo footer();
         ?>
     </body>
 
@@ -211,7 +211,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
 
         </div>
         <?php
-        include("../../Templates/Bases/footer.php")
+            echo footer();
         ?>
     </body>
 

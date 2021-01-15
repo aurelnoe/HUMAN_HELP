@@ -133,7 +133,7 @@ function faq()
             </div>
         </div>
         <?php
-        include("../../Templates/Bases/footer.php")
+         echo footer();
         ?>
     </body>
 

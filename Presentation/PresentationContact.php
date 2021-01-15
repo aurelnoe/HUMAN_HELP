@@ -75,8 +75,8 @@ function formulaireContact()
         </form>
     </div>
     <?php
-        include("../../Templates/Bases/footer.php")
-        ?>
+         echo footer();
+    ?>
     </body>
     </html>
 <?php
