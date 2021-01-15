@@ -1,9 +1,8 @@
 <?php
 
-//Va contenir toute les variables utile pour l'application
-
 define('PATH_BASE',$_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/");
 
+include_once(PATH_BASE . "/Services/ServicePays.php");
 function nameRole($idRole): string
 {
     if ($idRole == 1) {
@@ -25,7 +24,6 @@ define('ID_DONATION',2);
 define('ID_ENSEIGNEMENT',3);
 define('ID_CONSTRUCTION',4);
 define('ID_TRADUCTION',5);
-
 
 define('A_DISTANCE',1);
 define('SUR_LE_TERRAIN',2);

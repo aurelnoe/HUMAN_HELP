@@ -29,7 +29,7 @@ class RoleDAO extends BddConnect
         }
     }
 
-    public function searchById($idRole)
+    public function searchById(int $idRole)
     {
         try 
         {

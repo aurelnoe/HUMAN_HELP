@@ -19,26 +19,20 @@ if(!empty($_GET))
     $serviceTypeActivite = new ServiceTypeActivite();
     $serviceEtablissement = new ServiceEtablissement();
 
+    $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
+    
     if (isset($_GET['idMission']) && empty($_GET['action'])) 
     {
         try {
             $mission = $serviceMission->searchById($_GET['idMission']);
-    
-            $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
         
-            if ($mission->getTypeFormation() == 0) {
-                $typeFormation = 'à distance';
-            }else{
-                $typeFormation = 'sur le terrain';
-            }
-            echo detailsMission($mission,$typeFormation,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel,null,null);       
+            echo detailsMission($mission,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel,null,null);       
         }
         catch (ServiceException $se) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            echo listeMissions($serviceMission,$serviceTypeActivite,$servicePays,$professionnel,$se->getCode());
         }
     }
-
-    elseif(!empty($_GET['action']) && isset($_GET['action']))
+    elseif(!empty($_GET['action']) && isset($_GET['action']) && $professionnel)
     {
         if (!empty($_POST) && isset($_POST)) 
         {
@@ -71,29 +65,18 @@ if(!empty($_GET))
                 try {
                     $serviceMission->update($mission);
     
-                    $detailsMission = $serviceMission->searchById($idMission);
+                    $mission = $serviceMission->searchById($_GET['idMission']);
         
-                    $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
-    
-                    echo detailsMission($detailsMission,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel);                 
+                    echo detailsMission($mission,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel,null,null);       
                     die;
                 }
                 catch (ServiceException $se) {
-                    if ($professionnel) 
-                    {
-                        $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
-                        
-                        $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                        
-                        $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
-                        
-                        echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur,$se->getCode());
-                        die;           
-                    }
-                    else {
-                        header("Location: ../../index.php");
-                        die;
-                    }
+                    $serviceMission->update($mission);
+    
+                    $mission = $serviceMission->searchById($_GET['idMission']);
+        
+                    echo detailsMission($mission,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel,$se->getCode(),$se->getMessage());       
+                    die;
                 }        
             }
         }

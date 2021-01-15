@@ -1,5 +1,5 @@
 <?php 
-require("../../Presentation/PresentationCommun.php");
+require_once("../../Presentation/PresentationCommun.php");
 
 function formulaireContact()
 {

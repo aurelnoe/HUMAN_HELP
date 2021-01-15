@@ -21,7 +21,6 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     {
         if (!empty($_POST) && isset($_POST)) 
         {         
-            
             $civilite = $_POST['civilite'];
             $pseudo = $_POST['pseudo'];
             $nomUtil = utf8_decode($_POST['nomUtil']);

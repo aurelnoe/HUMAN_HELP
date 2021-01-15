@@ -10,14 +10,14 @@ $_GET = array_map('htmlentities',$_GET);
 $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
-if (isset($_GET['action'])) 
+if (isset($_GET['action']))
 { 
     $newTypeActivite = new ServiceTypeActivite();
     $newPays = new ServicePays();
     $allPays = $newPays->searchAll();
     $allTypeActivite = $newTypeActivite->searchAll();
 
-    if ($_GET['action'] == 'update' && isset($_GET['idMission'])) 
+    if ($_GET['action'] == 'update' && isset($_GET['idMission']) && !empty($_SESSION)) 
     {  
         try {
             $newMission = new ServiceMission();

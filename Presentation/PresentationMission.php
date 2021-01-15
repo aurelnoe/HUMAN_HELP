@@ -1,7 +1,7 @@
 <?php 
-require("../../Presentation/PresentationCommun.php");
+require_once("../../Presentation/PresentationCommun.php");
 
-function listeMissionsPro($missions,$serviceTypeActivite=null,$newPays=null,$etablissementPro=null,$utilisateur,$errorCode=null) 
+function listeMissionsPro($missions,$serviceTypeActivite=null,$servicePays=null,$etablissementPro=null,$utilisateur,$errorCode=null,$message=null) 
 {
     echo head();
     ?>
@@ -11,18 +11,26 @@ function listeMissionsPro($missions,$serviceTypeActivite=null,$newPays=null,$eta
 
         include("../../Templates/Bases/navbar.php");
         if ($errorCode) {
-            if($errorCode == 1062){
-                $message = "L'employé existe déja dans la base de données!";
+            if($errorCode == 1062){     //Error add mission
+                $message = "La mission existe déja dans la base de données!";
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
             }
-            else if($errorCode == 1027){
-                $message = "L'employé n'a pas pu être modifié!";
+            else if($errorCode == 1042){    //Connexion not found
+                $message = "Un problème est survenue, veulliez réessayer ultérieurement.";
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-            }
-            else if($errorCode == 9998){
+            } 
+            else if($errorCode == 9997){    //Missions pro not found
+                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+            } 
+            else if($errorCode == 9999){    //Error mission not found
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
             }  
         }
+        if(!$errorCode && $errorCode == 1027){
+            $message = "L'établissement n'a pas était modifiée, une erreur est survenue.";
+            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+        }
+        echo $errorCode;
         ?>
         <div class="container">
             <hr class="hrGreen mx-3 my-4">
@@ -45,7 +53,7 @@ function listeMissionsPro($missions,$serviceTypeActivite=null,$newPays=null,$eta
                         <div class="pl-1">
                             <p class="my-3"><strong>Libellé voie :</strong> <?php echo $etablissementPro->getAdresseEtablissement();?></p>
                             <p><strong>Ville :</strong> <?php echo $etablissementPro->getVilleEtablissement();?></p>
-                            <p><strong>Pays :</strong> <?php echo $newPays->searchNameById($etablissementPro->getIdPays()); ?> (<?php echo $newPays->searchContinentById($etablissementPro->getIdPays()); ?>)</p>
+                            <p><strong>Pays :</strong> <?php echo $servicePays->searchNameById($etablissementPro->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($etablissementPro->getIdPays()); ?>)</p>
                         </div>
                     </div>
                 </div>
@@ -74,7 +82,7 @@ function listeMissionsPro($missions,$serviceTypeActivite=null,$newPays=null,$eta
                             <div class="card-body">
                                 <h5 class="card-title">Titre : <?php echo ucfirst(utf8_encode($mission->getTitreMission())); ?></h5>
                                 <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($mission->getIdTypeActivite())); ?></p>
-                                <p class="card-text">Pays : <?php echo $newPays->searchNameById($mission->getIdPays()); ?> (<?php echo $newPays->searchContinentById($mission->getIdPays()); ?>)</p>
+                                <p class="card-text">Pays : <?php echo $servicePays->searchNameById($mission->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($mission->getIdPays()); ?>)</p>
                                 <p class="card-text">Date de début : <?php echo $mission->getDateDebut()->format('d-m-Y'); ?></p>
                             </div>
                             <div class="card-footer">
@@ -188,7 +196,7 @@ function searchMission($missions,$title=null,$errorCode=null)
     <?php
 }
 
-function listeMissions($serviceMission=null,$serviceTypeActivite=null,$newPays=null,$professionnel)
+function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePays=null,$professionnel,$errorCode=null)
 {
     echo head();
     ?> 
@@ -197,6 +205,11 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$newPays=n
         include("../../Templates/Bases/navbarDev.php");
         
         include("../../Templates/Bases/navbar.php");
+        if ($errorCode) {
+            if($errorCode == 9999){    //Error mission not found
+                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+            }  
+        }
         ?>
         <div class="container p-0">
 
@@ -286,7 +299,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$newPays=n
                                             <div class="card-body">
                                                 <h5 class="card-title">Titre : <?php echo utf8_encode($medecine->getTitreMission()); ?></h5>
                                                 <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($medecine->getIdTypeActivite())); ?></p>
-                                                <p class="card-text">Pays : <?php echo $newPays->searchNameById($medecine->getIdPays()); ?> (<?php echo $newPays->searchContinentById($medecine->getIdPays()); ?>)</p>
+                                                <p class="card-text">Pays : <?php echo $servicePays->searchNameById($medecine->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($medecine->getIdPays()); ?>)</p>
                                                 <p class="card-text">Date de début : <?php echo $medecine->getDateDebut()->format('d-m-Y'); ?></p>
                                             </div>                   
                                             <div class="card-footer">
@@ -350,7 +363,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$newPays=n
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($donation->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($donation->getIdTypeActivite())); ?></p>
-                                            <p class="card-text">Pays : <?php echo $newPays->searchNameById($donation->getIdPays()); ?> (<?php echo $newPays->searchContinentById($donation->getIdPays()); ?>)</p>
+                                            <p class="card-text">Pays : <?php echo $servicePays->searchNameById($donation->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($donation->getIdPays()); ?>)</p>
                                             <p class="card-text">Date de début : <?php echo $donation->getDateDebut()->format('d-m-Y'); ?></p>                                        
                                         </div>
                                         <div class="card-footer">
@@ -416,7 +429,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$newPays=n
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($enseignement->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($enseignement->getIdTypeActivite())); ?></p>
-                                            <p class="card-text">Pays : <?php echo $newPays->searchNameById($enseignement->getIdPays()); ?> (<?php echo $newPays->searchContinentById($enseignement->getIdPays()); ?>)</p>
+                                            <p class="card-text">Pays : <?php echo $servicePays->searchNameById($enseignement->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($enseignement->getIdPays()); ?>)</p>
                                             <p class="card-text">Date de début : <?php echo $enseignement->getDateDebut()->format('d-m-Y'); ?></p>                                        
                                         </div>
                                         <div class="card-footer">
@@ -482,7 +495,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$newPays=n
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($construction->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($construction->getIdTypeActivite())); ?></p>
-                                            <p class="card-text">Pays : <?php echo $newPays->searchNameById($construction->getIdPays()); ?> (<?php echo $newPays->searchContinentById($construction->getIdPays()); ?>)</p>
+                                            <p class="card-text">Pays : <?php echo $servicePays->searchNameById($construction->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($construction->getIdPays()); ?>)</p>
                                             <p class="card-text">Date de début : <?php echo $construction->getDateDebut()->format('d-m-Y'); ?></p>
                                         </div>                   
                                         <div class="card-footer">
@@ -547,7 +560,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$newPays=n
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($traduction->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($traduction->getIdTypeActivite())); ?></p>
-                                            <p class="card-text">Pays : <?php echo $newPays->searchNameById($traduction->getIdPays()); ?> (<?php echo $newPays->searchContinentById($traduction->getIdPays()); ?>)</p>
+                                            <p class="card-text">Pays : <?php echo $servicePays->searchNameById($traduction->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($traduction->getIdPays()); ?>)</p>
                                             <p class="card-text">Date de début : <?php echo $traduction->getDateDebut()->format('d-m-Y'); ?></p>
                                         </div>                   
                                         <div class="card-footer">
@@ -591,7 +604,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$newPays=n
 <?php
 }
 
-function detailsMission($mission,$newPays=null,$serviceTypeActivite=null,$newEtablissement=null,$professionnel,$errorCode=null,$message=null)
+function detailsMission($mission,$servicePays=null,$serviceTypeActivite=null,$serviceEtablissement=null,$professionnel,$errorCode=null,$message=null)
 {
     echo head();
     ?> 
@@ -603,6 +616,12 @@ function detailsMission($mission,$newPays=null,$serviceTypeActivite=null,$newEta
         // if($errorCode && $errorCode == 9999){
         //     echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
         // }
+        if($errorCode!=null && $errorCode == 1027){
+            $message = "La mission n'a pas était modifiée, une erreur est survenue.";
+            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+        }elseif (isset($errorCode) && $errorCode == 9958) {
+            echo "<div class='alert alert-success text-center'>$message</div>";
+        }
         ?>
         <div class="container justify-content p-4">
 
@@ -620,8 +639,8 @@ function detailsMission($mission,$newPays=null,$serviceTypeActivite=null,$newEta
                         <li><strong>Titre de la mission :</strong> <?php echo $mission->getTitreMission(); ?></li>
                         <li><strong>Type d'activité :</strong> <?php echo utf8_encode($serviceTypeActivite->searchNameById($mission->getIdTypeActivite())); ?></li>
                         <li><strong>Mission :</strong> <?php echo ($mission->getTypeFormation() == 0) ? 'à distance' : 'sur le terrain'; ?></li>
-                        <li><strong>Pays :</strong> <?php echo $newPays->searchNameById($mission->getIdPays()); ?> (<?php echo $newPays->searchContinentById($mission->getIdPays()); ?>)</li>
-                        <li><strong>Organisateur :</strong> <?php echo utf8_encode($newEtablissement->searchNameById($mission->getIdEtablissement())); ?></li>
+                        <li><strong>Pays :</strong> <?php echo $servicePays->searchNameById($mission->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($mission->getIdPays()); ?>)</li>
+                        <li><strong>Organisateur :</strong> <?php echo utf8_encode($serviceEtablissement->searchNameById($mission->getIdEtablissement())); ?></li>
                         <li><strong>Durée de la mission :</strong> <?php echo $mission->getDuree(); ?> jours</li>
                         <li><strong>Date début :</strong> <?php echo $mission->getDateDebut()->format('d-m-Y'); ?></li>
                     </ul>
@@ -731,7 +750,7 @@ function detailsMission($mission,$newPays=null,$serviceTypeActivite=null,$newEta
 <?php
 }
 
-function formulairesMission(string $title,$mission=null,string $titleBtn,string $action,int $idMission=null,$allPays,$allTypeActivite,int $idEtablissement=null,$newPays=null,$serviceTypeActivite=null)
+function formulairesMission(string $title,$mission=null,string $titleBtn,string $action,int $idMission=null,$allPays,$allTypeActivite,int $idEtablissement=null,$servicePays=null,$serviceTypeActivite=null)
 {
     echo head();
     ?>
@@ -767,9 +786,11 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
                         <label class="h-50" for="idPays">Pays concerné</label>
                         <select type="number" name="idPays" class="custom-select list-group d-block h-50 w-100" required>
                             <option class="list-group-item" value="<?php echo (($_GET['action']) == 'update') ? $mission->getIdPays() : '' ?>">
-                                <?php echo (($_GET['action']) == 'update') ? $newPays->searchNameById($mission->getIdPays()) : 'Choisissez...' ?>
+                                <?php echo (($_GET['action']) == 'update') ? $servicePays->searchNameById($mission->getIdPays()) : 'Choisissez...' ?>
                             </option>
-                            <?php foreach ($allPays as $pays) : ?>
+
+                            <?php 
+                            foreach ($allPays as $pays) : ?>
                                 <option value="<?php echo $pays->getIdPays(); ?>" class="list-group-item">
                                     <?php echo $pays->getNomPays(); ?>
                                 </option>
@@ -799,7 +820,7 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
                 </div>
                 <div class="mb-3 form-group">
                     <label for="descriptionMission">Description de la mission</label>
-                    <textarea type="textarea" class="form-control" name="descriptionMission" placeholder=""><?php echo ($_GET['action'] == 'update') ? $mission->getDescriptionMission() : ''; ?></textarea>
+                    <textarea type="textarea" class="form-control" name="descriptionMission" placeholder="" required><?php echo ($_GET['action'] == 'update') ? $mission->getDescriptionMission() : ''; ?></textarea>
                     <div class="invalid-feedback">
                         Ce champ est requis.
                     </div>
@@ -820,7 +841,7 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
                 <div class="mb-3 form-group">
                     <label for="dateDebut">Date de début de la mission</label>
                     <div class="input-group"  data-provide="datepicker">
-                        <input type="date" class="form-control" name="dateDebut" value="<?php echo ($_GET['action'] == 'update') ? $mission->getDateDebut()->format('Y-m-d') : ''; ?>">
+                        <input type="date" class="form-control" name="dateDebut" value="<?php echo ($_GET['action'] == 'update') ? $mission->getDateDebut()->format('Y-m-d') : ''; ?>" required>
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
@@ -887,7 +908,7 @@ function formParticipationMission($mission)
                 </div>
                 <div class="my-4 form-group">
                     <label for="mail">Adresse mail</label>
-                    <input name="mail" type="mail" class="form-control" placeholder="mail@mail.com" value="" required>
+                    <input name="mail" type="mail" class="form-control" placeholder="mail@mail.com" value="<?php echo $_SESSION['mailUtil'] ?>" required>
                     <div class="invalid-feedback">
                         Ce champ est requis.
                     </div>
@@ -912,7 +933,7 @@ function formParticipationMission($mission)
                 <button type="submit" class="btn btnGreen btn-lg btn-block mb-5">
                     Envoyer
                 </button>
-                <a href="../CommentCaMarcheController.php?idMission=<?php echo $mission->getIdMission();?>" class="btn btn-primary w-100">
+                <a href="../CommentCaMarcheController/CommentCaMarcheController.php?idMission=<?php echo $mission->getIdMission();?>" class="btn btn-primary w-100">
                     Retour aux informations
                 </a>        
             </form>
@@ -925,3 +946,5 @@ function formParticipationMission($mission)
     </html>
     <?php
 }
+
+/*** */

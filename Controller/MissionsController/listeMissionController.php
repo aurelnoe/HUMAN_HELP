@@ -11,18 +11,15 @@ $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 
+$serviceMission = new ServiceMission();
+$serviceTypeActivite = new ServiceTypeActivite();
+$servicePays = new ServicePays();  
 try {
-    $serviceMission = new ServiceMission();
-    $serviceTypeActivite = new ServiceTypeActivite();
-    $servicePays = new ServicePays();  
     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
     
     echo listeMissions($serviceMission,$serviceTypeActivite,$servicePays,$professionnel);  
 } 
 catch (ServiceException $se) {
-    $serviceMission = new ServiceMission();
-    $serviceTypeActivite = new ServiceTypeActivite();
-    $servicePays = new ServicePays();
     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
     
     echo listeMissions($serviceMission,$serviceTypeActivite,$servicePays,$professionnel,$se->getCode());  

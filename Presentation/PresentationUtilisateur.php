@@ -1,5 +1,5 @@
 <?php 
-require("../../Presentation/PresentationCommun.php");
+require_once("../../Presentation/PresentationCommun.php");
 
 function connexion($message=null,$errorCode=null) 
 {
@@ -8,8 +8,10 @@ function connexion($message=null,$errorCode=null)
     <?php
         include("../../Templates/Bases/navbarDev.php");
         include("../../Templates/Bases/navbar.php");
-        if ($errorCode == 1081) {
-            
+
+        if ($errorCode && $errorCode == 1081) { //Mauvaises informations de connection
+            echo "<div class='alert alert-danger text-center my-5'>$message</div>";
+        }else if (!$errorCode && $message ) {   //Doit etre Professionnel
             echo "<div class='alert alert-danger text-center my-5'>$message</div>";
         }
     ?>
@@ -115,7 +117,7 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
                         
                 <div class="mb-2 form-group">
                     <label for="mailUtil">email</label>
-                    <input type="email" name="mailUtil" value="<?php if(($_GET['action']) == 'formModif'){echo $utilisateur->getMailUtil();}?>" class="form-control" id="emailUser" aria-describedby="emailHelp" required pattern="^\w{2,}@\w{2,}\.\w{2,}$">
+                    <input type="email" name="mailUtil" value="<?php if(($_GET['action']) == 'formModif'){echo $_SESSION['mailUtil'];} else ''?>" class="form-control" id="emailUser" aria-describedby="emailHelp" required pattern="^\w{2,}@\w{2,}\.\w{2,}$">
                 </div>
 
                 <div class="form-group">

@@ -7,7 +7,6 @@ include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
 class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
 {
-    //*************FONCTION AJOUTER UN PAYS*********************/
     public function add(object $pays)
     {   
         try
@@ -37,9 +36,6 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
             $stmt = null;   
         }
     }
-
-
-    //********************FONCTION MODIDIER PAYS************************ */
 
     public function update(object $pays)
     {
@@ -72,8 +68,6 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
         }
     }
 
-    //*********************FONCTION SUPPRIMER PAYS**************** */
-
     public function delete(int $idPays)
     {
         try
@@ -94,9 +88,6 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
             $stmt = null;   
         }
     }
-
-
-    //*********************FONCTION CHERCHER TOUT LES PAYS**************** */
 
     public function searchAll()
     {
@@ -120,8 +111,6 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
             $stmt = null;   
         }
     }
-
-    //*********************FONCTION CHERCHER PAYS PAR ID**************** */
 
     public function searchById(int $idPays)
     {

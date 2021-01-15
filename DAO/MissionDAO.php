@@ -98,7 +98,9 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
             $stmt->bindParam(':idEtablissement', $getIdEtablissement);
             $stmt->bindParam(':idTypeActivite', $getIdTypeActivite);
             $stmt->bindParam(':idMission', $getIdMission);
-
+            if ($stmt->execute()) {
+                throw new DAOException('La mission a bien été mise à jour',9958);
+            }
             $stmt->execute();
         }
         catch (PDOException $e){
@@ -122,6 +124,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
             $query = "DELETE FROM mission WHERE idMission = :idMission";
             $stmt = $db->prepare($query);
             $stmt->bindParam(":idMission", $idMission);
+
             $stmt->execute();
         } 
         catch (PDOException $e){
@@ -205,7 +208,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
             return $missions;
         } 
         catch (PDOException $e){
-            throw new DAOException($e->getMessage(),$e->getCode());
+            throw new DAOException($e->getMessage(),9997);
         }  
         finally{
             $db = null;
@@ -220,13 +223,13 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
 
             $selectAllWhere ='SELECT * FROM mission WHERE';
             $query = $selectAllWhere . 1;
-            if(!empty($getIdPays) && empty($getIdTypeActivite)){
+            if(!empty($getIdPays) && empty($getIdTypeActivite)){    // Filtre que par pays
                 $query = "$selectAllWhere idPays = $getIdPays";
-            }else if(empty($getIdPays) && !empty($getIdTypeActivite)){
+            }else if(empty($getIdPays) && !empty($getIdTypeActivite)){   // Filtre que par type d'activité
                 $query = "$selectAllWhere idTypeActivite = $getIdTypeActivite";
-            }else if(!empty($getIdPays) && !empty($getIdTypeActivite)){
+            }else if(!empty($getIdPays) && !empty($getIdTypeActivite)){   // Filtre par pays ET par type d'activité
                 $query = "$selectAllWhere idPays = $getIdPays AND idTypeActivite = $getIdTypeActivite" ;
-            }else if(!empty($getTypeFormation) && $getIdPays==null && $getIdTypeActivite==null){
+            }else if(!empty($getTypeFormation) && $getIdPays==null && $getIdTypeActivite==null){   // Filtre que par type de formation
                 $query = "$selectAllWhere typeFormation = $getTypeFormation";
             }
             $stmt = $db->prepare($query);

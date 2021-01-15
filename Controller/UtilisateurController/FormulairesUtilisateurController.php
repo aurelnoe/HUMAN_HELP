@@ -18,6 +18,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     
     if ($_GET['action'] == 'formAjout')
     {
+        // session_destroy();
         try {
             $allPays = $newPays->searchAll();
             echo formulairesUtilisateur('Inscrivez vous','','Ajouter','add',$allPays);

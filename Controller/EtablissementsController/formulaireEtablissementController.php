@@ -14,8 +14,8 @@ if (!empty($_GET) && isset($_GET['action']))
     if ($_GET['action'] == 'update' && isset($_GET['idEtablissement'])) 
     {  
         try {
-            $newEtablissement = new ServiceEtablissement();
-            $etablissement = $newEtablissement->searchById($_GET['idEtablissement']);
+            $serviceEtablissement = new ServiceEtablissement();
+            $etablissement = $serviceEtablissement->searchById($_GET['idEtablissement']);
             
             $title = "Modification d'un établissement";
             $titleBtn = "Modifier l'établissement";

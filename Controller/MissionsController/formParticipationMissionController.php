@@ -9,10 +9,16 @@ $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 try {
-    $newInscription = new ServiceMission();
-    $mission = $newInscription->searchById($_GET['idMission']);
-    
-    echo formParticipationMission($mission);
+    if ($_SESSION) {
+        $newInscription = new ServiceMission();
+        $mission = $newInscription->searchById($_GET['idMission']);
+        
+        echo formParticipationMission($mission);
+        die;
+    }else {
+        echo connexion();
+        die;
+    }
 } 
 catch (ServiceException $se) {
     $newInscription = new ServiceMission();
