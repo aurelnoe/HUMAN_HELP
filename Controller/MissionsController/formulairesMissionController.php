@@ -12,69 +12,69 @@ $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 if (isset($_GET['action']))
 { 
-    $newTypeActivite = new ServiceTypeActivite();
-    $newPays = new ServicePays();
-    $allPays = $newPays->searchAll();
-    $allTypeActivite = $newTypeActivite->searchAll();
-
-    if ($_GET['action'] == 'update' && isset($_GET['idMission']) && !empty($_SESSION)) 
+    $serviceTypeActivite = new ServiceTypeActivite();
+    $servicePays = new ServicePays();
+    $allPays = $servicePays->searchAll();
+    $allTypeActivite = $serviceTypeActivite->searchAll();
+    if ($_GET['action'] == 'add' && isset($_GET['idEtablissement'])) 
+    {
+        $tabAffichageFormAddMission = array(
+            'title' => 'Ajouter une nouvelle mission',
+            'titleBtn' => 'Ajouter la mission',
+            'action' => 'add',
+            'idMission' => null,
+            'idEtablissement' => $_GET['idEtablissement'],
+            'allPays' => $allPays,
+            'allTypeActivite' => $allTypeActivite
+        );
+        try {
+            echo formulairesMission($tabAffichageFormAddMission,null);
+            die;
+            
+        } catch (ServiceException $se) {
+            echo formulairesMission($tabAffichageFormAddMission,null,$se->getCode());
+            die;
+        }
+    }
+    else if ($_GET['action'] == 'update' && isset($_GET['idMission']) && !empty($_SESSION)) 
     {  
         try {
-            $newMission = new ServiceMission();
-            $mission = $newMission->searchById($_GET['idMission']);
+            $serviceMission = new ServiceMission();
+            $mission = $serviceMission->searchById($_GET['idMission']);
             
-            $title = 'Modification de la mission';
-            $titleBtn = 'Modifier la mission';
-            $action = 'update';
-            $idMission = $_GET['idMission'];
-            $idEtablissement = $mission->getIdEtablissement();
+            $tabAffichageFormUpdateMission = array(
+                'title' => 'Modification de la mission',
+                'titleBtn' => 'Modifier la mission',
+                'action' => 'update',
+                'idMission' => $_GET['idMission'],
+                'idEtablissement' => $mission->getIdEtablissement(),
+                'allPays' => $allPays,
+                'allTypeActivite' => $allTypeActivite,
+                'idMission' => $_GET['idMission']
+            );
+
             $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
             if ($professionnel) {
-                echo formulairesMission($title,$mission,$titleBtn,$action,$idMission,$allPays,$allTypeActivite,$idEtablissement,$newPays,$newTypeActivite);
+                echo formulairesMission($tabAffichageFormUpdateMission,$mission);
                 die;         
             }else {
                 header("Location: ../UtilisateurController/FormulairesUtilisateurController.php?action=formAjout");
                 die;
             }
         } 
-        catch (ServiceException $se) {
-            $newMission = new ServiceMission();
-            $mission = $newMission->searchById($_GET['idMission']);
-            
-            $title = 'Modification de la mission';
-            $titleBtn = 'Modifier la mission';
-            $action = 'update';
-            $idMission = $_GET['idMission'];
-            $idEtablissement = $mission->getIdEtablissement();
+        catch (ServiceException $se) 
+        {
+            $serviceMission = new ServiceMission();
+            $mission = $serviceMission->searchById($_GET['idMission']);
+
             $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
             if ($professionnel) {
-                echo formulairesMission($title,$mission,$titleBtn,$action,$idMission,$allPays,$allTypeActivite,$idEtablissement,$newPays,$newTypeActivite,$se->getCode());
+                echo formulairesMission($tabAffichageFormUpdateMission,$mission,$se->getCode());
                 die;         
             }else {
                 header("Location: ../UtilisateurController/FormulairesUtilisateurController.php?action=formAjout");
                 die;
             }
         }
-    } 
-    else if ($_GET['action'] == 'add' && isset($_GET['idEtablissement'])) 
-    {
-        try {
-            $title = "Ajout d'une mission";
-            $titleBtn = 'ajouter la mission';
-            $action = 'add';
-            $idEtablissement = $_GET['idEtablissement'];
-    
-            echo formulairesMission($title,null,$titleBtn,$action,null,$allPays,$allTypeActivite,$idEtablissement,null,null);
-            die;
-            
-        } catch (ServiceException $se) {
-            $title = "Ajout d'une mission";
-            $titleBtn = 'ajouter la mission';
-            $action = 'add';
-            $idEtablissement = $_GET['idEtablissement'];
-    
-            echo formulairesMission($title,null,$titleBtn,$action,null,$allPays,$allTypeActivite,$idEtablissement,null,null,$se->getCode());
-            die;
-        }
-    }
+    }  
 }

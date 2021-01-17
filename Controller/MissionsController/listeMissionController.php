@@ -12,17 +12,15 @@ $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 
 $serviceMission = new ServiceMission();
-$serviceTypeActivite = new ServiceTypeActivite();
-$servicePays = new ServicePays();  
 try {
     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
     
-    echo listeMissions($serviceMission,$serviceTypeActivite,$servicePays,$professionnel);  
+    echo listeMissions($professionnel);  
 } 
 catch (ServiceException $se) {
     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
     
-    echo listeMissions($serviceMission,$serviceTypeActivite,$servicePays,$professionnel,$se->getCode());  
+    echo listeMissions($professionnel,$se->getCode());  
 
 }
 

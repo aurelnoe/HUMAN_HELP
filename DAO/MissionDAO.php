@@ -98,9 +98,9 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
             $stmt->bindParam(':idEtablissement', $getIdEtablissement);
             $stmt->bindParam(':idTypeActivite', $getIdTypeActivite);
             $stmt->bindParam(':idMission', $getIdMission);
-            if ($stmt->execute()) {
-                throw new DAOException('La mission a bien été mise à jour',9958);
-            }
+            // if ($stmt->execute()) {
+            //     throw new DAOException('La mission a bien été mise à jour',9958);
+            // }
             $stmt->execute();
         }
         catch (PDOException $e){

@@ -48,7 +48,6 @@ class ServiceTypeActivite
         } 
     }
 
-
     /**
      * Get the value of TypeActiviteDAO
      */ 

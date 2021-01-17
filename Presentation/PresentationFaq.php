@@ -4,7 +4,7 @@ require_once("../../Presentation/PresentationCommun.php");
 function faq()
 {
     echo head();
-?>
+    ?>
     <body>
         <?php
          include("../../Templates/Bases/navbarDev.php");
@@ -136,8 +136,7 @@ function faq()
          echo footer();
         ?>
     </body>
-
     </html>
-<?php
+    <?php
 }
 ?>

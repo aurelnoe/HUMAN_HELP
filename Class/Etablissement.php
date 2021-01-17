@@ -10,15 +10,13 @@ class Etablissement {
     private $mailEtablissement;
     private $telEtablissement;
     private $dateAjoutEtablissement;
-    private $idUtilisateur;           
-    //private $idTypeActivite;          
+    private $idUtilisateur;              
     private $idPays;
     
     public function __toString(){
         return
         $this->idEtablissement .
         $this->denomination .
-        $this->adresseEtablissement .
         $this->adresseEtablissement .
         $this->villeEtablissement .
         $this->codePostalEtablissement .

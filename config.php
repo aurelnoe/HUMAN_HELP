@@ -16,6 +16,32 @@ function nameRole($idRole): string
     }
     return $role;
 }
+/*** Affichage valeur des clés secondaires */
+function searchNamePaysById($id):void
+{
+    $servicePays = new ServicePays();
+    echo utf8_encode($servicePays->searchNameById($id));
+}
+function searchNameTypeActivityById($id):void
+{
+    $serviceTypeActivite = new ServiceTypeActivite();
+    echo utf8_encode($serviceTypeActivite->searchNameById($id));
+}
+function searchContinentById($id):void
+{
+    $servicePays = new ServicePays();
+    echo utf8_encode($servicePays->searchContinentById($id));
+}
+function searchDenominationById($id):void
+{
+    $serviceEtablissement = new ServiceEtablissement();
+    echo utf8_encode($serviceEtablissement->searchNameById($id));
+}
+function searchMissionsById($idPays,$idTypeActivite,$idTypeFormation):array
+{
+    $serviceMission = new ServiceMission();
+    return $serviceMission->searchMissions($idPays,$idTypeActivite,$idTypeFormation);
+}
 
 /***** ID BASE DE DONNEES */
 

@@ -14,19 +14,24 @@ $_POST = array_map('htmlentities',$_POST);
 /************************** AJOUT UTILISATEUR ***************************/
 if(!empty($_GET['action']) && isset($_GET['action']))
 {
-    $newPays = new ServicePays();
+    $servicePays = new ServicePays();
+    $allPays = $servicePays->searchAll();
     
-    if ($_GET['action'] == 'formAjout')
+    if ($_GET['action'] == 'formAjout')  //ADD USER
     {
-        // session_destroy();
         try {
-            $allPays = $newPays->searchAll();
-            echo formulairesUtilisateur('Inscrivez vous','','Ajouter','add',$allPays);
+            $tabAffichageFormAddUser = array(
+                'title' => 'Inscrivez vous',
+                'titleBtn' => 'Ajouter',
+                'action' => 'add',
+                'allPays' => $allPays
+            );
+
+            echo formulairesUtilisateur($tabAffichageFormAddUser,'');
             die;       
         } 
         catch (ServiceException $se) {
-            $allPays = $newPays->searchAll();
-            echo formulairesUtilisateur('Inscrivez vous','','Ajouter','add',$allPays,$se->getCode());
+            echo formulairesUtilisateur($tabAffichageFormAddUser,'',$se->getCode());
             die;
         }
     }
@@ -34,19 +39,23 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     {   
         session_start();
         try {
-            $allPays = $newPays->searchAll();
+            $tabAffichageFormUpdateUser = array(
+                'title' => 'Modifier vos informations personnelles',
+                'titleBtn' => 'Modifier',
+                'action' => 'update',
+                'allPays' => $allPays
+            );
             $service = new ServiceUtilisateur();
             $utilisateur = $service->searchById(($_SESSION ['idUtil']));
     
-            echo formulairesUtilisateur('Modifier',$utilisateur,'Modifier','update',$allPays);
+            echo formulairesUtilisateur($tabAffichageFormUpdateUser,$utilisateur);
             die;
         } 
         catch (ServiceException $se) {
-            $allPays = $newPays->searchAll();
             $service = new ServiceUtilisateur();
             $utilisateur = $service->searchById(($_SESSION['idUtil']));
     
-            echo formulairesUtilisateur('Modifier',$utilisateur,'Modifier','update',$allPays,$se->getCode());
+            echo formulairesUtilisateur($tabAffichageFormUpdateUser,$utilisateur,$se->getCode());
             die;
         }
     }

@@ -1,7 +1,7 @@
 <?php 
 require_once("../../Presentation/PresentationCommun.php");
 
-function listeMissionsPro($missions,$serviceTypeActivite=null,$servicePays=null,$etablissementPro=null,$utilisateur,$errorCode=null,$message=null) 
+function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCode=null,$message=null) 
 {
     echo head();
     ?>
@@ -53,7 +53,7 @@ function listeMissionsPro($missions,$serviceTypeActivite=null,$servicePays=null,
                         <div class="pl-1">
                             <p class="my-3"><strong>Libellé voie :</strong> <?php echo $etablissementPro->getAdresseEtablissement();?></p>
                             <p><strong>Ville :</strong> <?php echo $etablissementPro->getVilleEtablissement();?></p>
-                            <p><strong>Pays :</strong> <?php echo $servicePays->searchNameById($etablissementPro->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($etablissementPro->getIdPays()); ?>)</p>
+                            <p><strong>Pays :</strong> <?php searchNamePaysById($etablissementPro->getIdPays()); ?> (<?php searchContinentById($etablissementPro->getIdPays()); ?>)</p>
                         </div>
                     </div>
                 </div>
@@ -81,8 +81,8 @@ function listeMissionsPro($missions,$serviceTypeActivite=null,$servicePays=null,
                             <img src="/HUMAN_HELP\images\informatiqueAfrique.jpg" width="100" height="320" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">Titre : <?php echo ucfirst(utf8_encode($mission->getTitreMission())); ?></h5>
-                                <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($mission->getIdTypeActivite())); ?></p>
-                                <p class="card-text">Pays : <?php echo $servicePays->searchNameById($mission->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($mission->getIdPays()); ?>)</p>
+                                <p class="card-text">Type d'activité : <?php echo searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
+                                <p class="card-text">Pays : <?php searchNamePaysById($mission->getIdPays()); ?> (<?php echo searchContinentById($mission->getIdPays()); ?>)</p>
                                 <p class="card-text">Date de début : <?php echo $mission->getDateDebut()->format('d-m-Y'); ?></p>
                             </div>
                             <div class="card-footer">
@@ -116,7 +116,7 @@ function listeMissionsPro($missions,$serviceTypeActivite=null,$servicePays=null,
 
         </div>
         <?php      
-        include("../../Templates/Bases/footer.php") 
+        echo footer();
         ?>
     </body>
     </html>
@@ -189,14 +189,14 @@ function searchMission($missions,$title=null,$errorCode=null)
 
         </div>
         <?php      
-            include("../../Templates/Bases/footer.php") 
+            echo footer();
         ?>
     </body>
     </html>
     <?php
 }
 
-function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePays=null,$professionnel,$errorCode=null)
+function listeMissions($professionnel,$errorCode=null)
 {
     echo head();
     ?> 
@@ -274,7 +274,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                     
                     <ol class="carousel-indicators">
                         <?php 
-                        $medecines=$serviceMission->searchMissions(null,ID_MEDECINE,null);
+                        $medecines=searchMissionsByid(null,ID_MEDECINE,null);
                         foreach ($medecines as $key => $medecine) {
                             ?>
                             <li data-target="#carouselMedecine" data-slide-to="<?php echo $key; ?>"
@@ -298,8 +298,8 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                                             <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
                                             <div class="card-body">
                                                 <h5 class="card-title">Titre : <?php echo utf8_encode($medecine->getTitreMission()); ?></h5>
-                                                <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($medecine->getIdTypeActivite())); ?></p>
-                                                <p class="card-text">Pays : <?php echo $servicePays->searchNameById($medecine->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($medecine->getIdPays()); ?>)</p>
+                                                <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($medecine->getIdTypeActivite()); ?></p>
+                                                <p class="card-text">Pays : <?php searchNamePaysById($medecine->getIdPays()); ?> (<?php searchContinentById($medecine->getIdPays()); ?>)</p>
                                                 <p class="card-text">Date de début : <?php echo $medecine->getDateDebut()->format('d-m-Y'); ?></p>
                                             </div>                   
                                             <div class="card-footer">
@@ -336,7 +336,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                 <div id="carouselDonations" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
                     <ol class="carousel-indicators">
                         <?php 
-                        $donations=$serviceMission->searchMissions(null,ID_DONATION,null);
+                        $donations=searchMissionsByid(null,ID_DONATION,null);
                         foreach ($donations as $key => $donation) {
                             ?>
                             <li data-target="#carouselDonations" data-slide-to="<?php echo $key; ?>"
@@ -362,8 +362,8 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                                         <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($donation->getTitreMission()); ?></h5>
-                                            <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($donation->getIdTypeActivite())); ?></p>
-                                            <p class="card-text">Pays : <?php echo $servicePays->searchNameById($donation->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($donation->getIdPays()); ?>)</p>
+                                            <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($donation->getIdTypeActivite()); ?></p>
+                                            <p class="card-text">Pays : <?php echo searchNamePaysById($donation->getIdPays()); ?> (<?php searchContinentById($donation->getIdPays()); ?>)</p>
                                             <p class="card-text">Date de début : <?php echo $donation->getDateDebut()->format('d-m-Y'); ?></p>                                        
                                         </div>
                                         <div class="card-footer">
@@ -404,7 +404,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                 <div id="carouselEnseignement" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
                     <ol class="carousel-indicators">
                         <?php 
-                        $enseignements=$serviceMission->searchMissions(null,ID_ENSEIGNEMENT,null);
+                        $enseignements=searchMissionsByid(null,ID_ENSEIGNEMENT,null);
                         foreach ($enseignements as $key => $enseignement) {
                             ?>
                             <li data-target="#carouselEnseignement" data-slide-to="<?php echo $key; ?>"
@@ -428,8 +428,8 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                                         <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($enseignement->getTitreMission()); ?></h5>
-                                            <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($enseignement->getIdTypeActivite())); ?></p>
-                                            <p class="card-text">Pays : <?php echo $servicePays->searchNameById($enseignement->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($enseignement->getIdPays()); ?>)</p>
+                                            <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($enseignement->getIdTypeActivite()); ?></p>
+                                            <p class="card-text">Pays : <?php searchNamePaysById($enseignement->getIdPays()); ?> (<?php searchContinentById($enseignement->getIdPays()); ?>)</p>
                                             <p class="card-text">Date de début : <?php echo $enseignement->getDateDebut()->format('d-m-Y'); ?></p>                                        
                                         </div>
                                         <div class="card-footer">
@@ -470,7 +470,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                     
                     <ol class="carousel-indicators">
                         <?php 
-                        $constructions=$serviceMission->searchMissions(null,ID_CONSTRUCTION,null);
+                        $constructions=searchMissionsByid(null,ID_CONSTRUCTION,null);
                         foreach ($constructions as $key => $construction) {
                             ?>
                             <li data-target="#carouselConstructions" data-slide-to="<?php echo $key; ?>"
@@ -494,8 +494,8 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                                         <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($construction->getTitreMission()); ?></h5>
-                                            <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($construction->getIdTypeActivite())); ?></p>
-                                            <p class="card-text">Pays : <?php echo $servicePays->searchNameById($construction->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($construction->getIdPays()); ?>)</p>
+                                            <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($construction->getIdTypeActivite()); ?></p>
+                                            <p class="card-text">Pays : <?php searchNamePaysById($construction->getIdPays()); ?> (<?php searchContinentById($construction->getIdPays()); ?>)</p>
                                             <p class="card-text">Date de début : <?php echo $construction->getDateDebut()->format('d-m-Y'); ?></p>
                                         </div>                   
                                         <div class="card-footer">
@@ -535,7 +535,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                     
                     <ol class="carousel-indicators">
                         <?php 
-                        $traductions=$serviceMission->searchMissions(null,ID_TRADUCTION,null);
+                        $traductions=searchMissionsByid(null,ID_TRADUCTION,null);
                         foreach ($traductions as $key => $traduction) {
                             ?>
                             <li data-target="#carouselTraductions" data-slide-to="<?php echo $key; ?>"
@@ -559,8 +559,8 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
                                         <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($traduction->getTitreMission()); ?></h5>
-                                            <p class="card-text">Type d'activité : <?php echo utf8_encode($serviceTypeActivite->searchNameById($traduction->getIdTypeActivite())); ?></p>
-                                            <p class="card-text">Pays : <?php echo $servicePays->searchNameById($traduction->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($traduction->getIdPays()); ?>)</p>
+                                            <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($traduction->getIdTypeActivite()); ?></p>
+                                            <p class="card-text">Pays : <?php searchNamePaysById($traduction->getIdPays()); ?> (<?php searchContinentById($traduction->getIdPays()); ?>)</p>
                                             <p class="card-text">Date de début : <?php echo $traduction->getDateDebut()->format('d-m-Y'); ?></p>
                                         </div>                   
                                         <div class="card-footer">
@@ -596,7 +596,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
             <hr class="my-4">
         </div>
         <?php      
-        include("../../Templates/Bases/footer.php") 
+        echo footer();
         ?>
     </body>
     </html>
@@ -604,7 +604,7 @@ function listeMissions($serviceMission=null,$serviceTypeActivite=null,$servicePa
 <?php
 }
 
-function detailsMission($mission,$servicePays=null,$serviceTypeActivite=null,$serviceEtablissement=null,$professionnel,$errorCode=null,$message=null)
+function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
 {
     echo head();
     ?> 
@@ -637,10 +637,10 @@ function detailsMission($mission,$servicePays=null,$serviceTypeActivite=null,$se
                 <div class="col-10 col-md-6">
                     <ul class="liDetailsMission">
                         <li><strong>Titre de la mission :</strong> <?php echo $mission->getTitreMission(); ?></li>
-                        <li><strong>Type d'activité :</strong> <?php echo utf8_encode($serviceTypeActivite->searchNameById($mission->getIdTypeActivite())); ?></li>
+                        <li><strong>Type d'activité :</strong> <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></li>
                         <li><strong>Mission :</strong> <?php echo ($mission->getTypeFormation() == 0) ? 'à distance' : 'sur le terrain'; ?></li>
-                        <li><strong>Pays :</strong> <?php echo $servicePays->searchNameById($mission->getIdPays()); ?> (<?php echo $servicePays->searchContinentById($mission->getIdPays()); ?>)</li>
-                        <li><strong>Organisateur :</strong> <?php echo utf8_encode($serviceEtablissement->searchNameById($mission->getIdEtablissement())); ?></li>
+                        <li><strong>Pays :</strong> <?php searchNamePaysById($mission->getIdPays()); ?> (<?php searchContinentById($mission->getIdPays()); ?>)</li>
+                        <li><strong>Organisateur :</strong> <?php searchDenominationById($mission->getIdEtablissement()); ?></li>
                         <li><strong>Durée de la mission :</strong> <?php echo $mission->getDuree(); ?> jours</li>
                         <li><strong>Date début :</strong> <?php echo $mission->getDateDebut()->format('d-m-Y'); ?></li>
                     </ul>
@@ -743,14 +743,14 @@ function detailsMission($mission,$servicePays=null,$serviceTypeActivite=null,$se
             
         </div>
         <?php      
-        include("../../Templates/Bases/footer.php") 
+        echo footer();
         ?>
     </body>
     </html>
 <?php
 }
 
-function formulairesMission(string $title,$mission=null,string $titleBtn,string $action,int $idMission=null,$allPays,$allTypeActivite,int $idEtablissement=null,$servicePays=null,$serviceTypeActivite=null)
+function formulairesMission(array $tabAffichageFormMission,$mission=null)
 {
     echo head();
     ?>
@@ -759,11 +759,13 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
         include("../../Templates/Bases/navbarDev.php");
 
         include("../../Templates/Bases/navbar.php");
-        
+        $action = $tabAffichageFormMission['action'];
+        $idMission = $tabAffichageFormMission['idMission'];
+        $idEtablissement = $tabAffichageFormMission['idEtablissement'];
         ?>
         <div class="col-12 col-md-6 container pt-4 my-4 border rounded">
 
-            <h2 class="text-center my-2 pb-2"><?php echo $title; ?></h2>
+            <h2 class="text-center my-2 pb-2"><?php echo $tabAffichageFormMission['title']; ?></h2>
 
             <form class="needs-validation p-3" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=$action" 
                                                                                     : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=$action" ?> 
@@ -786,13 +788,13 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
                         <label class="h-50" for="idPays">Pays concerné</label>
                         <select type="number" name="idPays" class="custom-select list-group d-block h-50 w-100" required>
                             <option class="list-group-item" value="<?php echo (($_GET['action']) == 'update') ? $mission->getIdPays() : '' ?>">
-                                <?php echo (($_GET['action']) == 'update') ? $servicePays->searchNameById($mission->getIdPays()) : 'Choisissez...' ?>
+                                <?php echo (($_GET['action']) == 'update') ? searchNamePaysById($mission->getIdPays()) : 'Choisissez...' ?>
                             </option>
 
                             <?php 
                             foreach ($allPays as $pays) : ?>
                                 <option value="<?php echo $pays->getIdPays(); ?>" class="list-group-item">
-                                    <?php echo $pays->getNomPays(); ?>
+                                    <?php echo utf8_encode($pays->getNomPays()); ?>
                                 </option>
                             <?php endforeach ?>
                         </select>
@@ -805,7 +807,7 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
                         <label class=" h-50" for="idTypeActivite">Type d'activité</label>
                         <select name="idTypeActivite" class="custom-select list-group d-block h-50 w-100" required>
                             <option class="list-group-item" value="<?php echo (($_GET['action']) == 'update') ? $mission->getIdTypeActivite() : '' ?>">
-                                <?php echo (($_GET['action']) == 'update') ? utf8_encode($serviceTypeActivite->searchNameById($mission->getIdTypeActivite())) : 'Choisissez...' ?>
+                                <?php echo (($_GET['action']) == 'update') ? searchNameTypeActivityById($mission->getIdTypeActivite()) : 'Choisissez...' ?>
                             </option>
                             <?php foreach ($allTypeActivite as $typeActivite) : ?>
                                 <option value="<?php echo $typeActivite->getIdTypeActivite(); ?>" class="list-group-item">
@@ -864,12 +866,12 @@ function formulairesMission(string $title,$mission=null,string $titleBtn,string 
 
                 <hr class="mb-4 mt-4">
                 
-                <button class="btn btnGreen btn-lg btn-block mb-5" type="submit"><?php echo $titleBtn;?></button>
+                <button class="btn btnGreen btn-lg btn-block mb-5" type="submit"><?php echo $tabAffichageFormMission['titleBtn'];?></button>
                 <a href="listeMissionController.php" class="btn btn-primary w-100">Retour à la liste des missions</a>
             </form>   
         </div>
         <?php      
-        include("../../Templates/Bases/footer.php") 
+        echo footer();
         ?>
     </body>
     </html>
@@ -940,7 +942,7 @@ function formParticipationMission($mission)
 
         </div>
         <?php      
-        include("../../Templates/Bases/footer.php") 
+        echo footer();
         ?>
     </body>
     </html>

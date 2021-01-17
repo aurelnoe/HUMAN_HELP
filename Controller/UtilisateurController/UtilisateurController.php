@@ -59,17 +59,20 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                     header("location: ../../index.php?action=ajout");
                     die;
                 }
-                elseif($idRole==2) {  //Professionnel
+                elseif($idRole==2) {  //Professionnel => ADD ETABLISSEMENT  
                     
                     // header("location: Controller/EtablissementsController/formulaireEtablissementController.php?action=add&mail=$mailUtil");
                     // die;
-                    $title = "Ajout d'un établissement";
-                    $titleBtn = "Ajouter l'établissement";
-                    $action = 'addEtablissement';
-                    $newPays = new ServicePays();
-                    $allPays = $newPays->searchAll();
+                    $servicePays = new ServicePays();
                     $user = $serviceUtilisateur->searchUserbyMail($mailUtil);
-                    $idUtil = $user->getIdUtilisateur();
+                    $tabAffichFormAddEtab = array(
+                        'title' => "Ajouter votre établissement",
+                        'titleBtn' => "Ajouter l'établissement",
+                        'action' => 'addEtablissement',
+                        'idEtablissement' => null,
+                        'idUtilisateur' => $user->getIdUtilisateur(),
+                        'allPays' => $servicePays->searchAll(),
+                    );
 
                     $_SESSION['mailUtil'] = $mailUtil;
                     $_SESSION['idUtil'] = $idUtil;
@@ -79,7 +82,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                     
                     if ($professionnel) 
                     {
-                        echo formulairesEtablissement($title,null,null,$idUtil,$allPays,$titleBtn,$action);
+                        echo formulairesEtablissement($tabAffichFormAddEtab,null);
                         die;           
                     }
                     else {

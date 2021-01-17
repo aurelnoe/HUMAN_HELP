@@ -39,14 +39,14 @@ function connexion($message=null,$errorCode=null)
             </form>
         </div>
         <?php      
-        include("../../Templates/Bases/footer.php") 
+        echo footer();
         ?>
     </body>
     </html>
 <?php
 }
 
-function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn,string $action,array $allPays=null)
+function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
 {
     echo head();
     ?>
@@ -57,33 +57,33 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
         ?>
         <div class="col-12 col-md-5 container my-4 borderGreen rounded">    
             
-            ​<form class="form p-4" action="utilisateurController.php?action=<?php echo $action; ?>" method="POST" novalidate>
-                ​<h2 class="text-center pb-2"><?php echo $title; ?></h2>
+            ​<form class="form p-4" action="utilisateurController.php?action=<?php echo $tabAffichageFormUser['action']; ?>" method="POST" novalidate>
+                ​<h2 class="text-center pb-2"><?php echo $tabAffichageFormUser['title']; ?></h2>
                         ​
-                <hr class="mb-4">
+                <hr class="mb-4 hrGreen">
 
                 <div class="d-block mb-2 form-group">
-                    <label for="idRole">Role</label>
-                    <div class="row">
+                    <label class="text-center w-100 my-2" for="idRole">Vous êtes ?</label>
+                    <div class="row justify-content-between">
                         <div class="custom-control col-4 col-md-3 custom-radio mx-4">
-                            <input name="idRole" value="1" id="particulier" type="radio" class="custom-control-input" <?php echo ($action=='update' && $utilisateur->getIdRole()==0) ? 'checked' : '' ?>>
+                            <input name="idRole" value="1" id="particulier" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getIdRole()==0) ? 'checked' : '' ?>>
                             <label for="particulier" class="custom-control-label">Particulier</label>
                         </div>
                         <div class="custom-control col-4 col-md-3 custom-radio mx-2">
-                            <input name="idRole" value="2" id="professionnel" type="radio" class="custom-control-input" <?php echo ($action=='update' && $utilisateur->getIdRole()==1) ? 'checked' : '' ?>>
+                            <input name="idRole" value="2" id="professionnel" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getIdRole()==1) ? 'checked' : '' ?>>
                             <label for="professionnel" class="custom-control-label">Professionnel</label>
                         </div>
                     </div>  
                 </div>
-
-                <div class="d-block mb-2 form-group">
-                    <label for="civilite">Civilite</label>
+                <hr class="hrGreenLight w-75 mx-auto">
+                <div class="d-block my-3 form-group">
+                    <label for="civilite">Civilité</label>
                     <div class="row">
-                        <div class="custom-control col-4 col-md-3 custom-radio mx-4">
+                        <div class="custom-control col-4 col-md-2 custom-radio mx-4">
                             <input name="civilite" value="1" id="homme" type="radio" class="custom-control-input">
                             <label for="homme" class="custom-control-label">Homme</label>
                         </div>
-                        <div class="custom-control col-4 col-md-3 custom-radio mx-2">
+                        <div class="custom-control col-4 col-md-2 custom-radio mx-2">
                             <input name="civilite" value="2" id="femme" type="radio" class="custom-control-input">
                             <label for="femme" class="custom-control-label">Femme</label>
                         </div>
@@ -92,7 +92,7 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
 
                 <div class="form-group mb-0">
                     <label for="pseudo">Pseudo</label>
-                    <input type="text" class="form-control" name="pseudo" placeholder="" value="<?php echo ($_GET['action'] == 'update') ? $utilisateur->getPseudo() : ''; ?>" required>
+                    <input type="text" class="form-control" name="pseudo" placeholder="" value="<?php echo ($_GET['action'] == 'formModif') ? $utilisateur->getPseudo() : ''; ?>" required>
                 </div>
 
                 <div class="form-group mb-0">
@@ -155,7 +155,9 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
                         <option class="list-group-item" value="<?php echo (($_GET['action']) == 'formModif') ? $utilisateur->getIdPays() : '' ?>">
                             <?php echo (($_GET['action']) == 'formModif') ? $newPays->searchNameById($utilisateur->getIdPays()) : 'Choisissez...' ?>
                         </option>
-                        <?php foreach ($allPays as $pays) : ?>
+                        <?php 
+                        $allPays = $tabAffichageFormUser['allPays'];
+                        foreach ($allPays as $pays) : ?>
                             <option value=<?php echo $pays->getIdPays(); ?> class="list-group-item">
                                 <?php echo utf8_encode($pays->getNomPays()); ?>
                             </option>
@@ -168,21 +170,25 @@ function formulairesUtilisateur(string $title,$utilisateur=null,string $titleBtn
 
                 <div class="mb-2 form-group form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">se souvenirs de moi</label>
+                    <label class="form-check-label" for="exampleCheck1">
+                        se souvenirs de moi
+                    </label>
                 </div>
 
                 <hr class="mb-4 mt-4">
                 
                 <button class="btn btnGreen btn-lg btn-block mb-5 w-100 text-center mx-auto" type="submit">
-                    <?php echo $titleBtn;?>
+                    <?php echo $tabAffichageFormUser['titleBtn'];?>
                 </button>
                 <div class="w-100 m-auto text-center">
-                    <a href="../index.php" class="btn btn-primary w-100 text-center mx-auto">Retour à l'accueil</a>    
+                    <a href="../../index.php" class="btn btn-primary w-100 text-center mx-auto">
+                        Retour à l'accueil
+                    </a>    
                 </div>
             </form>
         </div>
         <?php      
-        include("../../Templates/Bases/footer.php") 
+        echo footer(); 
         ?>
     </body>
     </html>
@@ -237,7 +243,8 @@ function modifMotDePasse()
     <?php
 }
 
-function detailUtilisateur($utilisateur = null){
+function detailUtilisateur($utilisateur = null)
+{
     echo head();
     ?>
     <body>
@@ -301,11 +308,11 @@ function detailUtilisateur($utilisateur = null){
                 </div>
         <hr class="my-4">
     </div>
-<?php      
-        include("../../Templates/Bases/footer.php") 
+    <?php      
+        echo footer();
         ?>
     </body>
     </html>
-<?php
+    <?php
  
 }

@@ -111,6 +111,11 @@ body{
   height: 0px!important;
   opacity: 0.65;
 }
+.hrGreenLight{
+  border-top: 2px outset #58b368!important;
+  height: 0px!important;
+  opacity: 0.65;
+}
 
 .custom-control-label{
   font-weight: inherit!important;

@@ -1,6 +1,7 @@
 <?php
 include_once("Controller/AccueilController.php");
 include_once("Presentation/PresentationAccueil.php");
+include_once("Presentation/PresentationCommun.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">    
@@ -16,9 +17,9 @@ include_once("Presentation/PresentationAccueil.php");
     
     echo (isset($_GET['action']) && $_GET['action']=='ajout') ? '<div class="alert alert-success text-center">L\'utilisateur a été ajouté avec succès !</div>': '';
     
-    echo accueil($articles,$missionsADistance,$allMissions,$newTypeActivite,$newPays); 
+    echo accueil($articles,$missionsADistance,$allMissions); 
          
-    include("Templates/Bases/footer.php") 
+    echo footer(); 
     ?>
 </body>
 </html>

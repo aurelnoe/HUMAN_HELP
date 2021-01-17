@@ -1,6 +1,6 @@
 <?php
 
-function Accueil(array $articles=null,array $missionsADistance=null,array $allMissions=null,$newtypeActivite=null,$newPays=null)
+function Accueil(array $articles=null,array $missionsADistance=null,array $allMissions=null)
 {
 ?>
 	<div class="container">
@@ -48,8 +48,8 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 									<img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
 									<div class="card-body">
 										<h5 class="card-title">Titre : <?php echo utf8_encode($mission->getTitreMission()); ?></h5>
-										<p class="card-text">Type d'activité : <?php echo utf8_encode($newtypeActivite->searchNameById($mission->getIdTypeActivite())); ?></p>
-										<p class="card-text">Pays : <?php echo $newPays->searchNameById($mission->getIdPays()); ?> (<?php echo $newPays->searchContinentById($mission->getIdPays()); ?>)</p>
+										<p class="card-text">Type d'activité : <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
+										<p class="card-text">Pays : <?php searchNamePaysById($mission->getIdPays()); ?> (<?php searchContinentById($mission->getIdPays()); ?>)</p>
 										<p class="card-text">Date de début : <?php echo $mission->getDateDebut()->format('d-m-Y'); ?></p>
 									</div>
 									<div class="card-footer">
@@ -236,8 +236,8 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 									<img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
 									<div class="card-body">
 										<h5 class="card-title">Titre : <?php echo utf8_encode($mission->getTitreMission()); ?></h5>
-										<p class="card-text">Type d'activité : <?php echo utf8_encode($newtypeActivite->searchNameById($mission->getIdTypeActivite())); ?></p>
-										<p class="card-text">Pays : <?php echo $newPays->searchNameById($mission->getIdPays()); ?> (<?php echo $newPays->searchContinentById($mission->getIdPays()); ?>)</p>
+										<p class="card-text">Type d'activité : <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
+										<p class="card-text">Pays : <?php searchNamePaysById($mission->getIdPays()); ?> (<?php searchContinentById($mission->getIdPays()); ?>)</p>
 										<p class="card-text">Date de début : <?php echo $mission->getDateDebut()->format('d-m-Y'); ?></p>
 									</div>
 									<div class="card-footer">

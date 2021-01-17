@@ -62,7 +62,7 @@ if ($professionnel)
                     $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
                     $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
                     
-                    echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur);
+                    echo listeMissionsPro($missions,$etablissement,$utilisateur);
                     die;
                 } 
                 catch (ServiceException $se) {
@@ -74,7 +74,7 @@ if ($professionnel)
                         
                         $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
                         
-                        echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur,$se->getCode());
+                        echo listeMissionsPro($missions,$etablissement,$utilisateur,$se->getCode());
                         die;           
                     }
                     else {
@@ -112,7 +112,7 @@ if ($professionnel)
                     $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
                     $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
                     
-                    echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur);
+                    echo listeMissionsPro($missions,$etablissement,$utilisateur);
                     die;  
                 }
                 catch (ServiceException $se) {
@@ -133,16 +133,16 @@ if ($professionnel)
                 $idUtilisateur = $_POST['idUtilisateur'];
                 $idPays = $_POST['idPays'];
 
-                $etablissement->setIdEtablissement($idEtablissement)
-                            ->setDenomination($denomination)
-                            ->setAdresseEtablissement($adresseEtablissement)
-                            ->setVilleEtablissement($villeEtablissement)
-                            ->setCodePostalEtablissement($codePostalEtablissement)
-                            ->setMailEtablissement($mailEtablissement)
-                            ->setTelEtablissement($telEtablissement)
-                            ->setDateAjoutEtablissement($dateAjoutEtablissement)
-                            ->setIdUtilisateur($idUtilisateur)
-                            ->setIdPays($idPays);
+                $etablissement  ->setIdEtablissement($idEtablissement)
+                                ->setDenomination($denomination)
+                                ->setAdresseEtablissement($adresseEtablissement)
+                                ->setVilleEtablissement($villeEtablissement)
+                                ->setCodePostalEtablissement($codePostalEtablissement)
+                                ->setMailEtablissement($mailEtablissement)
+                                ->setTelEtablissement($telEtablissement)
+                                ->setDateAjoutEtablissement($dateAjoutEtablissement)
+                                ->setIdUtilisateur($idUtilisateur)
+                                ->setIdPays($idPays);
                 try {
                     $serviceEtablissement->update($etablissement);   
                     
@@ -150,7 +150,7 @@ if ($professionnel)
                     $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
                     $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
                     
-                    echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur);
+                    echo listeMissionsPro($missions,$etablissement,$utilisateur);
                     die;            
                 }
                 catch (ServiceException $se) {
@@ -158,7 +158,7 @@ if ($professionnel)
                     $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
                     $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
                     
-                    echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur,$se->getCode());
+                    echo listeMissionsPro($missions,$etablissement,$utilisateur,$se->getCode());
                     die;  
                 }
             }
@@ -173,7 +173,7 @@ if ($professionnel)
                 $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
                 $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
                 
-                echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur,$se->getCode());
+                echo listeMissionsPro($missions,$etablissement,$utilisateur,$se->getCode());
                 die;
             }
             catch (ServiceException $se) {
@@ -181,7 +181,7 @@ if ($professionnel)
                 $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
                 $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
                 
-                echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur,$se->getCode());
+                echo listeMissionsPro($missions,$etablissement,$utilisateur,$se->getCode());
                 die;           
             }
         }
@@ -191,7 +191,7 @@ if ($professionnel)
         $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
         $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
         
-        echo listeMissionsPro($missions,$serviceTypeActivite,$servicePays,$etablissement,$utilisateur);
+        echo listeMissionsPro($missions,$etablissement,$utilisateur);
         die;
     }
 }

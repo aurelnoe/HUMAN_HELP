@@ -15,9 +15,6 @@ $_POST = array_map('htmlentities',$_POST);
 if(!empty($_GET))
 {
     $serviceMission = new ServiceMission(); 
-    $servicePays = new ServicePays();
-    $serviceTypeActivite = new ServiceTypeActivite();
-    $serviceEtablissement = new ServiceEtablissement();
 
     $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
     
@@ -26,18 +23,18 @@ if(!empty($_GET))
         try {
             $mission = $serviceMission->searchById($_GET['idMission']);
         
-            echo detailsMission($mission,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel,null,null);       
+            echo detailsMission($mission,$professionnel,null,null);       
         }
         catch (ServiceException $se) {
-            echo listeMissions($serviceMission,$serviceTypeActivite,$servicePays,$professionnel,$se->getCode());
+            echo listeMissions($serviceMission,$professionnel,$se->getCode());
         }
     }
     elseif(!empty($_GET['action']) && isset($_GET['action']) && $professionnel)
     {
-        if (!empty($_POST) && isset($_POST)) 
+        if (!empty($_POST) && isset($_POST)) //UPDATE MISSION
         {
             if($_GET['action'] == 'update' && isset($_POST['idMission']))
-            {         
+            {        
                 $idMission = $_POST['idMission'];
                 $titreMission = $_POST['titreMission'];
                 $descriptionMission = $_POST['descriptionMission'];
@@ -65,17 +62,17 @@ if(!empty($_GET))
                 try {
                     $serviceMission->update($mission);
     
-                    $mission = $serviceMission->searchById($_GET['idMission']);
+                    $mission = $serviceMission->searchById($idMission);
         
-                    echo detailsMission($mission,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel,null,null);       
+                    echo detailsMission($mission,$professionnel,null,null);       
                     die;
                 }
                 catch (ServiceException $se) {
                     $serviceMission->update($mission);
     
-                    $mission = $serviceMission->searchById($_GET['idMission']);
+                    $mission = $serviceMission->searchById($idMission);
         
-                    echo detailsMission($mission,$servicePays,$serviceTypeActivite,$serviceEtablissement,$professionnel,$se->getCode(),$se->getMessage());       
+                    echo detailsMission($mission,$professionnel,$se->getCode(),$se->getMessage());       
                     die;
                 }        
             }
