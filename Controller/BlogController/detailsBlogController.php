@@ -26,10 +26,10 @@ if (!empty($_GET)) {
             $pseudoUser = $utilisateurService->searchUserNameById($_SESSION['idUtil']);
             $idUser = $_SESSION['idUtil'];
             $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
-            echo detailArticle($article, $avis,$admin,$idUser,$pseudoUser,null);
+            echo detailArticle($article, $avis,$admin,$idUser,$pseudoUser);
             
         } catch (ServiceException $se) {
-            header('Location: ../../index.php');
+            echo listeArticle($article,$admin,$se->getCode());
         }
     }
 }

@@ -66,7 +66,11 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 $newUpdate->update($article); 
             }
             catch (ServiceException $se) {
-                header('Location: ../../index.php');
+                $newUpdate->update($article);
+                $articles = $service->searchAll();
+                $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
+                echo listeArticle($articles,$admin,$se->getCode());       
+                die;
             }
             
         }

@@ -83,7 +83,9 @@ class BlogDAO extends BddConnect implements DAOInterface
             $stmt->bindParam(':dateAjoutArticle', $getDateAjout);
             $stmt->bindParam(':imageArticle', $getImageArticle);
             
-
+            if ($stmt->execute()) {
+                throw new DAOException("L'article a bien été mise à jour",9958);
+            }
             $stmt->execute();
 
                     
@@ -134,14 +136,14 @@ class BlogDAO extends BddConnect implements DAOInterface
              $stmt = $db->prepare($query);
              $stmt->execute();
              $articles = $stmt->fetchAll(PDO::FETCH_CLASS,'Blog');
- 
-             $db = null;
-             $stmt = null;
-             
+            
+             if (empty($articles)) {
+                throw new DAOException("Aucun article n'a été trouvé dans la base de données", 9998);
+            }
              return $articles;
          } 
          catch (PDOException $e){
-            throw new DAOException("Aucun article n'a été trouvé dans la base de données", 9998);
+            throw new DAOException($e->getMessage(),$e->getCode());
         }  
         finally{
             $db = null;
@@ -164,11 +166,13 @@ class BlogDAO extends BddConnect implements DAOInterface
 
             $article = $stmt->fetchAll(PDO::FETCH_CLASS,'Blog');////MYSQLI FETCH ARRAY
             //var_dump($article);
-
+            if (empty($article[0])) {
+                throw new DAOException("L'article n'a pas été trouvé dans la base de données",9999);
+            }
             return $article[0];
         } 
         catch (PDOException $e){
-            throw new DAOException("L'article n'a pas été trouvé dans la base de données",9999);
+            throw new DAOException($e->getMessage(),$e->getCode());
         }  
         finally{
             $db = null;

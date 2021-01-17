@@ -17,6 +17,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
         include("../../Templates/Bases/navbarDev.php");
 
         echo navbar();
+
         ?>
         <div class="container col-12 col-md-6 pt-4 my-4 border rounded">
 
@@ -78,7 +79,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 <?php
 }
 
-function listeArticle($articles, $admin)
+function listeArticle($articles, $admin,$errorCode=null)
 {
     echo head();
 ?>
@@ -88,6 +89,11 @@ function listeArticle($articles, $admin)
         include("../../Templates/Bases/navbarDev.php");
 
         echo navbar();
+        if ($errorCode) {
+            if($errorCode == 9999){    //Error Article not found
+                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+            }  
+        }
         ?>
         <div class="container">
             <h2 class="text-center my-4">Liste des articles</h2>
@@ -148,7 +154,7 @@ function listeArticle($articles, $admin)
 <?php
 }
 
-function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil=null, $AllPseudoUtil=null)
+function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil=null,$errorCode=null,$message=null)
 {
     echo head();
 ?>
@@ -158,6 +164,12 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
         include("../../Templates/Bases/navbarDev.php");
 
         echo navbar();
+        if($errorCode!=null && $errorCode == 1027){
+            $message = "L'article n'a pas était modifiée, une erreur est survenue.";
+            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+        }elseif (isset($errorCode) && $errorCode == 9958) {
+            echo "<div class='alert alert-success text-center'>$message</div>";
+        }
         ?>
         <div class="container">
 
@@ -203,7 +215,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
             if (!empty($_SESSION)) {
             echo FormulaireAvis($article->getIdArticle(),$idUtil, $pseudoUtil);
             }
-            echo listeAvis($avis, $article->getIdArticle(), $AllPseudoUtil);
+            echo listeAvis($avis, $article->getIdArticle());
 
 
             ?>
