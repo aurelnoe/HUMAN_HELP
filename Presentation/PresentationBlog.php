@@ -243,7 +243,7 @@ function FormulaireAvis(int $idArticle,$idUtil=null, $pseudoUtil=null)
             <input type="hidden" id="auteurAvis" name="auteur" value="<?php echo $pseudoUtil; ?>">
             <input type="hidden" name="dateCommentaire" value="<?php echo date("F j, Y, g:i a"); ?>">
             <input type="hidden" id="idUtilisateur" name="idUtilisateur" value="<?php echo $idUtil; ?>">
-            <input type="hidden" id="sessionId" name="sessionId" value="<?php $_SESSION['idUtil'] ?>">
+            
             <textarea class="col mb-3 offset-2" name="temoignage"  placeholder="Ecrivez votre commentaire..." id="temoignage"> </textarea>
             <button class="btn btnGreen btn-lg btn-block mb-3 offset-2" type="submit">Poster un commentaire</button>
         </form>
@@ -263,6 +263,7 @@ function listeAvis($avis, $idArticle)
 
             <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdAvis(); ?>>
             <input type=hidden id="idUtil" value=<?php echo $commentaire->getIdUtilisateur(); ?>>
+            <input type="hidden" id="sessionId" name="sessionId" value="<?php $_SESSION['idUtil'] ?>">
             <div class="avis" style="background: #eee ; border-radius:10px;">
                 <p><span style="font-weight: bold;"> De <?php echo (searchUserNameById($commentaire->getIdUtilisateur()));?> :</span><span id="<?php echo "modifTemoignage" . $commentaire->getIdAvis(); ?>"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
             </div>

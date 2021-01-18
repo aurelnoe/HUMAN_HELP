@@ -62,9 +62,8 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
             try{
                 if ($idUtilisateur == $sessionId){
                  $newUpdate->update($avis); 
-                } else{
-                    header('Location: ../../index.php');
                 }
+                
             }
             catch (ServiceException $se) {
                 header('Location: ../../index.php');
