@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/Class/TypeActivite.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
@@ -33,7 +33,7 @@ class TypeActiviteDAO extends BddConnect implements TypeActiviteInterface
         }
     }
 
-    public function searchById(int $idTypeActivite):array
+    public function searchById(int $idTypeActivite):object
     {
         try 
         {

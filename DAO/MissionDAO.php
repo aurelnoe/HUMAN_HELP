@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/Class/Mission.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
@@ -137,7 +137,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     }
 
     /**************** CHERCHE TOUTES LES MISSIONS ***************/
-    public function searchAll()
+    public function searchAll():array
     {
         try 
         {
@@ -163,7 +163,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     }
 
     /**************** CHERCHE UNE MISSION ***********************/
-    public function searchById(int $idMission)
+    public function searchById(int $idMission):object
     {
         try 
         {
@@ -192,7 +192,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     }
 
     /**************** CHERCHE TOUTES LES MISSIONS D'UN PRO *****OK**/
-    public function searchMissionByPro(int $idEtablissement)
+    public function searchMissionByPro(int $idEtablissement):array
     {
         try {
             $newConnect = new BddConnect();
@@ -216,7 +216,8 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
         }       
     }
 
-    public function searchMissions(int $getIdPays=null,int $getIdTypeActivite=null,int $getTypeFormation=null) {
+    public function searchMissions(int $getIdPays=null,int $getIdTypeActivite=null,int $getTypeFormation=null):array
+    {
         try {
             $newConnect = new BddConnect();
             $db = $newConnect->connexion();

@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 require_once(PATH_BASE . "/Class/Role.php");
 require_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
@@ -30,7 +30,7 @@ class RoleDAO extends BddConnect implements RoleInterface
         }
     }
 
-    public function searchById(int $idRole):array
+    public function searchById(int $idRole):object
     {
         try 
         {

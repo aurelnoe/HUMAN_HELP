@@ -1,9 +1,10 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/Class/Utilisateur.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
 include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
+include_once(PATH_BASE . "/Interfaces/UtilisateurInterface.php");
 
 class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInterface
 {
@@ -176,7 +177,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
     }
 
     //*********************FONCTION CHERCHER UTILISATEUR PAR ID**************** */
-    public function searchById($idUtilisateur):array
+    public function searchById($idUtilisateur):object
     {
         try
         {
@@ -201,7 +202,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
     }
 
     //*********************FONCTION CHERCHER UTILISATEUR PAR ID**************** */
-    public function searchUserbyMail($mailUtil):array
+    public function searchUserbyMail($mailUtil):object
     {
         try
         {

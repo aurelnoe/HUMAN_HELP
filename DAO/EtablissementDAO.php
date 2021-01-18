@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 require_once(PATH_BASE . "/Class/Etablissement.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
@@ -131,7 +131,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
         }        
     }
 
-    public function searchById(int $idEtablissement)
+    public function searchById(int $idEtablissement):object
     {
         try 
         {
@@ -157,7 +157,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
         }
     }
 
-    public function searchAll()
+    public function searchAll():array
     {
         try 
         {
@@ -181,7 +181,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
         }
     }
 
-    public function searchNameById(int $idEtablissement)
+    public function searchNameById(int $idEtablissement):string
     {
         try
         {
@@ -206,7 +206,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
         }
     }
 
-    public function searchEtablissementByIdUtilisateur(int $idUtilisateur)
+    public function searchEtablissementByIdUtilisateur(int $idUtilisateur):object
     {
         try
         {

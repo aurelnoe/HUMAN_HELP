@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/Class/Pays.php");
 require_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
@@ -89,7 +89,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
         }
     }
 
-    public function searchAll()
+    public function searchAll():array
     {
         try
         {
@@ -112,7 +112,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
         }
     }
 
-    public function searchById(int $idPays)
+    public function searchById(int $idPays):object
     {
         try
         {
@@ -137,7 +137,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
         }
     }
 
-    public function searchNameById(int $idPays)
+    public function searchNameById(int $idPays):string
     {
         try
         {
@@ -162,7 +162,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
         }
     }
 
-    public function searchIdByName(string $namePays)
+    public function searchIdByName(string $namePays):array
     {
         try
         {
@@ -175,7 +175,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
             $stmt->execute();
 
             $pays = $stmt->fetchAll(PDO::FETCH_CLASS,'Pays');
-            var_dump($pays);
+            
             return $pays;
         }
         catch (PDOException $e){
@@ -187,7 +187,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
         }
     }
 
-    public function searchContinentById(int $idPays)
+    public function searchContinentById(int $idPays):string
     {
         try
         {

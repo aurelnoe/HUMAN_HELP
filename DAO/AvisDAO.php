@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/Class/Avis.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
 include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
