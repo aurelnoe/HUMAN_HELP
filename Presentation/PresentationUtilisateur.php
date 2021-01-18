@@ -61,6 +61,10 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
                 ​<h2 class="text-center pb-2"><?php echo $tabAffichageFormUser['title']; ?></h2>
                         ​
                 <hr class="mb-4 hrGreen">
+      
+                <input type="hidden" name="idUtilisateur" value="<?php echo (isset($_GET['action']) && $_GET['action']=="formModif" ) ? $utilisateur->getIdUtilisateur() : "" ?>">
+                <input type="hidden" name="dateInscriptionUtil" value="<?php echo (isset($_GET['action']) && $_GET['action']=="formModif" ) ? $utilisateur->getDateInscriptionUtil()->format("Y-m-d") : "" ?>">
+
 
                 <div class="d-block mb-2 form-group">
                     <label class="text-center w-100 my-2" for="idRole">Vous êtes ?</label>
@@ -132,7 +136,7 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
 
                 <div class="mb-2 form-group">
                     <label for="adresseUtil">Num et libellé de la voie</label>
-                    <input type="text" class="form-control" name="adresseUtil" id="adresseUtil" value="<?php echo ($_GET['action'] == 'update') ? $utilisateur->getAdresseUtil() : ''; ?>">
+                    <input type="text" class="form-control" name="adresseUtil" id="adresseUtil" value="<?php echo ($_GET['action'] == 'formModif') ? $utilisateur->getAdresseUtil() : ''; ?>">
                 </div>
 
                 <div class="form-row">
@@ -270,7 +274,7 @@ function detailUtilisateur($utilisateur = null)
                         <p>Numéro de téléphone :</p>
                     </div></br>
                     <div class="col-3">
-                        <p>Monsieur</p>
+                        <p><?php echo $utilisateur->getCivilite() ?></p>
                         <p><?php echo $utilisateur->getNomUtil() ?></p>
                         <p><?php echo $utilisateur->getPrenomUtil() ?></p>
                         <!-- <p>D< echo $utilisateur->getDateDeNaissance() </p> -->
