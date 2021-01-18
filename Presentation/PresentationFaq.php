@@ -7,9 +7,7 @@ function faq()
     ?>
     <body>
         <?php
-         include("../../Templates/Bases/navbarDev.php");
-
-         echo navbar();
+            echo navbar();
         ?>
         <div class="container faq-section">
             <!-- ***** FAQ Start ***** -->

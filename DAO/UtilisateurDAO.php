@@ -226,7 +226,7 @@ class UtilisateurDAO extends BddConnect
     }
 
     //*********************FONCTION CHERCHER PSEUDO UTILISATEUR PAR ID**************** */
-    public function searchUserNameById($idUtilisateur)
+    public function searchUserNameById($idUtilisateur):string
     {
         try
         {

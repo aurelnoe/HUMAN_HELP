@@ -22,7 +22,6 @@ if(!empty($_GET))
     {
         try {
             $mission = $serviceMission->searchById($_GET['idMission']);
-        
             echo detailsMission($mission,$professionnel,null,null);       
         }
         catch (ServiceException $se) {
@@ -35,11 +34,17 @@ if(!empty($_GET))
         {
             if($_GET['action'] == 'update' && isset($_POST['idMission']))
             {        
+                if (getimagesize($_FILES['imageMission']['tmp_name']) == False) {
+                    echo "Veulliez ajouter une image";
+                }
+                $imageMission = $_FILES['imageMission']['tmp_name'];
+                $imageMission = file_get_contents($imageMission);
+                $imageMission = base64_encode($imageMission);
+
                 $idMission = $_POST['idMission'];
                 $titreMission = $_POST['titreMission'];
                 $descriptionMission = $_POST['descriptionMission'];
                 $typeFormation = $_POST['typeFormation'];
-                $imageMission = is_null($_POST['imageMission']) ? 'NULL' : $_POST['imageMission'];
                 $dateDebut = $_POST['dateDebut'];
                 $duree = $_POST['duree'];
                 $dateAjout = date("Y-m-d");

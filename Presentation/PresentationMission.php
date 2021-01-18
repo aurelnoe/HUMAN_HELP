@@ -7,9 +7,7 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCo
     ?>
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         if ($errorCode) {
             if($errorCode == 1062){     //Error add mission
                 $message = "La mission existe déja dans la base de données!";
@@ -78,12 +76,16 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCo
                 ?>
                     <div class="col-12 col-md-6 col-lg-5 m-auto my-3">
                         <div class="card cardListeMissionPro mx-auto">
-                            <img src="/HUMAN_HELP\images\informatiqueAfrique.jpg" width="100" height="320" class="card-img-top">
+                            
+                                <img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
+                                    class="imageDetailsMission rounded border p-2" 
+                                    width="100" height="360"/>
+                            
                             <div class="card-body">
-                                <h5 class="card-title">Titre : <?php echo ucfirst(utf8_encode($mission->getTitreMission())); ?></h5>
-                                <p class="card-text">Type d'activité : <?php echo searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
-                                <p class="card-text">Pays : <?php searchNamePaysById($mission->getIdPays()); ?> (<?php echo searchContinentById($mission->getIdPays()); ?>)</p>
-                                <p class="card-text">Date de début : <?php echo $mission->getDateDebut()->format('d-m-Y'); ?></p>
+                                <h5 class="card-title"><strong>Titre : </strong><?php echo ucfirst(utf8_encode($mission->getTitreMission())); ?></h5>
+                                <p class="card-text"><strong>Type d'activité : </strong><?php echo searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
+                                <p class="card-text"><strong>Pays : </strong><?php searchNamePaysById($mission->getIdPays()); ?> (<?php echo searchContinentById($mission->getIdPays()); ?>)</p>
+                                <p class="card-text"><strong>Date de début : </strong><?php echo $mission->getDateDebut()->format('d-m-Y'); ?></p>
                             </div>
                             <div class="card-footer">
                                 <div class="row m-auto">
@@ -129,8 +131,7 @@ function searchMission($missions,$title=null,$errorCode=null)
     ?>
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
         <div class="container text-center ">
             <?php
@@ -153,7 +154,9 @@ function searchMission($missions,$title=null,$errorCode=null)
                             ?>
                             <div class="card card-select col-12 col-md-5">
                                 <div class="card-body">
-                                    <img src="\HUMAN_HELP\images\enseignementThai.jpg" height="auto" width="100%" alt="">
+                                    <img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
+                                        class="imageDetailsMission rounded border" 
+                                        width="100" height="360"/>
                                     <div class="text-card-select">
                                         <div class="text-center mx-auto my-1">
                                             <h2 class="my-2">Titre de la mission</h2>
@@ -196,15 +199,15 @@ function searchMission($missions,$title=null,$errorCode=null)
     <?php
 }
 
-function listeMissions($professionnel,$errorCode=null)
+function listeMissions($professionnel,$errorCode=null,$message=null)
 {
     echo head();
     ?> 
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
+        echo navbar();
         
-        include("../../Templates/Bases/navbar.php");
+        echo head();
         if ($errorCode) {
             if($errorCode == 9999){    //Error mission not found
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
@@ -295,7 +298,9 @@ function listeMissions($professionnel,$errorCode=null)
                                     ?>                  
                                     <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                         <div class="card cardListeMission col-10 col-md-6 p-0">
-                                            <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
+                                            <img src="data:image/jpg;base64,<?php echo $medecine->getImageMission(); ?>" 
+                                                class="imageDetailsMission rounded border" 
+                                                width="100" height="360"/>
                                             <div class="card-body">
                                                 <h5 class="card-title">Titre : <?php echo utf8_encode($medecine->getTitreMission()); ?></h5>
                                                 <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($medecine->getIdTypeActivite()); ?></p>
@@ -359,7 +364,9 @@ function listeMissions($professionnel,$errorCode=null)
                             <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                 <div class="card-group">
                                     <div class="card cardListeMission col-10 col-md-6 p-0">
-                                        <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
+                                        <img src="data:image/jpg;base64,<?php echo $donation->getImageMission(); ?>" 
+                                                class="imageDetailsMission rounded border" 
+                                                width="100" height="360"/>
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($donation->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($donation->getIdTypeActivite()); ?></p>
@@ -425,7 +432,9 @@ function listeMissions($professionnel,$errorCode=null)
                             ?>
                                 <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                     <div class="card cardListeMission col-10 col-md-6 p-0">
-                                        <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
+                                        <img src="data:image/jpg;base64,<?php echo $enseignement->getImageMission(); ?>" 
+                                                class="imageDetailsMission rounded border" 
+                                                width="100" height="360"/>
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($enseignement->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($enseignement->getIdTypeActivite()); ?></p>
@@ -491,7 +500,9 @@ function listeMissions($professionnel,$errorCode=null)
                             {   ?>                  
                                 <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                     <div class="card cardListeMission col-10 col-md-6 p-0">
-                                        <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
+                                        <img src="data:image/jpg;base64,<?php echo $construction->getImageMission(); ?>" 
+                                                class="imageDetailsMission rounded border" 
+                                                width="100" height="360"/>
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($construction->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($construction->getIdTypeActivite()); ?></p>
@@ -556,7 +567,9 @@ function listeMissions($professionnel,$errorCode=null)
                                 ?>                  
                                 <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                     <div class="card cardListeMission col-10 col-md-6 p-0">
-                                        <img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
+                                        <img src="data:image/jpg;base64,<?php echo $traduction->getImageMission(); ?>" 
+                                                class="imageDetailsMission rounded border" 
+                                                width="100" height="360"/>
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($traduction->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($traduction->getIdTypeActivite()); ?></p>
@@ -610,9 +623,7 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
     ?> 
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         // if($errorCode && $errorCode == 9999){
         //     echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
         // }
@@ -631,12 +642,13 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
             <!-- section image details -->
             <div class="row h-25">
                 <div class="col-10 col-md-5 m-auto p-0">
-                    <img class="imageDetailsMission rounded border" width="100" height="360"/>
+                    <img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" class="imageDetailsMission rounded border" 
+                        width="100" height="360"/>
                     <hr class="hrGreen">
                 </div>
                 <div class="col-10 col-md-6">
                     <ul class="liDetailsMission">
-                        <li><strong>Titre de la mission :</strong> <?php echo $mission->getTitreMission(); ?></li>
+                        <li><strong>Titre de la mission :</strong> <?php echo utf8_encode($mission->getTitreMission()); ?></li>
                         <li><strong>Type d'activité :</strong> <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></li>
                         <li><strong>Mission :</strong> <?php echo ($mission->getTypeFormation() == 0) ? 'à distance' : 'sur le terrain'; ?></li>
                         <li><strong>Pays :</strong> <?php searchNamePaysById($mission->getIdPays()); ?> (<?php searchContinentById($mission->getIdPays()); ?>)</li>
@@ -726,7 +738,12 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
                             Modifier
                         </a>
                     </div>
-                    <form class="col-12 offset-md-4 col-md-4 my-2" action="?action=delete" method="POST">
+                    <div class="col-12 col-md-4 my-2">
+                        <a href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php" class="btn btn-primary w-100">
+                            Mes missions
+                        </a>
+                    </div>
+                    <form class="col-12 col-md-4 my-2" action="?action=delete" method="POST">
                         <button type="submit" class="btn btn-danger w-100">
                             Supprimer
                         </button>
@@ -756,9 +773,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
     ?>
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         $action = $tabAffichageFormMission['action'];
         $idMission = $tabAffichageFormMission['idMission'];
         $idEtablissement = $tabAffichageFormMission['idEtablissement'];
@@ -769,7 +784,8 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
 
             <form class="needs-validation p-3" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=$action" 
                                                                                     : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=$action" ?> 
-                                                                                    method="POST" novalidate>
+                                                                                    method="POST" novalidate
+                                                                                    enctype="multipart/form-data">
                 <input type="hidden" name="idMission" value="<?php echo isset($idMission) ? $idMission : '' ?>">
 
                 <hr class="mb-4 mt-2">
@@ -778,7 +794,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                     
                 <div class="mb-3 form-group">
                     <label for="titreMission">Titre de la mission</label>
-                    <input type="text" class="form-control" name="titreMission" placeholder="" value="<?php echo (($_GET['action']) == 'update') ? $mission->getTitreMission() : '';?>" required>
+                    <input type="text" class="form-control" name="titreMission" placeholder="" value="<?php echo (($_GET['action']) == 'update') ? utf8_encode($mission->getTitreMission()) : '';?>" required>
                     <div class="invalid-feedback">
                         Ce champ est requis.
                     </div>
@@ -792,6 +808,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                             </option>
 
                             <?php 
+                            $allPays = $tabAffichageFormMission['allPays'];
                             foreach ($allPays as $pays) : ?>
                                 <option value="<?php echo $pays->getIdPays(); ?>" class="list-group-item">
                                     <?php echo utf8_encode($pays->getNomPays()); ?>
@@ -809,7 +826,9 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                             <option class="list-group-item" value="<?php echo (($_GET['action']) == 'update') ? $mission->getIdTypeActivite() : '' ?>">
                                 <?php echo (($_GET['action']) == 'update') ? searchNameTypeActivityById($mission->getIdTypeActivite()) : 'Choisissez...' ?>
                             </option>
-                            <?php foreach ($allTypeActivite as $typeActivite) : ?>
+                            <?php 
+                            $allTypeActivite = $tabAffichageFormMission['allTypeActivite'];
+                            foreach ($allTypeActivite as $typeActivite) : ?>
                                 <option value="<?php echo $typeActivite->getIdTypeActivite(); ?>" class="list-group-item">
                                     <?php echo utf8_encode($typeActivite->getTypeActivite()); ?>
                                 </option>
@@ -884,7 +903,7 @@ function formParticipationMission($mission)
     ?>
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
+        echo navbar();
         ?>
         <div class="container col-12 col-md-6 formParticipationMission py-4 rounded">
 

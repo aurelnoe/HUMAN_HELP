@@ -7,9 +7,7 @@ function commentCaMarche():void
     ?> 
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-
-        echo navbar();
+        	echo navbar();
         ?>
         <div class="container">
 		<h1 class="text-center">Comment ça marche ?</h1>
@@ -76,8 +74,8 @@ function commentCaMarche():void
 	<?php      
     	echo footer();
     ?>
-</body>
-</html>
-<?php
+	</body>
+	</html>
+	<?php
 }
 ?>

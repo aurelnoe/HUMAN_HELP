@@ -2,21 +2,60 @@
 
 function Accueil(array $articles=null,array $missionsADistance=null,array $allMissions=null)
 {
-?>
+	?>
 	<div class="container">
 
 		<h1 class="text-center">Bienvenue sur Human Helps</h1>
-		 
-		<div class="my-4 p-2">
-			<h2>Qui somme nous ?</h2>
-			<p>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed ex hic exercitationem vitae necessitatibus consectetur quaerat, commodi pariatur voluptate. Cum, suscipit. Sunt officia incidunt omnis. Nam quasi asperiores beatae incidunt?
-				Voluptatibus optio est architecto quaerat quas quam reprehenderit quasi natus, ipsam inventore! Aut cupiditate sunt omnis id molestias a natus ut atque distinctio mollitia libero architecto, voluptatibus et voluptatum nulla.
-				Vero soluta eos fugiat quasi omnis est doloribus repellat minima nulla magni pariatur, aspernatur ab voluptatibus voluptates reprehenderit architecto minus eius. Odit, reprehenderit at voluptas alias quia laudantium vel molestiae.
-			</p>
+		<div class="row my-4 ">
+			<div class="col-10 col-md-3">
+				<div class="card cardEspaceUtil">
+					<div class="card-header">
+						<?php
+						if ($_SESSION) {
+						?>
+							<div>Bonjour</div>
+							<h3 class="ml-3 "><?php searchUserNameById($_SESSION['idUtil']); ?></h3>
+						<?php
+						}else { ?>
+							<a class="btn btnGreen w-100" href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=connexion">
+								Connexion
+							</a>
+							<p class="pt-3 mb-0">Nouveau client ?</p> 
+							<a class="pt-0 linkCreateCompte" href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formAjout">
+								Crée un compte
+							</a>
+						<?php } ?>
+					</div>
+					<div class="card-body">	
+					<?php if ($_SESSION) { ?>
+						<a class="btn btnGreen w-100 my-1" href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=detailUtilisateur">
+							Espace personnel
+						</a>
+						<?php if ($_SESSION['role'] == 'professionnel') { ?>
+							<a class="btn btnGreen w-100 my-1" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php">
+								Espace Pro
+							</a>
+						<?php } ?>
+						<a class="btn btn-danger w-100 my-1" href="/HUMAN_HELP/Controller/AccueilController.php?action=deconnection">
+							Déconnexion
+						</a>
+					<?php } else { ?>
+						<div class="text-center">Vous devez être connecté</div>
+					<?php } ?>		
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-9 pl-5 pr-2">
+				<h2>Qui somme nous ?</h2>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed ex hic exercitationem vitae necessitatibus consectetur quaerat, commodi pariatur voluptate. Cum, suscipit. Sunt officia incidunt omnis. Nam quasi asperiores beatae incidunt?
+					Voluptatibus optio est architecto quaerat quas quam reprehenderit quasi natus, ipsam inventore! Aut cupiditate sunt omnis id molestias a natus ut atque distinctio mollitia libero architecto, voluptatibus et voluptatum nulla.
+					Vero soluta eos fugiat quasi omnis est doloribus repellat minima nulla magni pariatur, aspernatur ab voluptatibus voluptates reprehenderit architecto minus eius. Odit, reprehenderit at voluptas alias quia laudantium vel molestiae.
+				</p>
+			</div>
 		</div>
 
-		<hr class="my-4">
+		<hr class="my-4 hrGreenLight">
 
 		<div class="col-12 border rounded p-0">
 			<div id="carouselDistanceAccueil" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
@@ -45,7 +84,9 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 							?> 
 							<div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                 <div class="card cardListeMission col-10 col-md-6 p-0">
-									<img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
+									<img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
+											class="imageDetailsMission rounded border" 
+											width="100" height="360"/>						
 									<div class="card-body">
 										<h5 class="card-title">Titre : <?php echo utf8_encode($mission->getTitreMission()); ?></h5>
 										<p class="card-text">Type d'activité : <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
@@ -85,7 +126,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 			</div>
 		</div>
 
-		<hr class="my-4">
+		<hr class="my-4 hrGreenLight">
 
 		<div class="row mb-4 p-3">
 			<div class="col-12 col-md-4 mt-4">
@@ -138,7 +179,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 			</div>
 		</div>
 
-		<hr class="my-4">
+		<hr class="my-4 hrGreenLight">
 
 		<div class="col-12 border rounded p-0">
 			<div id="carouselArticleAccueil" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
@@ -164,7 +205,10 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 						?>
 							<div class="carousel-item  <?php echo ($key == 0) ? 'active' : ''; ?> mb-5">
 								<div class="card cardListeMission col-10 col-md-6 p-0">
-									<img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
+									<img src="data:image/jpg;base64,<?php echo $article->getImageArticle(); ?>" 
+										class="imageDetailsMission rounded border" 
+										width="100" height="360"/>
+									
 									<div class="card-body">
 										<h5 class="card-title">Titre : <?php echo $article->getTitreArticle() ?></h5>
 										<p class="card-text">Description : <?php echo $article->getDescriptionArticle() ?></p>
@@ -205,7 +249,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 			</div>
 		</div>
 		
-		<hr class="my-4">
+		<hr class="my-4 hrGreenLight">
 	
 		<div class="col-12 border rounded p-0">
 			<div id="carouselMissionAccueil" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
@@ -233,7 +277,10 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 						?> 
 							<div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
 								<div class="card cardListeMission col-10 col-md-6 p-0">
-									<img src="\HUMAN_HELP\images\informatiqueAfrique.jpg" class="card-img-top" alt="">
+									
+									<img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
+										class="imageDetailsMission rounded border" 
+										width="100" height="360"/>
 									<div class="card-body">
 										<h5 class="card-title">Titre : <?php echo utf8_encode($mission->getTitreMission()); ?></h5>
 										<p class="card-text">Type d'activité : <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
@@ -271,6 +318,6 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 			</div>
 		</div>
 	</div>
-<?php
+	<?php
 }
 ?>

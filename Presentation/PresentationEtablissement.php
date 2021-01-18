@@ -9,10 +9,9 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
         </head> 
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-        //var_dump($tabAffichageFormEtablissement);
-        $allPays = $tabAffichageFormEtablissement['allPays'];
-        $action = $tabAffichageFormEtablissement['action'];
+            echo navbar();
+            $allPays = $tabAffichageFormEtablissement['allPays'];
+            $action = $tabAffichageFormEtablissement['action'];
         ?>
         <div class="col-12 col-md-6 formEtablissement container p-4 mb-5 border rounded">
 

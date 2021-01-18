@@ -7,9 +7,7 @@ function formulaireContact()
 ?>
  <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-
-        echo navbar();
+            echo navbar();
         ?>
     <div class="container col-12 col-md-6 pt-4 my-4 border rounded">
 

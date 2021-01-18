@@ -86,7 +86,9 @@
           }
         ?>
         <li class="nav-item">
-          <a class="nav-link" href="/HUMAN_HELP/Controller/AccueilController.php?action=deconnection" tabindex="-1" aria-disabled="true">Deconnexion</a>
+          <a class="nav-link" href="/HUMAN_HELP/Controller/AccueilController.php?action=deconnection" tabindex="-1" aria-disabled="true">
+            Deconnexion
+          </a>
         </li>   
       </ul>
     </div>

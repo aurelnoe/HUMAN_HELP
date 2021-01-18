@@ -43,7 +43,7 @@ function connexion($message=null,$errorCode=null)
         ?>
     </body>
     </html>
-<?php
+    <?php
 }
 
 function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
@@ -196,7 +196,7 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
         ?>
     </body>
     </html>
-<?php
+    <?php
 }
 
 function modifMotDePasse()
@@ -265,7 +265,7 @@ function detailUtilisateur($utilisateur = null)
             <div class="col-sm-12 m-5">
                 <h3>Mes coordonnées:</h3>
                 <div class="row">
-                    <div class="col-9 mr-auto">
+                    <div class="col-9">
                         <p>Civilité :</p>
                         <p>Nom :</p>
                         <p>Prénom :</p>

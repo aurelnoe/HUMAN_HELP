@@ -27,7 +27,7 @@ $servicePays = new ServicePays();
 
 $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
 
-if ($professionnel) 
+if ($professionnel)
 {
     if(!empty($_GET['action']) && isset($_GET['action']))
     {
@@ -36,10 +36,18 @@ if ($professionnel)
             /************************** AJOUTER UNE MISSION ***************************/
             if ($_GET['action'] == 'add')
             {
+                /** Encoder l'image avant de l'insérer dans la bdd */
+                if (getimagesize($_FILES['imageMission']['tmp_name']) == False) {
+                    echo "Veulliez ajouter une image";
+                }
+                $imageMission = $_FILES['imageMission']['tmp_name'];
+                $imageMission = file_get_contents($imageMission);
+                $imageMission = base64_encode($imageMission);
+
                 $titreMission = utf8_decode($_POST['titreMission']);
                 $descriptionMission = $_POST['descriptionMission'];
                 $typeFormation = $_POST['typeFormation'];
-                $imageMission = is_null($_POST['imageMission']) ? 'NULL' : $_POST['imageMission'];
+                //$imageMission = is_null($_POST['imageMission']) ? 'NULL' : $_POST['imageMission'];
                 $dateDebut = $_POST['dateDebut'];
                 $duree = $_POST['duree'];
                 $dateAjout = date("Y-m-d"); //TypeError: Return value of Mission::setDateAjout() must be an instance of Mission, instance of DateTime returned -> Mission.php on line 188

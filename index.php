@@ -12,8 +12,7 @@ include_once("Presentation/PresentationCommun.php");
 <body>
     <?php
     include("Templates/Bases/navbarDev.php");
-
-    include("Templates/Bases/navbar.php");
+    echo navbar();
     
     echo (isset($_GET['action']) && $_GET['action']=='ajout') ? '<div class="alert alert-success text-center">L\'utilisateur a été ajouté avec succès !</div>': '';
     

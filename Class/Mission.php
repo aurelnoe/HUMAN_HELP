@@ -112,7 +112,7 @@ class Mission
     /**
      * Get the value of imageMission
      */ 
-    public function getImageMission():?string
+    public function getImageMission()
     {
         return $this->imageMission;
     }
