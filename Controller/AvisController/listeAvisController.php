@@ -47,6 +47,7 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
             $dateCommentaire = date("Y-m-d");
             $idUtilisateur =  ($_POST['idUtilisateur']);
             $idArticle = ($_POST['idArticle']);
+            $sessionId = ($_POST['sessionId']);
 
             $avis = new Avis();
 
@@ -59,10 +60,11 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
             $newUpdate = new ServiceAvis();
             $service = new ServiceBlog();  
             try{
-                $newUpdate->update($avis); 
-                // $article = $service->searchById($_POST['idArticle']);
-                // echo detailArticle($article,$avis);
-                // die;
+                if ($idUtilisateur == $sessionId){
+                 $newUpdate->update($avis); 
+                } else{
+                    header('Location: ../../index.php');
+                }
             }
             catch (ServiceException $se) {
                 header('Location: ../../index.php');
@@ -78,9 +80,13 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
             $service = new ServiceBlog(); 
             $avisService = new ServiceAvis(); 
             $utilisateurService = new ServiceUtilisateur();
-            try{            
-                $delete = new ServiceAvis();
-                $delete->delete($_GET['idAvis']);
+            try{ 
+                $delete = new ServiceAvis();   
+                // if ($idUtilisateur == $_SESSION['idUtil']){
+                    $delete->delete($_GET['idAvis']);
+                // }        
+                
+                
                 // $article = $service->searchById($_GET['idArticle']);
                 // $avis = $avisService->searchByIdArticle($_GET['idArticle']);
     

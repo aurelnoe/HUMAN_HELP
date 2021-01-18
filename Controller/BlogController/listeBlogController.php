@@ -3,6 +3,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
 session_start();
 include_once(PATH_BASE . "/Services/ServiceBlog.php");
 include_once(PATH_BASE . "/Presentation/PresentationBlog.php");
+include_once(PATH_BASE . "/Presentation/PresentationUtilisateur.php");
 
 $_GET = array_map('htmlentities',$_GET); 
 $_COOKIE = array_map('htmlentities',$_COOKIE);
@@ -37,7 +38,7 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                  $newAdd->add($article);
             }
             catch (ServiceException $se) {
-                header('Location: ../../index.php');
+                connexion("Vous devez être connecté en tant qu'admin",null);
             }
            
         }

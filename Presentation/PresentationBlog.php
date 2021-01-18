@@ -203,7 +203,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
             <hr class="my-4">
 
             <div class="text-center my-3">
-                <a href="listeBlogController.php" class="btn btnGreen w-50">Retour à la liste des articles</a>
+                <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php" class="btn btnGreen w-50">Retour à la liste des articles</a>
             </div>
             <?php if ($admin) { ?>
                 <div class="offset-4">
@@ -243,6 +243,7 @@ function FormulaireAvis(int $idArticle,$idUtil=null, $pseudoUtil=null)
             <input type="hidden" id="auteurAvis" name="auteur" value="<?php echo $pseudoUtil; ?>">
             <input type="hidden" name="dateCommentaire" value="<?php echo date("F j, Y, g:i a"); ?>">
             <input type="hidden" id="idUtilisateur" name="idUtilisateur" value="<?php echo $idUtil; ?>">
+            <input type="hidden" id="sessionId" name="sessionId" value="<?php $_SESSION['idUtil'] ?>">
             <textarea class="col mb-3 offset-2" name="temoignage"  placeholder="Ecrivez votre commentaire..." id="temoignage"> </textarea>
             <button class="btn btnGreen btn-lg btn-block mb-3 offset-2" type="submit">Poster un commentaire</button>
         </form>
@@ -258,19 +259,17 @@ function listeAvis($avis, $idArticle)
         <h1 style="font-size: 24px;">Commentaires : </h1>
     <?php } ?>
     <div>
-        <?php 
-            $serviceUtilisateur = new ServiceUtilisateur;
-        ?>
         <?php foreach ($avis as $commentaire) { ?>
 
             <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdAvis(); ?>>
             <input type=hidden id="idUtil" value=<?php echo $commentaire->getIdUtilisateur(); ?>>
             <div class="avis" style="background: #eee ; border-radius:10px;">
-                <p><span style="font-weight: bold;"> De <?php echo ($serviceUtilisateur->searchUserNameById($commentaire->getIdUtilisateur()));?> :</span><span id="<?php echo "modifTemoignage" . $commentaire->getIdAvis(); ?>"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
+                <p><span style="font-weight: bold;"> De <?php echo (searchUserNameById($commentaire->getIdUtilisateur()));?> :</span><span id="<?php echo "modifTemoignage" . $commentaire->getIdAvis(); ?>"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
             </div>
-            <?php if (!empty($_SESSION)) {?>
+            <?php if (!empty($_SESSION) && $_SESSION['idUtil'] == $commentaire->getIdUtilisateur() ) {?>
             <div>
                 <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>
+                <button class="btn btn-success w-25" onclick="update()">Modifier</button>
             </div>
             <?php } ?>
             <hr class="my-4">
@@ -279,18 +278,16 @@ function listeAvis($avis, $idArticle)
 
     </div>
     <script>
-        
-        $('.avis span').click(function(e){
-           var currentId = e.currentTarget.id;
-        
+function update(){
+    $('.avis span').click(function(e){
+        var currentId = e.currentTarget.id;
         var temoignage = document.getElementById(currentId);
+        var sessionId = document.getElementById("sessionId").value;
         var auteur = document.getElementById("auteurAvis").value;
         var idAvis = document.getElementById("idAvis").value;
         var idUtilisateur = document.getElementById("idUtilisateur").value;
         var idArticle = document.getElementById("idArticle").value;
-        // console.log(auteur);
-   
-
+        
         temoignage.addEventListener('click', function(e) {
 
             this.setAttribute('data-clicked', 'yes');
@@ -326,6 +323,12 @@ function listeAvis($avis, $idArticle)
             input5.value = idArticle;
             input5.textContent = idArticle;
 
+            var input6 = document.createElement("input");
+            input6.name ="sessionId";
+            input6.type = "hidden";
+            input6.value = sessionId;
+            input6.textContent = sessionId;
+
 // *********************************************************************************************
 
             input.onblur = function() { // onblur éxécute le code quand la personne sort d'un input il y a aussi change et focusOut
@@ -347,7 +350,8 @@ function listeAvis($avis, $idArticle)
                     my_form.appendChild(input3);
                     my_form.appendChild(input4);
                     my_form.appendChild(input5);
-                    console.log(my_form);
+                    my_form.appendChild(input6);
+                    // console.log(my_form);
                    
                     my_form.submit();
                 }
@@ -364,6 +368,7 @@ function listeAvis($avis, $idArticle)
 
         })
     })
+}
     </script>
 
 <?php

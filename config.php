@@ -43,6 +43,11 @@ function searchMissionsById($idPays,$idTypeActivite,$idTypeFormation):array
     return $serviceMission->searchMissions($idPays,$idTypeActivite,$idTypeFormation);
 }
 
+function searchUserNameById($idUtilisateur)
+{     
+    $serviceUtilisateur = new ServiceUtilisateur;
+    return $serviceUtilisateur->searchUserNameById($idUtilisateur);
+}
 /***** ID BASE DE DONNEES */
 
 define('ID_MEDECINE',1);
