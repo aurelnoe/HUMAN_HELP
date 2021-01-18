@@ -3,10 +3,11 @@ include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/config.php");
 include_once(PATH_BASE . "/Class/Utilisateur.php");
 include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
+include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
-class UtilisateurDAO extends BddConnect
+class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInterface
 {
-    public function add(Utilisateur $utilisateur)
+    public function add(object $utilisateur)
     {
         try
         {
@@ -61,7 +62,8 @@ class UtilisateurDAO extends BddConnect
     }
 
     //********************FONCTION MODIDIER UN UTILISATEUR************************ */
-    public function update(Utilisateur $utilisateur){
+    public function update(object $utilisateur)
+    {
         try
         {
             $newConnect = new BddConnect();
@@ -128,7 +130,7 @@ class UtilisateurDAO extends BddConnect
     }
 
     //*********************FONCTION SUPPRIMER UTILISATEUR**************** */
-    public function delete($idUtilisateur)
+    public function delete(int $idUtilisateur)
     {
         try
         {
@@ -174,7 +176,7 @@ class UtilisateurDAO extends BddConnect
     }
 
     //*********************FONCTION CHERCHER UTILISATEUR PAR ID**************** */
-    public function searchById($idUtilisateur)
+    public function searchById($idUtilisateur):array
     {
         try
         {
@@ -199,7 +201,7 @@ class UtilisateurDAO extends BddConnect
     }
 
     //*********************FONCTION CHERCHER UTILISATEUR PAR ID**************** */
-    public function searchUserbyMail($mailUtil)
+    public function searchUserbyMail($mailUtil):array
     {
         try
         {

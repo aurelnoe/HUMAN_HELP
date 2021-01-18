@@ -25,7 +25,7 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCo
             }  
         }
         if(!$errorCode && $errorCode == 1027){
-            $message = "L'établissement n'a pas était modifiée, une erreur est survenue.";
+            $message = "L'établissement n'a pas était modifié, une erreur est survenue.";
             echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
         }
         echo $errorCode;
