@@ -5,6 +5,7 @@ include_once(PATH_BASE . "/Services/ServiceEtablissement.php");
 include_once(PATH_BASE . "/Services/ServiceUtilisateur.php");
 include_once(PATH_BASE . "/Services/ServicePays.php");
 include_once(PATH_BASE . "/Presentation/PresentationEtablissement.php");
+include_once(PATH_BASE . "/Presentation/PresentationCommun.php");
 $_GET = array_map('htmlentities',$_GET); 
 $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
@@ -18,6 +19,7 @@ if (!empty($_GET) && isset($_GET['action']))
     {  
         try { //UPDATE ETABLISSEMENT
             $serviceEtablissement = new ServiceEtablissement();
+            $servicePays = new ServicePays();
             $etablissement = $serviceEtablissement->searchById($_GET['idEtablissement']);
             $tabAffichageFormEtablissement = array(
                 'title' => "Modification d'un établissement",

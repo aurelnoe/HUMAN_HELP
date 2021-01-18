@@ -1,7 +1,7 @@
 <?php 
 require_once("../../Presentation/PresentationCommun.php");
 
-function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCode=null,$message=null) 
+function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCode=null,$message=null):void
 {
     echo head();
     ?>
@@ -75,7 +75,7 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCo
                 {
                 ?>
                     <div class="col-12 col-md-6 col-lg-5 m-auto my-3">
-                        <div class="card cardListeMissionPro mx-auto">
+                        <div class="card cardListeMissionPro h-100 mx-auto">
                             
                                 <img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
                                     class="imageDetailsMission rounded border p-2" 

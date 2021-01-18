@@ -4,17 +4,18 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 {
 	?>
 	<div class="container">
-
-		<h1 class="text-center">Bienvenue sur Human Helps</h1>
-		<div class="row my-4 ">
-			<div class="col-10 col-md-3">
-				<div class="card cardEspaceUtil">
+		<h1 class="text-center my-5">Bienvenue sur Human Helps</h1>
+		<div class="row my-4">
+			<div class="col-10 col-md-3 mx-auto">
+				<div class="card cardEspaceUtil my-2">
 					<div class="card-header">
 						<?php
 						if ($_SESSION) {
 						?>
-							<div>Bonjour</div>
-							<h3 class="ml-3 "><?php searchUserNameById($_SESSION['idUtil']); ?></h3>
+							<div>
+								<p>Bonjour</p>
+								<h3 class="ml-3 "><?php searchUserNameById($_SESSION['idUtil']); ?></h3>
+							</div>	
 						<?php
 						}else { ?>
 							<a class="btn btnGreen w-100" href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=connexion">

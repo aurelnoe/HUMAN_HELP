@@ -6,8 +6,7 @@ function connexion($message=null,$errorCode=null)
     echo head();
     ?> 
     <?php
-        include("../../Templates/Bases/navbarDev.php");
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
 
         if ($errorCode && $errorCode == 1081) { //Mauvaises informations de connection
             echo "<div class='alert alert-danger text-center my-5'>$message</div>";
@@ -52,8 +51,7 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
     ?>
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
         <div class="col-12 col-md-5 container my-4 borderGreen rounded">    
             
@@ -157,7 +155,7 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
                     </label>
                     <select type="number" name="idPays" class="custom-select list-group d-block h-50 w-100" required>
                         <option class="list-group-item" value="<?php echo (($_GET['action']) == 'formModif') ? $utilisateur->getIdPays() : '' ?>">
-                            <?php echo (($_GET['action']) == 'formModif') ? $newPays->searchNameById($utilisateur->getIdPays()) : 'Choisissez...' ?>
+                            <?php echo (($_GET['action']) == 'formModif') ? searchNamePaysById($utilisateur->getIdPays()) : 'Choisissez...' ?>
                         </option>
                         <?php 
                         $allPays = $tabAffichageFormUser['allPays'];
@@ -205,9 +203,7 @@ function modifMotDePasse()
     ?>
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
 
         <div class="col-md-6 col-lg-4 container pt-2 my-5 border rounded">
@@ -240,7 +236,7 @@ function modifMotDePasse()
         </div>
 
         <?php      
-        include("../Bases/footer.php") 
+        echo footer(); 
         ?>
     </body>
     </html>
@@ -253,8 +249,7 @@ function detailUtilisateur($utilisateur = null)
     ?>
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
-        include("../../Templates/Bases/navbar.php");
+        echo navbar();
         ?>
     <div class="container">
         <div>
@@ -316,5 +311,4 @@ function detailUtilisateur($utilisateur = null)
     </body>
     </html>
     <?php
- 
 }

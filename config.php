@@ -58,7 +58,7 @@ function civilite($idCivilite)
 function searchUserNameById($idUtilisateur)
 {     
     $serviceUtilisateur = new ServiceUtilisateur;
-    return $serviceUtilisateur->searchUserNameById($idUtilisateur);
+    echo $serviceUtilisateur->searchUserNameById($idUtilisateur);
 }
 /***** ID BASE DE DONNEES */
 
