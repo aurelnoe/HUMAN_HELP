@@ -273,7 +273,7 @@ function detailUtilisateur($utilisateur = null)
                         <p>Numéro de téléphone :</p>
                     </div></br>
                     <div class="col-3">
-                        <p><?php echo $utilisateur->getCivilite() ?></p>
+                        <p><?php echo civilite($utilisateur->getCivilite()) ?></p>
                         <p><?php echo $utilisateur->getNomUtil() ?></p>
                         <p><?php echo $utilisateur->getPrenomUtil() ?></p>
                         <p><?php echo $utilisateur->getMailUtil() ?></p>

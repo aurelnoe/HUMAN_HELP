@@ -42,6 +42,18 @@ function searchMissionsById($idPays,$idTypeActivite,$idTypeFormation):array
     $serviceMission = new ServiceMission();
     return $serviceMission->searchMissions($idPays,$idTypeActivite,$idTypeFormation);
 }
+function civilite($idCivilite)
+{
+    if ($idCivilite == 1){
+
+        $civilite = 'Monsieur';
+    }
+    elseif ($idCivilite == 2 ){
+        $civilite = 'Madame';
+    }
+    return $civilite;
+
+}
 
 function searchUserNameById($idUtilisateur)
 {     
