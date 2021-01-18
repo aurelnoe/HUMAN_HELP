@@ -59,12 +59,11 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
             
             ​<form class="form p-4" action="utilisateurController.php?action=<?php echo $tabAffichageFormUser['action']; ?>" method="POST" novalidate>
                 ​<h2 class="text-center pb-2"><?php echo $tabAffichageFormUser['title']; ?></h2>
-                        ​
+                        
                 <hr class="mb-4 hrGreen">
       
                 <input type="hidden" name="idUtilisateur" value="<?php echo (isset($_GET['action']) && $_GET['action']=="formModif" ) ? $utilisateur->getIdUtilisateur() : "" ?>">
                 <input type="hidden" name="dateInscriptionUtil" value="<?php echo (isset($_GET['action']) && $_GET['action']=="formModif" ) ? $utilisateur->getDateInscriptionUtil()->format("Y-m-d") : "" ?>">
-
 
                 <div class="d-block mb-2 form-group">
                     <label class="text-center w-100 my-2" for="idRole">Vous êtes ?</label>
@@ -75,6 +74,7 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
                         </div>
                         <div class="custom-control col-4 col-md-3 custom-radio mx-2">
                             <input name="idRole" value="2" id="professionnel" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getIdRole()==1) ? 'checked' : '' ?>>
+
                             <label for="professionnel" class="custom-control-label">Professionnel</label>
                         </div>
                     </div>  
@@ -269,7 +269,6 @@ function detailUtilisateur($utilisateur = null)
                         <p>Civilité :</p>
                         <p>Nom :</p>
                         <p>Prénom :</p>
-                        <p>Date de naissance :</p>
                         <p>Adresse mail :</p>
                         <p>Numéro de téléphone :</p>
                     </div></br>
@@ -277,7 +276,6 @@ function detailUtilisateur($utilisateur = null)
                         <p><?php echo $utilisateur->getCivilite() ?></p>
                         <p><?php echo $utilisateur->getNomUtil() ?></p>
                         <p><?php echo $utilisateur->getPrenomUtil() ?></p>
-                        <!-- <p>D< echo $utilisateur->getDateDeNaissance() </p> -->
                         <p><?php echo $utilisateur->getMailUtil() ?></p>
                         <p><?php echo $utilisateur->getTelUtil() ?></p>
                     </div>
@@ -292,7 +290,7 @@ function detailUtilisateur($utilisateur = null)
                 <div class="row">
                     <div class="col-9 mr-auto">
                         <p>Numéro, libellé de la voie :</p>
-                        <p><?php //$utilisateur->getVilleUtil(); ?></p>
+                        <p>Ville</p>
                         <p>Code postale :</p>
                         <p>Complément d'adresse :</p>
                     </div>

@@ -188,10 +188,13 @@ if(!empty($_GET['action']) && isset($_GET['action']))
             die;
         }
     }
-
+    
     elseif ($_GET['action'] == 'detailUtilisateur'){
+        if(!$_SESSION) 
+            header('location: FormulairesUtilisateurController.php?action=connexion');
         // var_dump($_SESSION);
         $utilisateur = $serviceUtilisateur->searchUserbyMail($_SESSION['mailUtil']);
         echo detailUtilisateur($utilisateur);
+
     }
 }

@@ -10,6 +10,8 @@ include_once(PATH_BASE . "/Exceptions/ServiceException.php");
 include_once(PATH_BASE . "/Presentation/PresentationMission.php");
 include_once(PATH_BASE . "/Presentation/PresentationUtilisateur.php");
 
+
+
 $_GET = array_map('htmlentities',$_GET); 
 $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
