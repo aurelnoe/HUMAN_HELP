@@ -16,7 +16,7 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
 
     if (!empty($_POST) && isset($_POST)) 
     {
-        if ($_GET['action'] == 'add') 
+        if ($_GET['action'] == 'add'  && !empty($_POST['temoignage'])) 
         {
             $temoignage = ($_POST['temoignage']);
             $dateCommentaire = date("Y-m-d");

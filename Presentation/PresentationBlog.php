@@ -39,7 +39,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 
                 <div class="mb-3 form-group">
                     <label for="descriptionArticle">Description de l'article</label>
-                    <textarea type="textarea" class="form-control" name="descriptionArticle" placeholder=""><?php echo ($_GET['action'] == 'update') ? $article->getDescriptionArticle() : ''; ?></textarea>
+                    <textarea type="textarea" class="form-control" name="descriptionArticle" placeholder="" required><?php echo ($_GET['action'] == 'update') ? $article->getDescriptionArticle() : ''; ?> </textarea>
                     <div class="invalid-feedback">
                         Ce champ est requis.
                     </div>
@@ -47,7 +47,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 
                 <div class="mb-3 form-group">
                     <label for="imageArticle">Ajouter une image</label>
-                    <input type="file" class="form-control-file" name="imageArticle" placeholder="" accept="image/png, image/jpeg" value="<?php echo ($_GET['action'] == 'update') ? $article->getImageArticle() : ''; ?>">
+                    <input type="file" class="form-control-file" name="imageArticle" placeholder="" accept="image/png, image/jpeg" value="<?php echo ($_GET['action'] == 'update') ? $article->getImageArticle() : ''; ?>" required>
                 </div>
 
                 <div class="mb-3 form-group">
@@ -241,7 +241,7 @@ function FormulaireAvis(int $idArticle, $idUtil = null, $pseudoUtil = null)
             <input type="hidden" name="dateCommentaire" value="<?php echo date("F j, Y, g:i a"); ?>">
             <input type="hidden" id="idUtilisateur" name="idUtilisateur" value="<?php echo $idUtil; ?>">
 
-            <textarea class="col mb-3 offset-2" name="temoignage" placeholder="Ecrivez votre commentaire..." id="temoignage"> </textarea>
+            <textarea class="col mb-3 offset-2" name="temoignage" placeholder="Ecrivez votre commentaire..." id="temoignage" required> </textarea>
             <button class="btn btnGreen btn-lg btn-block mb-3 offset-2" type="submit">Poster un commentaire</button>
         </form>
 

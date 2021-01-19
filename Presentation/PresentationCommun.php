@@ -19,7 +19,7 @@ function footer()
         <div class="col-xl-4 col-md-12">
             <ul class="list-footer list-group list-group-flush">
                 <li class="list-group-item" style="background-color: #F8F8FF;" >
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="http://localhost/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=detailUtilisateur">
                         Détail compte perso
                     </a>
                 </li>

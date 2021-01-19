@@ -12,20 +12,24 @@ $_POST = array_map('htmlentities',$_POST);
 
 
 
-
+$admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
 /************************** AJOUT ARTICLE ***************************/
 if (!empty($_GET['action']) && isset($_GET['action'])) {
 
-    if (!empty($_POST) && isset($_POST)) 
+    if (!empty($_POST) && isset($_POST) && !empty($_FILES)) 
     {
-        if ($_GET['action'] == 'add') 
+        if ($_GET['action'] == 'add' && !empty($_POST['titreArticle'] && !empty($_POST['descriptionArticle']) )) 
         {
             // echo'<pre>';
             // var_dump($_POST);
             // echo '</pre>';
-            if (getimagesize($_FILES['imageArticle']['tmp_name']) == False) {
-                echo "Veulliez ajouter une image";
-            }
+            // if (getimagesize($_FILES['imageArticle']['tmp_name']) == False) {
+            //     $service = new ServiceBlog();
+            //     $articles = $service->searchAll();
+            //     $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
+            //     echo listeArticle($articles,$admin);
+            //     die;
+            // }
             $imageArticle = $_FILES['imageArticle']['tmp_name'];
             $imageArticle = file_get_contents($imageArticle);
             $imageArticle = base64_encode($imageArticle);
@@ -34,7 +38,6 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             $descriptionArticle = ($_POST['descriptionArticle']);
             $dateArticle = ($_POST['dateArticle']);
             $dateAjoutArticle = date("Y-m-d");
-            // $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : ($_POST['imageArticle']);
 
             $article = new Blog();
 
@@ -49,13 +52,23 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                  $newAdd->add($article);
             }
             catch (ServiceException $se) {
+                if($admin){
+                     $service = new ServiceBlog();
+                $articles = $service->searchAll();
+                echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
+                echo $se->getCode();
+                die;
+                }else{
+                    header("Location: ../../index.php");
+                    die;
+                }
                
             }
            
         }
  
         /************************** MODIFIE ARTICLE ***************************/
-        elseif ($_GET['action'] == 'update' && isset($_POST['idArticle'])) 
+        elseif ($_GET['action'] == 'update' && isset($_POST['idArticle']) && !empty($_POST['titreArticle'] && !empty($_POST['descriptionArticle']))) 
         { 
 
             if (getimagesize($_FILES['imageArticle']['tmp_name']) == False) {
@@ -86,7 +99,9 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 $newUpdate->update($article); 
             }
             catch (ServiceException $se) {
-               
+                $service = new ServiceBlog();
+                $articles = $service->searchAll();
+                echo listeArticle($articles,$admin,$se->getCode());
             }
             
         }
@@ -96,7 +111,6 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
         if (!empty($_GET['idArticle'])) {
             $delete = new ServiceBlog();
             try{
-                $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
                 if($admin){
                     $delete->delete($_GET['idArticle']);
                 }else{
@@ -115,7 +129,6 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
 $service = new ServiceBlog();
 try{
     $articles = $service->searchAll();
-    $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
     echo listeArticle($articles,$admin);
 }
 catch (ServiceException $se) {

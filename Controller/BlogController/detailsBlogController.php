@@ -21,12 +21,20 @@ if (!empty($_GET)) {
 
     if (!empty($_GET) && isset($_GET['idArticle'])) {
         try {
+            if(!empty($_SESSION)){
             $article = $service->searchById($_GET['idArticle']);
             $avis = $avisService->searchByIdArticle($_GET['idArticle']);
             $pseudoUser = $utilisateurService->searchUserNameById($_SESSION['idUtil']);
             $idUser = $_SESSION['idUtil'];
             $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
             echo detailArticle($article, $avis,$admin,$idUser,$pseudoUser);
+            }else{
+                $article = $service->searchById($_GET['idArticle']);
+                $avis = $avisService->searchByIdArticle($_GET['idArticle']);
+               
+                echo detailArticle($article, $avis,null,null,null);
+            }
+            
             
         } catch (ServiceException $se) {
             echo listeArticle($article,$admin,$se->getCode());
