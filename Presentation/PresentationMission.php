@@ -1,7 +1,7 @@
 <?php 
 require_once("../../Presentation/PresentationCommun.php");
 
-function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCode=null,$message=null):void
+function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$page,$pages,$errorCode=null,$message=null):void
 {
     echo head();
     ?>
@@ -66,14 +66,52 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCo
             <hr class="hrGreen mx-4 my-4">
             <h2 class="text-center mt-5">Liste de vos missions :</h2>
 
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item <?php if ($page < $pages): ?>disabled<?php endif ?>">
+                        <?php //PAGINATION
+                        $link="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php"; 
+                        if ($page > 2) $link .= '?page=' . ($page - 1);
+                        ?>
+                        <a class="page-link" href="<?= $link ?>" tabindex="-1">
+                            Précendente
+                        </a>
+                    </li>
+                    <?php for ($i=0;$i<$pages;$i++) : ?>
+                        <li class="page-item">
+                            <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=<?php echo $i + 1; ?>">
+                                <?= $i ?>
+                            </a>
+                        </li>
+                    <?php endfor ?>
+                    
+                    <li class="page-item <?php if ($page > 1): ?>disabled<?php endif ?>">
+                        <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=<?php echo $page + 1; ?>">
+                            Suivante
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
+            <!-- <div class="d-flex justify-content-between my-4">
+                PAGINATION -->
+                <?php //if ($page > 1): ?>
+                    <?php 
+                    //$link="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php"; 
+                    // if ($page > 2) $link .= '?page=' . ($page - 1);
+                    // ?>
+                    <!-- <a href="<?php //$link ?>" class="btn btn-primary">
+                    Page précédente</a> -->
+                <?php //endif ?>
+                <?php //if ($page < $pages): ?>
+                    <!-- <a href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=<?php echo $page + 1; ?>"
+                        class="btn btn-primary ml-auto">
+                    Page suivante</a> -->
+                <?php //endif ?>
+            <!-- </div> -->
             <div class="card-group w-100">
                 <div class="row mx-0 my-3 w-100">
-                <?php 
-
-                foreach($missions as $mission)
-                {
-                ?>
+                <?php foreach($missions as $mission): ?>
                     <div class="col-12 col-md-6 col-lg-5 m-auto my-3">
                         <div class="card cardListeMissionPro h-100 mx-auto">
                             
@@ -101,10 +139,7 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$errorCo
                             </div>
                         </div>
                     </div>
-                <?php
-                }
-                ?>
-                    
+                <?php endforeach ?>
                 </div>                     
             </div>
 
@@ -220,7 +255,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
             if($professionnel)
             {   ?>
                 <div class="col-12 col-md-4 m-auto">
-                    <a href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?idUtilisateur=" class="btn btnGreen w-100 my-2">
+                    <a href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?idUtilisateur=" class="button btn btnGreen w-100 my-2">
                         Consulter mes missions
                     </a>
                 </div>
@@ -249,7 +284,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                 </div>     
             </div>
 
-            <hr class="mt-3 mb-4">
+            <hr class="my-4 hrGreenLight">
             
             <h1 class="my-5 px-3">Trouver ma mission humanitaire</h1>
 
@@ -269,7 +304,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                     Vous intégrerez alors des équipes bénévoles (médicales, paramédicales ou chantiers humanitaires) pour une mission humanitaire de 15 jours ou un stage de plusieurs mois.            </div>
                 </p>
 
-            <hr class="my-4">
+            <hr class="my-4 hrGreenLight">
 
             <!-- CAROUSEL --------------------------------------------------------------------------->
             <div class="col-12 border rounded p-0">
@@ -286,7 +321,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                         } ?>
                     </ol>
                     <div class="text-center mx-auto my-1">
-                        <a class="button btn pb-1 w-25" href="searchMissionsController.php?idTypeActivite=1">
+                        <a class="button btn pb-1 w-50" href="searchMissionsController.php?idTypeActivite=<?php echo ID_MEDECINE; ?>">
                             <h3>Médecine</h3>
                         </a>
                     </div>
@@ -335,7 +370,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                 </div>
             </div>
 
-            <hr class="my-4">
+            <hr class="my-4 hrGreenLight">
 
             <div class="col-12 border rounded p-0">
                 <div id="carouselDonations" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
@@ -350,7 +385,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                         } ?>
                     </ol>
                     <div class="text-center mx-auto my-1">
-                        <a class="button btn pb-1 w-25" href="searchMissionsController.php?idTypeActivite=2">
+                        <a class="button btn pb-1 w-50" href="searchMissionsController.php?idTypeActivite=<?php echo ID_DONATION; ?>">
                             <h3>Donations</h3>
                         </a>
                     </div>
@@ -405,7 +440,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                 </div>
             </div>
 
-            <hr class="mt-4 mb-4">
+            <hr class="my-4 hrGreenLight">
 
             <div class="col-12 border rounded p-0">
                 <div id="carouselEnseignement" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
@@ -420,7 +455,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                         } ?>
                     </ol>
                     <div class="text-center mx-auto my-1">
-                        <a class="button btn pb-1 w-25" href="searchMissionsController.php?idTypeActivite=3">
+                        <a class="button btn pb-1 w-50" href="searchMissionsController.php?idTypeActivite=<?php echo ID_ENSEIGNEMENT; ?>">
                             <h3>Enseignement</h3>
                         </a>
                     </div>
@@ -472,7 +507,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                 </div>
             </div>
 
-            <hr class="my-4">
+            <hr class="my-4 hrGreenLight">
 
             <div class="col-12 border rounded p-0">
                 <div id="carouselConstructions" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
@@ -488,7 +523,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                         } ?>
                     </ol>
                     <div class="text-center mx-auto my-1">
-                        <a class="button btn pb-1 w-25" href="searchMissionsController.php?idTypeActivite=4">
+                        <a class="button btn pb-1 w-50" href="searchMissionsController.php?idTypeActivite=<?php echo ID_CONSTRUCTION; ?>">
                             <h3>Construction</h3>
                         </a>
                     </div>
@@ -539,7 +574,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                     </div>
                 </div>
             </div>
-            <hr class="my-4">
+            <hr class="my-4 hrGreenLight">
 
             <div class="col-12 border rounded p-0">
                 <div id="carouselTraductions" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
@@ -555,7 +590,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                         } ?>
                     </ol>
                     <div class="text-center mx-auto my-1">
-                        <a class="button btn pb-1 w-25" href="searchMissionsController.php?idTypeActivite=5">
+                        <a class="button btn pb-1 w-50" href="searchMissionsController.php?idTypeActivite=<?php echo ID_TRADUCTION; ?>">
                             <h3>Traductions</h3>
                         </a>
                     </div>
@@ -606,7 +641,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                     </div>
                 </div>
             </div>
-            <hr class="my-4">
+            <hr class="my-4 hrGreenLight">
         </div>
         <?php      
         echo footer();
@@ -614,7 +649,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
     </body>
     </html>
 
-<?php
+    <?php
 }
 
 function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
@@ -764,7 +799,7 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
         ?>
     </body>
     </html>
-<?php
+    <?php
 }
 
 function formulairesMission(array $tabAffichageFormMission,$mission=null)
@@ -894,7 +929,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
         ?>
     </body>
     </html>
-<?php
+    <?php
 }
 
 function formParticipationMission($mission)
@@ -967,5 +1002,3 @@ function formParticipationMission($mission)
     </html>
     <?php
 }
-
-/*** */

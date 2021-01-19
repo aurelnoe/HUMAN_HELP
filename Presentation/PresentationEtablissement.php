@@ -13,7 +13,7 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
             $allPays = $tabAffichageFormEtablissement['allPays'];
             $action = $tabAffichageFormEtablissement['action'];
         ?>
-        <div class="col-12 col-md-6 formEtablissement container p-4 mb-5 border rounded">
+        <div class="col-12 col-md-6 formEtablissement container p-4 mb-5 borderGreen rounded">
 
             <h2 class="text-center my-2 pb-2"><?php echo $tabAffichageFormEtablissement['title']; ?></h2>
 
@@ -22,7 +22,7 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
                 <input type="hidden" name="idEtablissement" value="<?php echo isset($tabAffichageFormEtablissement['idEtablissement']) ? $tabAffichageFormEtablissement['idEtablissement'] : '' ?>">
                 <input type="hidden" name="idUtilisateur" value="<?php echo isset($tabAffichageFormEtablissement['idUtilisateur']) ? $$tabAffichageFormEtablissement['idUtilisateur'] : $etablissement->getIdUtilisateur() ?>">
 
-                <hr class="my-4">
+                <hr class="my-4 hrGreenLight">
 
                 <div class="mb-3 form-group">
                     <label for="denomination">Dénomination de l'établissement</label>
@@ -89,7 +89,7 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
                     </div>
                 </div>
                 
-                <hr class="mb-4 mt-4">
+                <hr class="my-4 hrGreenLight">
                 
                 <button class="btn btnGreen btn-lg btn-block mb-5" type="submit"><?php echo $tabAffichageFormEtablissement['titleBtn'];?></button>
             </form>
@@ -105,6 +105,6 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
         ?>
     </body>
     </html>
-<?php
+    <?php
 }
 ?>

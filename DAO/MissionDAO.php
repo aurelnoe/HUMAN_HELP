@@ -192,15 +192,42 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     }
 
     /**************** CHERCHE TOUTES LES MISSIONS D'UN PRO *****OK**/
-    public function searchMissionByPro(int $idEtablissement):array
+    public function searchMissionByPro(int $idEtablissement,int $getPage):array
     {
         try {
             $newConnect = new BddConnect();
             $db = $newConnect->connexion();
+
+            $page = $getPage ?? 1;
+
+            if(!filter_var($page, FILTER_VALIDATE_INT)){
+                throw new Exception('Numéro de page invalide');
+            }
         
-            $query = "SELECT * FROM mission WHERE idEtablissement = :idEtablissement";
+            if ($page === '1') {
+                header('Location: /HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=');
+                http_response_code(301);
+                exit;
+            }
+
+            $currentPage = (int)$page;
+            if ($currentPage <= 0) {
+                throw new Exception('Numéro de page invalide');
+            }
+            $count = (int)$db->query("SELECT COUNT(idMission) 
+                                    FROM mission 
+                                    WHERE idEtablissement = $idEtablissement"
+                                    )->fetch(PDO::FETCH_NUM)[0];
+            $limite = 6;
+            $pages = ceil($count / 6);
+            if ($currentPage > $pages) {
+                throw new Exception('Cette page n\'existe pas');
+            }
+            $debut = ($currentPage - 1) * $limite;
+            $query = "SELECT * FROM mission 
+                        WHERE idEtablissement = $idEtablissement
+                        LIMIT $limite OFFSET $debut";
             $stmt = $db->prepare($query);
-            $stmt->bindParam(':idEtablissement', $idEtablissement);
             $stmt->execute();  
 
             $missions = $stmt->fetchAll(PDO::FETCH_CLASS,'Mission');
@@ -214,6 +241,20 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
             $db = null;
             $stmt = null;   
         }       
+    }
+
+    public function countPageMissionPro(int $idEtablissement)
+    {
+        $newConnect = new BddConnect();
+        $db = $newConnect->connexion();
+
+        $count = (int)$db->query("SELECT COUNT(idMission) 
+                                    FROM mission 
+                                    WHERE idEtablissement = $idEtablissement"
+                                    )->fetch(PDO::FETCH_NUM)[0];
+        $pages = ceil($count / 6);
+                                
+        return $pages;
     }
 
     public function searchMissions(int $getIdPays=null,int $getIdTypeActivite=null,int $getTypeFormation=null):array

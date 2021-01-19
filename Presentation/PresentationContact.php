@@ -4,7 +4,7 @@ require_once("../../Presentation/PresentationCommun.php");
 function formulaireContact()
 {
     echo head();
-?>
+    ?>
  <body>
         <?php
             echo navbar();
@@ -77,6 +77,6 @@ function formulaireContact()
     ?>
     </body>
     </html>
-<?php
+    <?php
 }
 ?>

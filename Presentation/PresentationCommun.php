@@ -11,7 +11,8 @@ function head()
     <?php
 }
 
-function footer(){ 
+function footer()
+{ 
 	?>
     <footer class="mt-4" style="background-color: #F8F8FF;">
     <div class="row text-center">

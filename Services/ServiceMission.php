@@ -76,10 +76,21 @@ class ServiceMission
     }
 
     /************ PAGE LISTE MISSION PRO ***********/
-    public function searchMissionByPro($idEtablissement)
+    public function searchMissionByPro($idEtablissement,$page)
     {
         try {
-            return $this->missionDAO->searchMissionByPro($idEtablissement);      
+            return $this->missionDAO->searchMissionByPro($idEtablissement,$page);      
+        }
+        catch (DAOException $de) {
+            throw new ServiceException($de->getMessage(),$de->getCode());
+        }  
+    }
+
+    /************ PAGINATION ***********/
+    public function countPageMissionPro($idEtablissement)
+    {
+        try {
+            return $this->missionDAO->countPageMissionPro($idEtablissement);      
         }
         catch (DAOException $de) {
             throw new ServiceException($de->getMessage(),$de->getCode());

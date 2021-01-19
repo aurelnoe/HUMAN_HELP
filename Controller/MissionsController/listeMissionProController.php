@@ -10,8 +10,6 @@ include_once(PATH_BASE . "/Exceptions/ServiceException.php");
 include_once(PATH_BASE . "/Presentation/PresentationMission.php");
 include_once(PATH_BASE . "/Presentation/PresentationUtilisateur.php");
 
-
-
 $_GET = array_map('htmlentities',$_GET); 
 $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
@@ -29,6 +27,8 @@ $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $
 
 if ($professionnel)
 {
+    $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
+
     if(!empty($_GET['action']) && isset($_GET['action']))
     {
         if (!empty($_POST) && isset($_POST)) 
@@ -47,11 +47,10 @@ if ($professionnel)
                 $titreMission = utf8_decode($_POST['titreMission']);
                 $descriptionMission = $_POST['descriptionMission'];
                 $typeFormation = $_POST['typeFormation'];
-                //$imageMission = is_null($_POST['imageMission']) ? 'NULL' : $_POST['imageMission'];
                 $dateDebut = $_POST['dateDebut'];
                 $duree = $_POST['duree'];
-                $dateAjout = date("Y-m-d"); //TypeError: Return value of Mission::setDateAjout() must be an instance of Mission, instance of DateTime returned -> Mission.php on line 188
-                $idPays = $_POST['idPays'];
+                $dateAjout = date("Y-m-d");
+                 $idPays = $_POST['idPays'];
                 $idEtablissement = $_POST['idEtablissement'];
                 $idTypeActivite = $_POST['idTypeActivite'];
 
@@ -70,21 +69,21 @@ if ($professionnel)
                     
                     $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
                     $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
+                    $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                     
-                    echo listeMissionsPro($missions,$etablissement,$utilisateur);
+                    echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
                     die;
                 } 
                 catch (ServiceException $se) {
                     if ($professionnel) 
                     {
                         $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
-                        
                         $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
+                        $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                        $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                         
-                        $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
-                        
-                        echo listeMissionsPro($missions,$etablissement,$utilisateur,$se->getCode());
+                        echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages,$se->getCode());
                         die;           
                     }
                     else {
@@ -120,9 +119,10 @@ if ($professionnel)
 
                     $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
                     $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
+                    $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                     
-                    echo listeMissionsPro($missions,$etablissement,$utilisateur);
+                    echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
                     die;  
                 }
                 catch (ServiceException $se) {
@@ -158,17 +158,19 @@ if ($professionnel)
                     
                     $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
                     $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
+                    $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                     
-                    echo listeMissionsPro($missions,$etablissement,$utilisateur);
+                    echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
                     die;            
                 }
                 catch (ServiceException $se) {
                     $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
                     $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
+                    $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                     
-                    echo listeMissionsPro($missions,$etablissement,$utilisateur,$se->getCode());
+                    echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages,$se->getCode());
                     die;  
                 }
             }
@@ -181,27 +183,31 @@ if ($professionnel)
                 
                 $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
                 $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
+                $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                 
-                echo listeMissionsPro($missions,$etablissement,$utilisateur,$se->getCode());
+                echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages,$se->getCode());
                 die;
             }
             catch (ServiceException $se) {
                 $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
                 $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
+                $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                 
-                echo listeMissionsPro($missions,$etablissement,$utilisateur,$se->getCode());
+                echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages,$se->getCode());
                 die;           
             }
         }
     }
-    else {
+    else{
+
         $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
         $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-        $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement());
+        $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+        $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),$page,$pages);
         
-        echo listeMissionsPro($missions,$etablissement,$utilisateur);
+        echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
         die;
     }
 }

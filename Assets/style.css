@@ -75,6 +75,10 @@ body {
   font-size: 16px;
 }
 
+.page-link {
+  color: #228b22!important;
+}
+
 .logo1 {
   background-image: url("../images/logo1.png");
   background-size: cover;
