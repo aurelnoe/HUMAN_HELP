@@ -9,6 +9,12 @@ $_GET = array_map('htmlentities',$_GET);
 $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
+
+$imageArticle = $_FILES['imageMission']['tmp_name'];
+$imageArticle = file_get_contents($imageArticle);
+$imageArticle = base64_encode($imageArticle);
+
+
 /************************** AJOUT ARTICLE ***************************/
 if (!empty($_GET['action']) && isset($_GET['action'])) {
 

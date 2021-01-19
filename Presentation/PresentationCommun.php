@@ -18,13 +18,13 @@ function footer(){
         <div class="col-xl-4 col-md-12">
             <ul class="list-footer list-group list-group-flush">
                 <li class="list-group-item" style="background-color: #F8F8FF;" >
-                    <a class="nav-link" href="#navbarSupportedContent">
-                        Pays d'action
+                    <a class="nav-link" href="#">
+                        Détail compte perso
                     </a>
                 </li>
                 <li class="list-group-item" style="background-color: #F8F8FF;">
-                    <a class="nav-link" href="#navbarSupportedContent">
-                        Types d'activités
+                    <a class="nav-link" href="#">
+                        Espace pro
                     </a>
                 </li>
                 <li class="list-group-item" style="background-color: #F8F8FF;">

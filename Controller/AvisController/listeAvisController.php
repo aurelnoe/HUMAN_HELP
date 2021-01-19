@@ -47,7 +47,7 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
             $dateCommentaire = date("Y-m-d");
             $idUtilisateur =  ($_POST['idUtilisateur']);
             $idArticle = ($_POST['idArticle']);
-            $sessionId = ($_POST['sessionId']);
+            $sessionId = ($_SESSION['idUtil']);
 
             $avis = new Avis();
 

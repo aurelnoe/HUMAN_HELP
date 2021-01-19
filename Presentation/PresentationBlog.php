@@ -71,7 +71,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
             </form>
         </div>
         <?php
-            echo footer();
+        echo footer();
         ?>
     </body>
 
@@ -79,7 +79,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 <?php
 }
 
-function listeArticle($articles, $admin,$errorCode=null)
+function listeArticle($articles, $admin, $errorCode = null)
 {
     echo head();
 ?>
@@ -90,9 +90,9 @@ function listeArticle($articles, $admin,$errorCode=null)
 
         echo navbar();
         if ($errorCode) {
-            if($errorCode == 9999){    //Error Article not found
+            if ($errorCode == 9999) {    //Error Article not found
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-            }  
+            }
         }
         ?>
         <div class="container">
@@ -104,9 +104,9 @@ function listeArticle($articles, $admin,$errorCode=null)
                 <div class="card cardBorder m-auto px-0 col-12 my-5">
                     <div class="row card-body">
 
-                        <div class="col-12 col-md-6">
-                            <img class="card-img-top" src="\HUMAN_HELP\images\enseignementViet.jpg" width="" height="" alt="Card image">
-                            <hr class="my-2">
+                        <div class="col-10 col-md-5 m-auto p-0">
+                            <img src="data:image/jpg;base64,<?php echo $article->getImageArticle(); ?>" class="imageDetailsMission rounded border" width="100" height="360" />
+                            <hr class="hrGreen">
                         </div>
 
                         <div class="col-12 col-md-6">
@@ -146,7 +146,7 @@ function listeArticle($articles, $admin,$errorCode=null)
             </div>
         <?php } ?>
         <?php
-         echo footer();
+        echo footer();
         ?>
     </body>
 
@@ -154,7 +154,7 @@ function listeArticle($articles, $admin,$errorCode=null)
 <?php
 }
 
-function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil=null,$errorCode=null,$message=null)
+function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUtil = null, $errorCode = null, $message = null)
 {
     echo head();
 ?>
@@ -164,10 +164,10 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
         include("../../Templates/Bases/navbarDev.php");
 
         echo navbar();
-        if($errorCode!=null && $errorCode == 1027){
+        if ($errorCode != null && $errorCode == 1027) {
             $message = "L'article n'a pas était modifiée, une erreur est survenue.";
             echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-        }elseif (isset($errorCode) && $errorCode == 9958) {
+        } elseif (isset($errorCode) && $errorCode == 9958) {
             echo "<div class='alert alert-success text-center'>$message</div>";
         }
         ?>
@@ -213,7 +213,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
             <?php } ?>
             <?php
             if (!empty($_SESSION)) {
-            echo FormulaireAvis($article->getIdArticle(),$idUtil, $pseudoUtil);
+                echo FormulaireAvis($article->getIdArticle(), $idUtil, $pseudoUtil);
             }
             echo listeAvis($avis, $article->getIdArticle());
 
@@ -223,7 +223,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
 
         </div>
         <?php
-            echo footer();
+        echo footer();
         ?>
     </body>
 
@@ -231,7 +231,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil=null, $pseudoUtil
 <?php
 }
 
-function FormulaireAvis(int $idArticle,$idUtil=null, $pseudoUtil=null)
+function FormulaireAvis(int $idArticle, $idUtil = null, $pseudoUtil = null)
 {
 ?>
     <div class="container col-12 col-md-10 pt-2 my-2 border rounded">
@@ -240,11 +240,11 @@ function FormulaireAvis(int $idArticle,$idUtil=null, $pseudoUtil=null)
 
         <form class="col-5 offset-3" action="/HUMAN_HELP//Controller/AvisController/listeAvisController.php?action=add&idArticle=<?php echo $idArticle; ?>" method="POST">
             <input type="hidden" id="idArticle" name="idArticle" value="<?php echo $idArticle; ?>">
-            <input type="hidden" id="auteurAvis" name="auteur" value="<?php echo $pseudoUtil; ?>">
+            <input type="hidden" id="auteurAvis" name="auteurAvis" value="<?php echo $pseudoUtil; ?>">
             <input type="hidden" name="dateCommentaire" value="<?php echo date("F j, Y, g:i a"); ?>">
             <input type="hidden" id="idUtilisateur" name="idUtilisateur" value="<?php echo $idUtil; ?>">
-            
-            <textarea class="col mb-3 offset-2" name="temoignage"  placeholder="Ecrivez votre commentaire..." id="temoignage"> </textarea>
+
+            <textarea class="col mb-3 offset-2" name="temoignage" placeholder="Ecrivez votre commentaire..." id="temoignage"> </textarea>
             <button class="btn btnGreen btn-lg btn-block mb-3 offset-2" type="submit">Poster un commentaire</button>
         </form>
 
@@ -260,18 +260,18 @@ function listeAvis($avis, $idArticle)
     <?php } ?>
     <div>
         <?php foreach ($avis as $commentaire) { ?>
+            <input type=hidden id="<?php echo "idAvis" . $commentaire->getIdAvis(); ?>" name="idAvis" value="<?php echo $commentaire->getIdAvis(); ?>">
+            <input type=hidden id="idUtil" value="<?php echo $commentaire->getIdUtilisateur(); ?>">
 
-            <input type=hidden id="idAvis" value=<?php echo $commentaire->getIdAvis(); ?>>
-            <input type=hidden id="idUtil" value=<?php echo $commentaire->getIdUtilisateur(); ?>>
-            <input type="hidden" id="sessionId" name="sessionId" value="<?php $_SESSION['idUtil'] ?>">
             <div class="avis" style="background: #eee ; border-radius:10px;">
-                <p><span style="font-weight: bold;"> De <?php echo (searchUserNameById($commentaire->getIdUtilisateur()));?> :</span><span id="<?php echo "modifTemoignage" . $commentaire->getIdAvis(); ?>"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
+                <p><span style="font-weight: bold;"> De <?php echo (searchUserNameById($commentaire->getIdUtilisateur())); ?> :</span><span id="<?php echo "modifTemoignage" . $commentaire->getIdAvis(); ?>"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
             </div>
-            <?php if (!empty($_SESSION) && $_SESSION['idUtil'] == $commentaire->getIdUtilisateur() ) {?>
-            <div>
-                <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>
-                <button class="btn btn-success w-25" onclick="update()">Modifier</button>
-            </div>
+
+            <?php if (!empty($_SESSION) && $_SESSION['idUtil'] == $commentaire->getIdUtilisateur()) { ?>
+                <div>
+                    <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>
+                    <button id = "btnModif" class="btn btn-success w-25" onclick="update()">Modifier</button>
+                </div>
             <?php } ?>
             <hr class="my-4">
 
@@ -279,97 +279,92 @@ function listeAvis($avis, $idArticle)
 
     </div>
     <script>
-function update(){
-    $('.avis span').click(function(e){
-        var currentId = e.currentTarget.id;
-        var temoignage = document.getElementById(currentId);
-        var sessionId = document.getElementById("sessionId").value;
-        var auteur = document.getElementById("auteurAvis").value;
-        var idAvis = document.getElementById("idAvis").value;
-        var idUtilisateur = document.getElementById("idUtilisateur").value;
-        var idArticle = document.getElementById("idArticle").value;
-        
-        temoignage.addEventListener('click', function(e) {
+        function update() {
 
-            this.setAttribute('data-clicked', 'yes');
-            this.setAttribute('data-text', this.innerHTML);
+            $('.avis span').click(function(e) {
 
+                var currentId = e.currentTarget.id;
+                var temoignage = document.getElementById(currentId);
+                var auteur = document.getElementById("auteurAvis").value;
+                var avisId = currentId.replace("modifTemoignage", "");
+                var idAvis = document.getElementById("idAvis" + avisId).value;
+                var idUtilisateur = document.getElementById("idUtilisateur").value;
+                var idArticle = document.getElementById("idArticle").value;
+                
+                temoignage.addEventListener('click', function(e) {
 
-
-            var input = document.createElement("input");
-            input.type = "text";
-            input.value = this.innerText; // garder la valeur de la cellule dans l'input
-//***************************************************************************************** */
-            var input2 = document.createElement("input");
-            input2.name ="auteur";
-            input2.type = "hidden";
-            input2.value = auteur;
-            input2.textContent = auteur;
-
-            var input3 = document.createElement("input");
-            input3.name ="idAvis";
-            input3.type = "hidden";
-            input3.value = idAvis;
-            input3.textContent = idAvis;
-
-            var input4 = document.createElement("input");
-            input4.name ="idUtilisateur";
-            input4.type = "hidden";
-            input4.value = idUtilisateur;
-            input4.textContent = idUtilisateur;
-
-            var input5 = document.createElement("input");
-            input5.name ="idArticle";
-            input5.type = "hidden";
-            input5.value = idArticle;
-            input5.textContent = idArticle;
-
-            var input6 = document.createElement("input");
-            input6.name ="sessionId";
-            input6.type = "hidden";
-            input6.value = sessionId;
-            input6.textContent = sessionId;
-
-// *********************************************************************************************
-
-            input.onblur = function() { // onblur éxécute le code quand la personne sort d'un input il y a aussi change et focusOut
-                var temoignage = input.parentElement;
-                var originalText = input.parentElement.getAttribute("data-text");
-                var currentText = this.value;
-
-                if (originalText != currentText) {
-                    temoignage.removeAttribute('data-clicked');
-                    temoignage.removeAttribute('data-text');
-                    temoignage.innerHTML = currentText;
-
-                    var my_form = document.createElement('FORM');
-                    my_form.name = 'myForm';
-                    my_form.method = 'POST';
-                    my_form.action = "/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=update" +  "&idArticle=" + idArticle + "&temoignage=" + this.value;
-                    document.body.appendChild(my_form);
-                    my_form.appendChild(input2);
-                    my_form.appendChild(input3);
-                    my_form.appendChild(input4);
-                    my_form.appendChild(input5);
-                    my_form.appendChild(input6);
-                    // console.log(my_form);
-                   
-                    my_form.submit();
-                }
-            }
+                    this.setAttribute('data-clicked', 'yes');
+                    this.setAttribute('data-text', this.innerHTML);
 
 
-            this.innerHTML = ""; // clear la td quand on clique
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.value = this.innerText; // garder la valeur de la cellule dans l'input
+                    //***************************************************************************************** */
+                    var input2 = document.createElement("input");
+                    input2.name = "auteur";
+                    input2.type = "hidden";
+                    input2.value = auteur;
+                    input2.textContent = auteur;
 
-            var myClickedElement = e.target;
-            myClickedElement.appendChild(input);
-            this.firstElementChild.select();
-            // console.log(temoignage);
+                    var input3 = document.createElement("input");
+                    input3.name = "idAvis";
+                    input3.type = "hidden";
+                    input3.value = idAvis;
+                    input3.textContent = idAvis;
+
+                    var input4 = document.createElement("input");
+                    input4.name = "idUtilisateur";
+                    input4.type = "hidden";
+                    input4.value = idUtilisateur;
+                    input4.textContent = idUtilisateur;
+
+                    var input5 = document.createElement("input");
+                    input5.name = "idArticle";
+                    input5.type = "hidden";
+                    input5.value = idArticle;
+                    input5.textContent = idArticle;
 
 
-        })
-    })
-}
+                    // *********************************************************************************************
+
+                    input.onblur = function() { // onblur éxécute le code quand la personne sort d'un input il y a aussi change et focusOut
+                        var temoignage = input.parentElement;
+                        var originalText = input.parentElement.getAttribute("data-text");
+                        var currentText = this.value;
+
+                        if (originalText != currentText) {
+                            temoignage.removeAttribute('data-clicked');
+                            temoignage.removeAttribute('data-text');
+                            temoignage.innerHTML = currentText;
+
+                            var my_form = document.createElement('FORM');
+                            my_form.name = 'myForm';
+                            my_form.method = 'POST';
+                            my_form.action = "/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=update" + "&idArticle=" + idArticle + "&temoignage=" + this.value;
+                            document.body.appendChild(my_form);
+                            my_form.appendChild(input2);
+                            my_form.appendChild(input3);
+                            my_form.appendChild(input4);
+                            my_form.appendChild(input5);
+                            console.log(my_form);
+
+                            // my_form.submit();
+                        }
+                    }
+
+
+                    this.innerHTML = ""; // clear la td quand on clique
+
+                    var myClickedElement = e.target;
+                    myClickedElement.appendChild(input);
+                    this.firstElementChild.select();
+                    // console.log(temoignage);
+
+
+                })
+            })
+        }
     </script>
 
 <?php
