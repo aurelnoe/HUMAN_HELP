@@ -47,7 +47,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 
                 <div class="mb-3 form-group">
                     <label for="imageArticle">Ajouter une image</label>
-                    <input type="file" class="form-control-file" name="imageArticle" placeholder="" value="<?php echo ($_GET['action'] == 'update') ? $article->getImageArticle() : ''; ?>">
+                    <input type="file" class="form-control-file" name="imageArticle" placeholder="" accept="image/png, image/jpeg" value="<?php echo ($_GET['action'] == 'update') ? $article->getImageArticle() : ''; ?>">
                 </div>
 
                 <div class="mb-3 form-group">

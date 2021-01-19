@@ -68,9 +68,9 @@ function footer()
             <button class="btn btnGreen btn-lg  mb-5 button-footer1 text-center" type="submit">
                 S'inscrire à la Newsletter
             </button>
-            <button class="btn btnGreen btn-lg  mb-5 button-footer2 text-center" type="submit">
+            <a href="/HUMAN_HELP/Controller/ContactController/contactController.php"><button class="btn btnGreen btn-lg  mb-5 button-footer2 text-center" type="submit">
                 Contact
-            </button>
+            </button></a>
         </div>
     </div>
 	</footer>
