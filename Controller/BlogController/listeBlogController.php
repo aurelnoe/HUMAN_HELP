@@ -10,9 +10,7 @@ $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 
-$imageArticle = $_FILES['imageMission']['tmp_name'];
-$imageArticle = file_get_contents($imageArticle);
-$imageArticle = base64_encode($imageArticle);
+
 
 
 /************************** AJOUT ARTICLE ***************************/
@@ -25,11 +23,18 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             // echo'<pre>';
             // var_dump($_POST);
             // echo '</pre>';
+            if (getimagesize($_FILES['imageArticle']['tmp_name']) == False) {
+                echo "Veulliez ajouter une image";
+            }
+            $imageArticle = $_FILES['imageArticle']['tmp_name'];
+            $imageArticle = file_get_contents($imageArticle);
+            $imageArticle = base64_encode($imageArticle);
+
             $titreArticle = utf8_decode(($_POST['titreArticle']));
             $descriptionArticle = ($_POST['descriptionArticle']);
             $dateArticle = ($_POST['dateArticle']);
             $dateAjoutArticle = date("Y-m-d");
-            $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : ($_POST['imageArticle']);
+            // $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : ($_POST['imageArticle']);
 
             $article = new Blog();
 
@@ -44,7 +49,7 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                  $newAdd->add($article);
             }
             catch (ServiceException $se) {
-                connexion("Vous devez être connecté en tant qu'admin",null);
+               
             }
            
         }
@@ -52,12 +57,20 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
         /************************** MODIFIE ARTICLE ***************************/
         elseif ($_GET['action'] == 'update' && isset($_POST['idArticle'])) 
         { 
+
+            if (getimagesize($_FILES['imageArticle']['tmp_name']) == False) {
+                echo "Veulliez ajouter une image";
+            }
+            $imageArticle = $_FILES['imageArticle']['tmp_name'];
+            $imageArticle = file_get_contents($imageArticle);
+            $imageArticle = base64_encode($imageArticle);
+
             $idArticle = ($_POST['idArticle']);
             $titreArticle = utf8_decode(($_POST['titreArticle']));
             $descriptionArticle = ($_POST['descriptionArticle']);
             $dateArticle = ($_POST['dateArticle']);
             $dateAjoutArticle = date("Y-m-d");
-            $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : ($_POST['imageArticle']);
+            // $imageArticle = is_null($_POST['imageArticle']) ? 'NULL' : ($_POST['imageArticle']);
 
             $article = new Blog();
 
@@ -73,11 +86,7 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 $newUpdate->update($article); 
             }
             catch (ServiceException $se) {
-                $newUpdate->update($article);
-                $articles = $service->searchAll();
-                $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
-                echo listeArticle($articles,$admin,$se->getCode());       
-                die;
+               
             }
             
         }

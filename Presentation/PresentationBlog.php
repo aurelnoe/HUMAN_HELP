@@ -14,7 +14,6 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
 
         echo navbar();
 
@@ -23,7 +22,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 
             <h2 class="text-center my-2 pb-2"><?php echo $title; ?></h2>
 
-            <form class="needs-validation  p-3" action="/HUMAN_HELP//Controller/BlogController/listeBlogController.php?action=<?php echo $action; ?>" method="POST" novalidate>
+            <form class="needs-validation  p-3" action="/HUMAN_HELP//Controller/BlogController/listeBlogController.php?action=<?php echo $action; ?>" method="POST" enctype="multipart/form-data" novalidate>
                 <input type="hidden" name="idArticle" value="<?php echo isset($idArticle) ? $idArticle : '' ?>">
 
                 <hr class="mb-4 mt-2">
@@ -48,7 +47,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 
                 <div class="mb-3 form-group">
                     <label for="imageArticle">Ajouter une image</label>
-                    <input type="file" class="form-control-file" name="imageArticle" placeholder="" capture>
+                    <input type="file" class="form-control-file" name="imageArticle" placeholder="" value="<?php echo ($_GET['action'] == 'update') ? $article->getImageArticle() : ''; ?>">
                 </div>
 
                 <div class="mb-3 form-group">
@@ -79,14 +78,13 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 <?php
 }
 
-function listeArticle($articles, $admin, $errorCode = null)
+function listeArticle($articles, $admin, $errorCode = null, $message = null)
 {
     echo head();
 ?>
 
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
 
         echo navbar();
         if ($errorCode) {
@@ -161,7 +159,6 @@ function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUt
 
     <body>
         <?php
-        include("../../Templates/Bases/navbarDev.php");
 
         echo navbar();
         if ($errorCode != null && $errorCode == 1027) {
@@ -193,9 +190,9 @@ function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUt
                     </p>
                     <p>Date : <?php echo $article->getDateArticle()->format('d-m-Y'); ?> </p>
                 </div>
-                <div class="col-12 col-md-6 col-lg-5 m-auto p-0">
-                    <img class="rounded border w-100" src="\HUMAN_HELP\images\informatiqueAfrique.jpg" height="360" width="420" alt="" />
-                    <hr class="hrGreen">
+                <div class="col-10 col-md-5 m-auto p-0">
+                            <img src="data:image/jpg;base64,<?php echo $article->getImageArticle(); ?>" class="imageDetailsMission rounded border" width="100" height="360" />
+                            <hr class="hrGreen">
                 </div>
             </div>
 
