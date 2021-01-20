@@ -7,7 +7,7 @@ include_once(PATH_BASE . "/Services/ServiceUtilisateur.php");
 
 
 
-function formulaireArticle(string $title, $article = null, string $titleBtn, string $action, int $idArticle = null)
+function formulaireArticle(array $tabFormArticle, $article = null)
 {
     echo head();
 ?>
@@ -16,6 +16,10 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
         <?php
 
         echo navbar();
+        $action = $tabFormArticle['action'];
+        $idArticle = $tabFormArticle['idArticle'];
+        $titleBtn = $tabFormArticle['titleBtn'];
+        $title = $tabFormArticle['title'];
 
         ?>
         <div class="container col-12 col-md-6 pt-4 my-4 border rounded">
@@ -78,7 +82,7 @@ function formulaireArticle(string $title, $article = null, string $titleBtn, str
 <?php
 }
 
-function listeArticle($articles, $admin, $errorCode = null, $message = null)
+function listeArticle($articles, $admin, $errorCode = null, $message = null,$successCode = null)
 {
     echo head();
 ?>
@@ -95,6 +99,18 @@ function listeArticle($articles, $admin, $errorCode = null, $message = null)
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
             }else if($errorCode == 9998){
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+            }
+        }
+        if ($successCode) {
+            if($successCode == 15000){
+                $message = "L'article à bien été ajouté";
+                echo "<div class='alert alert-success text-center'> $message</div>";
+            } else if($successCode == 15001){
+                $message = "L'article à bien été modifié";
+                echo "<div class='alert alert-success text-center'> $message</div>";
+            } else if($successCode == 15002){
+                $message = "L'article à bien été supprimé";
+                echo "<div class='alert alert-success text-center'> $message</div>";
             } 
         }
         ?>
@@ -157,22 +173,12 @@ function listeArticle($articles, $admin, $errorCode = null, $message = null)
 <?php
 }
 
-function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUtil = null, $errorCode = null, $message = null)
+function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUtil = null)
 {
     echo head();
 ?>
 
     <body>
-        <?php
-
-        echo navbar();
-        if ($errorCode != null && $errorCode == 1027) {
-            $message = "L'article n'a pas était modifiée, une erreur est survenue.";
-            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-        } elseif (isset($errorCode) && $errorCode == 9958) {
-            echo "<div class='alert alert-success text-center'>$message</div>";
-        }
-        ?>
         <div class="container">
 
 

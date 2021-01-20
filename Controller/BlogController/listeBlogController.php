@@ -47,10 +47,14 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 ->setDateAjout($dateAjoutArticle)
                 ->setImageArticle($imageArticle);
 
-            $newAdd = new ServiceBlog();
+            $service = new ServiceBlog();
             try{ 
                 if($admin){
-                 $newAdd->add($article);
+                    $service->add($article);
+                    $successCode = 15000;
+                    $articles = $service->searchAll();
+                    echo listeArticle($articles,$admin,null,null,$successCode);
+                    die;
                 }
             }
             catch (ServiceException $se) {
@@ -96,16 +100,21 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                     ->setDateAjout($dateAjoutArticle)
                     ->setImageArticle($imageArticle);
 
-            $newUpdate = new ServiceBlog();
+            $service = new ServiceBlog();
             try{
                 if($admin){
-                $newUpdate->update($article);
+                    $service->update($article);
+                    $successCode = 15001;
+                    $articles = $service->searchAll();
+                    echo listeArticle($articles,$admin,null,null,$successCode);
+                    die;
                 }
             }
             catch (ServiceException $se) {
                 $service = new ServiceBlog();
                 $articles = $service->searchAll();
                 echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
+                die;
             }
             
         }
@@ -113,10 +122,14 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
     /**************************************** SUPPRIME ARTICLE ************************/
     elseif ($_GET['action'] == 'delete') {
         if (!empty($_GET['idArticle'])) {
-            $delete = new ServiceBlog();
+            $service = new ServiceBlog();
             try{
                 if($admin){
-                    $delete->delete($_GET['idArticle']);
+                    $service->delete($_GET['idArticle']);
+                    $successCode = 15002;
+                    $articles = $service->searchAll();
+                    echo listeArticle($articles,$admin,null,null,$successCode);
+                    die;
                 }
                 // else{
                 //     header('Location: ../../index.php');
