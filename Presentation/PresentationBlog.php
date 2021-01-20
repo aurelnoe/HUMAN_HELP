@@ -90,7 +90,12 @@ function listeArticle($articles, $admin, $errorCode = null, $message = null)
         if ($errorCode) {
             if ($errorCode == 9999) {    //Error Article not found
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-            }
+            } else if ( $errorCode == 1027) {
+                $message = "L'article n'a pas était modifiée, une erreur est survenue.";
+                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+            }else if($errorCode == 9998){
+                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+            } 
         }
         ?>
         <div class="container">

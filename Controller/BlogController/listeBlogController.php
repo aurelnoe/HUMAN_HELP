@@ -48,17 +48,19 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 ->setImageArticle($imageArticle);
 
             $newAdd = new ServiceBlog();
-            try{
+            try{ 
+                if($admin){
                  $newAdd->add($article);
+                }
             }
             catch (ServiceException $se) {
                 if($admin){
-                     $service = new ServiceBlog();
-                $articles = $service->searchAll();
-                echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
-                echo $se->getCode();
-                die;
-                }else{
+                    $service = new ServiceBlog();
+                    $articles = $service->searchAll();
+                    echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
+                    die;
+                
+                }else {
                     header("Location: ../../index.php");
                     die;
                 }
@@ -96,12 +98,14 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
 
             $newUpdate = new ServiceBlog();
             try{
-                $newUpdate->update($article); 
+                if($admin){
+                $newUpdate->update($article);
+                }
             }
             catch (ServiceException $se) {
                 $service = new ServiceBlog();
                 $articles = $service->searchAll();
-                echo listeArticle($articles,$admin,$se->getCode());
+                echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
             }
             
         }
@@ -113,12 +117,15 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             try{
                 if($admin){
                     $delete->delete($_GET['idArticle']);
-                }else{
-                    header('Location: ../../index.php');
                 }
+                // else{
+                //     header('Location: ../../index.php');
+                // }
             }
             catch (ServiceException $se) {
-                header('Location: ../../index.php');
+                $service = new ServiceBlog();
+                $articles = $service->searchAll();
+                echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
             }
             
         }

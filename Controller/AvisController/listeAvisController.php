@@ -78,12 +78,13 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
 
             $service = new ServiceBlog(); 
             $avisService = new ServiceAvis(); 
-            $utilisateurService = new ServiceUtilisateur();
+            $utilisateurService = new ServiceUtilisateur(); 
+            $delete = new ServiceAvis(); 
             try{ 
-                $delete = new ServiceAvis();   
+                 
                 // if ($idUtilisateur == $_SESSION['idUtil']){
                     $delete->delete($_GET['idAvis']);
-                // }        
+                //}        
                 
                 
                 // $article = $service->searchById($_GET['idArticle']);
@@ -98,6 +99,8 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
            
         }
     }
+}else{
+    header('Location: ../../index.php');
 }
 
 /******************************************** AFFICHER TOUS LES AVIS ***********************************************/
