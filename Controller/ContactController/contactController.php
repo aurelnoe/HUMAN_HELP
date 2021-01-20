@@ -2,14 +2,14 @@
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/Presentation/PresentationContact.php");
 
-echo formulaireContact();
+
 
 if (isset($_GET['action'])) 
 {
 
     if ($_GET['action'] == 'send') 
     { 
-       
+        $successCode = 16000;
         $to="samir-mekhloufi@hotmail.fr";
          //$to = $_POST['mail'];
         $mail="testHumanHelp@gmail.com";
@@ -25,7 +25,8 @@ if (isset($_GET['action']))
         $message= $nom. ',' . $prenom . ', Tel :' . $tel . ', Sujet : ' . $sujet . ', Message : ' . $demande ." ";
         
                     mail($to, $sujet, $message, $header);
-                    header("Location: ../../index.php");
-                    die;
+                    // header("Location: ../../index.php");
+                    // die;
+                    echo formulaireContact($successCode);
     }
 }

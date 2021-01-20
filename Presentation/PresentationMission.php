@@ -991,7 +991,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
     <?php
 }
 
-function formParticipationMission($mission)
+function formParticipationMission($mission, $successCode =null )
 {
     echo head();
     ?>

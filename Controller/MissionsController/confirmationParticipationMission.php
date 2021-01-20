@@ -9,7 +9,8 @@ if (isset($_GET['action']))
 
     if ($_GET['action'] == 'send') 
     { 
-       
+        
+        $successCode = 16000;
         $to="samir-mekhloufi@hotmail.fr";
         //$to = $_POST['mail'];
         $mail="testHumanHelp@gmail.com";
@@ -25,5 +26,6 @@ if (isset($_GET['action']))
                     mail($to, $sujet, $message, $header);
                     header("Location: ../../index.php");
                     die;
+                    
     }
 }
