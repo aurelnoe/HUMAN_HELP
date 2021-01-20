@@ -35,6 +35,14 @@ function connexion($message=null,$errorCode=null)
 
                 <button class="btn btnGreen btn-block mb-4 w-75" type="submit">Connexion</button>
 
+                <div class="m-auto text-left">
+                    <a href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formAjout" >
+                        Créer un compte
+                    </a>
+                </div>
+                <div class="m-auto text-left">
+                    <a href="formulairesUtilisateurController.php?action=modifMdp">Mot de passe oublié</a>
+                </div>
             </form>
         </div>
         <?php      
@@ -276,8 +284,6 @@ function detailUtilisateur($utilisateur = null)
                     </div>
                 </div>
             </div>
-            
-            
         </div>
         <div class="row">
             <div class="col-sm-12 m-5">
