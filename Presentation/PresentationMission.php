@@ -1003,7 +1003,7 @@ function formParticipationMission($mission)
 
             <h1 class="my-3 text-center">Titre de la mission : <?php echo $mission->getTitreMission(); ?></h1>
 
-            <form class="needs-validation p-3" action="../CommentCaMarcheController.php?action=participe&idMission=<?php echo $mission->getIdMission();?>" method="POST" novalidate>
+            <form class="needs-validation p-3" action="/HUMAN_HELP/Controller/MissionsController/confirmationParticipationMission.php?action=send" method="POST" novalidate>
                 <h2 class="text-center my-2 pb-2">Inscrivez vous</h2>
 
                 <hr class="mb-4 mt-2 hrGreen">
