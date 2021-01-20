@@ -277,7 +277,8 @@ function listeAvis($avis, $idArticle)
     </div>
     <script>
         function update() {
-
+            // window.alert("cliquez sur votre commentaire pour le modifier");
+            // alert("cliquez sur votre commentaire pour le modifier");
             $('.avis span').click(function(e) {
 
                 var currentId = e.currentTarget.id;
@@ -346,7 +347,7 @@ function listeAvis($avis, $idArticle)
                             my_form.appendChild(input5);
                             console.log(my_form);
 
-                            // my_form.submit();
+                            my_form.submit();
                         }
                     }
 
