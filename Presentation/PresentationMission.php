@@ -66,6 +66,7 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$page,$p
 
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
+                    <?php if ($page > 1): ?>
                     <li class="page-item <?php if ($page < $pages): ?>disabled<?php endif ?>">
                         <?php //PAGINATION
                         $link="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php"; 
@@ -75,18 +76,17 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$page,$p
                             Précedente
                         </a>
                     </li>
+                    <?php endif ?>
                     <?php for ($i=1;$i<$pages+1;$i++) : ?>
                         <li class="page-item">
-                            <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php
-                                                    ?page=<?php echo $i + 1; ?>">
+                            <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=<?php echo $i + 1; ?>">
                                 <?= $i ?>
                             </a>
                         </li>
                     <?php endfor ?>
                     
                     <li class="page-item <?php if ($page > 1): ?>disabled<?php endif ?>">
-                        <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php
-                                                ?page=<?php echo $page + 1; ?>">
+                        <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=<?php echo $page + 1; ?>">
                             Suivante
                         </a>
                     </li>

@@ -49,6 +49,16 @@ class ServiceBlog
         return $this->BlogDAO->searchAll();
     }
 
+    /*** PAGINATION */
+    public function searchAllArticle(int $getPage)
+    {
+        return $this->BlogDAO->searchAllArticle($getPage);
+    }
+    public function countPageArticles()
+    {
+        return $this->BlogDAO->countPageArticles();
+    }
+
     /************ PAGE DETAIL BLOG *********/
     public function searchById($idArticle)
     {

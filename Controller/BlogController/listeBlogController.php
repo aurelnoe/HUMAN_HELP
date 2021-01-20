@@ -11,8 +11,10 @@ $_REQUEST = array_map('htmlentities',$_REQUEST);
 $_POST = array_map('htmlentities',$_POST);
 
 
-
+$service = new ServiceBlog();
 $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
+$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
+$pages = $service->countPageArticles();
 /************************** AJOUT ARTICLE ***************************/
 if (!empty($_GET['action']) && isset($_GET['action'])) {
 
@@ -25,9 +27,9 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             // echo '</pre>';
             // if (getimagesize($_FILES['imageArticle']['tmp_name']) == False) {
             //     $service = new ServiceBlog();
-            //     $articles = $service->searchAll();
+            //     $articles = $service->searchAllArticle($page);
             //     $admin = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'admin';
-            //     echo listeArticle($articles,$admin);
+            //     echo listeArticle($articles,$admin,$page,$pages);
             //     die;
             // }
             $imageArticle = $_FILES['imageArticle']['tmp_name'];
@@ -47,30 +49,27 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 ->setDateAjout($dateAjoutArticle)
                 ->setImageArticle($imageArticle);
 
-            $service = new ServiceBlog();
             try{ 
                 if($admin){
                     $service->add($article);
                     $successCode = 15000;
-                    $articles = $service->searchAll();
-                    echo listeArticle($articles,$admin,null,null,$successCode);
+                    $articles = $service->searchAllArticle($page);
+                    echo listeArticle($articles,$admin,$page,$pages,null,null,$successCode);
                     die;
                 }
             }
             catch (ServiceException $se) {
                 if($admin){
                     $service = new ServiceBlog();
-                    $articles = $service->searchAll();
-                    echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
+                    $articles = $service->searchAllArticle($page);
+                    echo listeArticle($articles,$admin,$page,$pages,$se->getCode(),$se->getMessage());
                     die;
                 
                 }else {
                     header("Location: ../../index.php");
                     die;
                 }
-               
             }
-           
         }
  
         /************************** MODIFIE ARTICLE ***************************/
@@ -105,15 +104,15 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 if($admin){
                     $service->update($article);
                     $successCode = 15001;
-                    $articles = $service->searchAll();
-                    echo listeArticle($articles,$admin,null,null,$successCode);
+                    $articles = $service->searchAllArticle($page);
+                    echo listeArticle($articles,$admin,$page,$pages,null,null,$successCode);
                     die;
                 }
             }
             catch (ServiceException $se) {
                 $service = new ServiceBlog();
-                $articles = $service->searchAll();
-                echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
+                $articles = $service->searchAllArticle($page);
+                echo listeArticle($articles,$admin,$page,$pages,$se->getCode(),$se->getMessage());
                 die;
             }
             
@@ -127,8 +126,8 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 if($admin){
                     $service->delete($_GET['idArticle']);
                     $successCode = 15002;
-                    $articles = $service->searchAll();
-                    echo listeArticle($articles,$admin,null,null,$successCode);
+                    $articles = $service->searchAllArticle($page);
+                    echo listeArticle($articles,$admin,$page,$pages,null,null,$successCode);
                     die;
                 }
                 // else{
@@ -137,8 +136,8 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
             }
             catch (ServiceException $se) {
                 $service = new ServiceBlog();
-                $articles = $service->searchAll();
-                echo listeArticle($articles,$admin,$se->getCode(),$se->getMessage());
+                $articles = $service->searchAllArticle($page);
+                echo listeArticle($articles,$admin,$page,$pages,$se->getCode(),$se->getMessage());
             }
             
         }
@@ -146,10 +145,9 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
 }
 
 /******************************************** Afficher tous les articles ***********************************************/
-$service = new ServiceBlog();
 try{
-    $articles = $service->searchAll();
-    echo listeArticle($articles,$admin);
+    $articles = $service->searchAllArticle($page);
+    echo listeArticle($articles,$admin,$page,$pages);
 }
 catch (ServiceException $se) {
     header('Location: ../../index.php');

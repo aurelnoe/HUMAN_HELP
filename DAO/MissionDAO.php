@@ -243,7 +243,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
         }       
     }
 
-    public function countPageMissionPro(int $idEtablissement)
+    public function countPageMissionPro(int $idEtablissement):int
     {
         $newConnect = new BddConnect();
         $db = $newConnect->connexion();

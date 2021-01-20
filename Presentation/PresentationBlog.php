@@ -82,11 +82,10 @@ function formulaireArticle(array $tabFormArticle, $article = null)
 <?php
 }
 
-function listeArticle($articles, $admin, $errorCode = null, $message = null,$successCode = null)
+function listeArticle($articles, $admin,$page,$pages, $errorCode = null, $message = null,$successCode = null)
 {
     echo head();
-?>
-
+    ?>
     <body>
         <?php
 
@@ -116,6 +115,32 @@ function listeArticle($articles, $admin, $errorCode = null, $message = null,$suc
         ?>
         <div class="container">
             <h2 class="text-center my-4">Liste des articles</h2>
+            <ul class="pagination justify-content-end">
+                    <?php if ($page > 1): ?>
+                        <li class="page-item <?php if ($page < $pages): ?>disabled<?php endif ?>">
+                            <?php //PAGINATION
+                            $link="/HUMAN_HELP/Controller/BlogController/listeBlogController.php"; 
+                            if ($page > 2) $link .= '?page=' . ($page - 1);
+                            ?>
+                            <a class="page-link" href="<?= $link ?>" tabindex="-1">
+                                Précedente
+                            </a>
+                        </li>
+                    <?php endif ?>
+                    <?php for ($i=1;$i<$pages+1;$i++) : ?>
+                        <li class="page-item">
+                            <a class="page-link" href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?page=<?php echo $i; ?>">
+                                <?= $i ?>
+                            </a>
+                        </li>
+                    <?php endfor ?>
+                    
+                    <li class="page-item <?php if ($page > 1): ?>disabled<?php endif ?>">
+                        <a class="page-link" href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?page=<?php echo $page + 1; ?>">
+                            Suivante
+                        </a>
+                    </li>
+                </ul>
             <?php
 
             foreach ($articles as $article) {
