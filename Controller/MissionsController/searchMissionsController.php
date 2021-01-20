@@ -17,14 +17,22 @@ if (!empty($_GET))
     $serviceTypeActivite = new ServiceTypeActivite();
     $servicePays = new ServicePays();
 
+    $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
+    
     //TRI PAR TYPE ACTIVITE  
     if (!empty($_GET['idTypeActivite']) && empty($_GET['idPays'])) {
         try {
-            $missions = $serviceMission->searchMissions(null,$_GET['idTypeActivite'],null);
+            $missions = $serviceMission->searchMissions(null,$_GET['idTypeActivite'],null,$page);
             $typeActivite = $serviceTypeActivite->searchById($_GET['idTypeActivite']);
             $title = utf8_encode(ucfirst($typeActivite->getTypeActivite()));
+            $pages = $serviceMission->countPageMissions(null,$_GET['idTypeActivite'],null);
+            $tabAffichSearchMission = array(
+                'title' => $title,
+                'page' => $page,
+                'pages' => $pages,
+            );
             
-            echo searchMission($missions,$title);   
+            echo searchMission($missions,$tabAffichSearchMission);   
         } 
         catch (ServiceException $se) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -33,11 +41,17 @@ if (!empty($_GET))
     //TRI PAR PAYS 
     else if (!empty($_GET['idPays']) && empty($_GET['idTypeActivite'])) {
         try {
-            $missions = $serviceMission->searchMissions($_GET['idPays'],null,null);
+            $missions = $serviceMission->searchMissions($_GET['idPays'],null,null,$page);
             $pays = $servicePays->searchById($_GET['idPays']);
             $title = ucfirst($pays->getNomPays());
+            $pages = $serviceMission->countPageMissions($_GET['idPays'],null,null);
+            $tabAffichSearchMission = array(
+                'title' => $title,
+                'page' => $page,
+                'pages' => $pages,
+            );
     
-            echo searchMission($missions,$title);
+            echo searchMission($missions,$tabAffichSearchMission);
         } 
         catch (ServiceException $se) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -46,12 +60,18 @@ if (!empty($_GET))
     //TRI PAR PAYS 
     else if (!empty($_GET['idPays']) && !empty($_GET['idTypeActivite'])) {
         try {
-            $missions = $serviceMission->searchMissions($_GET['idPays'],null,null);
+            $missions = $serviceMission->searchMissions($_GET['idPays'],$_GET['idTypeActivite'],null,$page);
             $typeActivite = $serviceTypeActivite->searchById($_GET['idTypeActivite']);
             $pays = $servicePays->searchById($_GET['idPays']);
             $title = ucfirst($pays->getNomPays()) . ' / ' . utf8_encode(ucfirst($typeActivite->getTypeActivite()));
+            $pages = $serviceMission->countPageMissions($_GET['idPays'],$_GET['idTypeActivite'],null);
+            $tabAffichSearchMission = array(
+                'title' => $title,
+                'page' => $page,
+                'pages' => $pages,
+            );
     
-            echo searchMission($missions,$title);
+            echo searchMission($missions,$tabAffichSearchMission);
         } 
         catch (ServiceException $se) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -60,14 +80,21 @@ if (!empty($_GET))
     //TRI PAR TYPE FORMATION 
     else if (!empty($_GET['typeFormation'])) {
         try {
-            $missions = $serviceMission->searchMissions(null,null,$_GET['typeFormation']);
+            $missions = $serviceMission->searchMissions(null,null,$_GET['typeFormation'],$page);
             if ($_GET['typeFormation']==A_DISTANCE) {
                 $title = 'Missions à distance';
             }
             else if ($_GET['typeFormation']==SUR_LE_TERRAIN) {
                 $title = 'Missions sur le terrain';
             }
-            echo searchMission($missions,$title);   
+            $pages = $serviceMission->countPageMissions(null,null,$_GET['typeFormation']);
+            $tabAffichSearchMission = array(
+                'title' => $title,
+                'page' => $page,
+                'pages' => $pages,
+            );
+
+            echo searchMission($missions,$tabAffichSearchMission);   
         }
         catch (ServiceException $se) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);

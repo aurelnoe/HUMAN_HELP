@@ -55,13 +55,11 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$page,$p
                         </div>
                     </div>
                 </div>
-                
                 <div class="col-10 col-md-6 m-auto">
                     <a class="btn btnGreen w-100 my-4" href="/HUMAN_HELP/Controller/EtablissementsController/formulaireEtablissementController.php?action=update&idEtablissement=<?php echo $etablissementPro->getIdEtablissement(); ?>">
                         Modifier les informations de l'établissement
                     </a>
                 </div>
-                
             </div>
             <hr class="hrGreen mx-4 my-4">
             <h2 class="text-center mt-5">Liste de vos missions :</h2>
@@ -74,51 +72,32 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$page,$p
                         if ($page > 2) $link .= '?page=' . ($page - 1);
                         ?>
                         <a class="page-link" href="<?= $link ?>" tabindex="-1">
-                            Précendente
+                            Précedente
                         </a>
                     </li>
-                    <?php for ($i=0;$i<$pages;$i++) : ?>
+                    <?php for ($i=1;$i<$pages+1;$i++) : ?>
                         <li class="page-item">
-                            <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=<?php echo $i + 1; ?>">
+                            <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php
+                                                    ?page=<?php echo $i + 1; ?>">
                                 <?= $i ?>
                             </a>
                         </li>
                     <?php endfor ?>
                     
                     <li class="page-item <?php if ($page > 1): ?>disabled<?php endif ?>">
-                        <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=<?php echo $page + 1; ?>">
+                        <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php
+                                                ?page=<?php echo $page + 1; ?>">
                             Suivante
                         </a>
                     </li>
                 </ul>
             </nav>
-
-            <!-- <div class="d-flex justify-content-between my-4">
-                PAGINATION -->
-                <?php //if ($page > 1): ?>
-                    <?php 
-                    //$link="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php"; 
-                    // if ($page > 2) $link .= '?page=' . ($page - 1);
-                    // ?>
-                    <!-- <a href="<?php //$link ?>" class="btn btn-primary">
-                    Page précédente</a> -->
-                <?php //endif ?>
-                <?php //if ($page < $pages): ?>
-                    <!-- <a href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?page=<?php echo $page + 1; ?>"
-                        class="btn btn-primary ml-auto">
-                    Page suivante</a> -->
-                <?php //endif ?>
-            <!-- </div> -->
             <div class="card-group w-100">
                 <div class="row mx-0 my-3 w-100">
                 <?php foreach($missions as $mission): ?>
                     <div class="col-12 col-md-6 col-lg-5 m-auto my-3">
                         <div class="card cardListeMissionPro h-100 mx-auto">
-                            
-                                <img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
-                                    class="imageDetailsMission rounded border p-2" 
-                                    width="100" height="360"/>
-                            
+                            <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $mission->getImageMission(); ?>');"></div>
                             <div class="card-body">
                                 <h5 class="card-title"><strong>Titre : </strong><?php echo ucfirst(utf8_encode($mission->getTitreMission())); ?></h5>
                                 <p class="card-text"><strong>Type d'activité : </strong><?php echo searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
@@ -160,7 +139,7 @@ function listeMissionsPro($missions,$etablissementPro=null,$utilisateur,$page,$p
   <?php
 }
 
-function searchMission($missions,$title=null,$errorCode=null)
+function searchMission($missions,$tabAffichSearchMission=null,$errorCode=null)
 {
     echo head();
     ?>
@@ -175,10 +154,45 @@ function searchMission($missions,$title=null,$errorCode=null)
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
             }
             ?>
-            <h1 class="h1-select"><?php echo $title; ?></h1>
+            <h1 class="h1-select"><?php echo $tabAffichSearchMission['title']; ?></h1>
             
             <hr class="my-4 hrGreen ">
 
+            <nav aria-label="Page navigation example">
+                <?php 
+                $page = $tabAffichSearchMission['page']; //$_GET['page']
+                $pages = $tabAffichSearchMission['pages']; //countPages
+                $getIdTypeActivite = ($_GET['idTypeActivite']) ?? null;
+                $getIdPays = ($_GET['idPays']) ?? null;
+                ?>
+                <ul class="pagination justify-content-end">
+                    <?php if ($page > 1): ?>
+                        <li class="page-item <?php if ($page < $pages): ?>disabled<?php endif ?>">
+                            <?php //PAGINATION
+                            $link="/HUMAN_HELP/Controller/MissionsController/searchMissionsController.php?idPays=$getIdPays&idTypeActivite=$getIdTypeActivite"; 
+                            if ($page > 2) $link .= '&page=' . ($page - 1);
+                            ?>
+                            <a class="page-link" href="<?php echo $link; ?>" tabindex="-1">
+                                Précedente
+                            </a>
+                        </li>
+                    <?php endif ?>
+                    <?php for ($i=0;$i<$pages;$i++) : ?>
+                        <li class="page-item">
+                            <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/searchMissionsController.php?idPays=<?php echo $getIdPays; ?>&idTypeActivite=<?php echo $getIdTypeActivite; ?>&page=<?php echo $i + 1; ?>">
+                                <?= $i + 1?>
+                            </a>
+                        </li>
+                    <?php endfor ?>
+                    <li class="page-item <?php if ($page > 1): ?>disabled<?php endif ?>">
+                        <a class="page-link" href="/HUMAN_HELP/Controller/MissionsController/searchMissionsController.php?idPays=<?php echo $getIdPays; ?>&idTypeActivite=<?php echo $getIdTypeActivite; ?>&page=<?php echo $page + 1; ?>">
+                            Suivante
+                        </a>
+                    </li>
+                
+                </ul>
+            </nav>
+            
             <?php
                 if (!empty($missions)) 
                 {   ?>
@@ -189,9 +203,7 @@ function searchMission($missions,$title=null,$errorCode=null)
                             ?>
                             <div class="card card-select col-12 col-md-5">
                                 <div class="card-body">
-                                    <img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
-                                        class="imageDetailsMission rounded border" 
-                                        width="100" height="360"/>
+                                    <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $mission->getImageMission(); ?>');"></div>
                                     <div class="text-card-select">
                                         <div class="text-center mx-auto my-1">
                                             <h2 class="my-2">Titre de la mission</h2>
@@ -312,7 +324,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                     
                     <ol class="carousel-indicators">
                         <?php 
-                        $medecines=searchMissionsByid(null,ID_MEDECINE,null);
+                        $medecines=searchMissions(null,ID_MEDECINE,null,1);
                         foreach ($medecines as $key => $medecine) {
                             ?>
                             <li data-target="#carouselMedecine" data-slide-to="<?php echo $key; ?>"
@@ -333,9 +345,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                                     ?>                  
                                     <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                         <div class="card cardListeMission col-10 col-md-6 p-0">
-                                            <img src="data:image/jpg;base64,<?php echo $medecine->getImageMission(); ?>" 
-                                                class="imageDetailsMission rounded border" 
-                                                width="100" height="360"/>
+                                            <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $medecine->getImageMission(); ?>');"></div>
                                             <div class="card-body">
                                                 <h5 class="card-title">Titre : <?php echo utf8_encode($medecine->getTitreMission()); ?></h5>
                                                 <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($medecine->getIdTypeActivite()); ?></p>
@@ -376,7 +386,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                 <div id="carouselDonations" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
                     <ol class="carousel-indicators">
                         <?php 
-                        $donations=searchMissionsByid(null,ID_DONATION,null);
+                        $donations=searchMissions(null,ID_DONATION,null,1);
                         foreach ($donations as $key => $donation) {
                             ?>
                             <li data-target="#carouselDonations" data-slide-to="<?php echo $key; ?>"
@@ -399,9 +409,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                             <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                 <div class="card-group">
                                     <div class="card cardListeMission col-10 col-md-6 p-0">
-                                        <img src="data:image/jpg;base64,<?php echo $donation->getImageMission(); ?>" 
-                                                class="imageDetailsMission rounded border" 
-                                                width="100" height="360"/>
+                                        <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $donation->getImageMission(); ?>');"></div>
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($donation->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($donation->getIdTypeActivite()); ?></p>
@@ -446,7 +454,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                 <div id="carouselEnseignement" class="carousel carouselListeMission slide" data-ride="carousel" data-interval="10000">
                     <ol class="carousel-indicators">
                         <?php 
-                        $enseignements=searchMissionsByid(null,ID_ENSEIGNEMENT,null);
+                        $enseignements=searchMissions(null,ID_ENSEIGNEMENT,null,1);
                         foreach ($enseignements as $key => $enseignement) {
                             ?>
                             <li data-target="#carouselEnseignement" data-slide-to="<?php echo $key; ?>"
@@ -467,9 +475,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                             ?>
                                 <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                     <div class="card cardListeMission col-10 col-md-6 p-0">
-                                        <img src="data:image/jpg;base64,<?php echo $enseignement->getImageMission(); ?>" 
-                                                class="imageDetailsMission rounded border" 
-                                                width="100" height="360"/>
+                                        <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $enseignement->getImageMission(); ?>');"></div> 
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($enseignement->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($enseignement->getIdTypeActivite()); ?></p>
@@ -514,7 +520,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                     
                     <ol class="carousel-indicators">
                         <?php 
-                        $constructions=searchMissionsByid(null,ID_CONSTRUCTION,null);
+                        $constructions=searchMissions(null,ID_CONSTRUCTION,null,1);
                         foreach ($constructions as $key => $construction) {
                             ?>
                             <li data-target="#carouselConstructions" data-slide-to="<?php echo $key; ?>"
@@ -535,9 +541,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                             {   ?>                  
                                 <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                     <div class="card cardListeMission col-10 col-md-6 p-0">
-                                        <img src="data:image/jpg;base64,<?php echo $construction->getImageMission(); ?>" 
-                                                class="imageDetailsMission rounded border" 
-                                                width="100" height="360"/>
+                                    <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $construction->getImageMission(); ?>');"></div>
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($construction->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($construction->getIdTypeActivite()); ?></p>
@@ -581,7 +585,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                     
                     <ol class="carousel-indicators">
                         <?php 
-                        $traductions=searchMissionsByid(null,ID_TRADUCTION,null);
+                        $traductions=searchMissions(null,ID_TRADUCTION,null,1);
                         foreach ($traductions as $key => $traduction) {
                             ?>
                             <li data-target="#carouselTraductions" data-slide-to="<?php echo $key; ?>"
@@ -602,9 +606,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                                 ?>                  
                                 <div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                     <div class="card cardListeMission col-10 col-md-6 p-0">
-                                        <img src="data:image/jpg;base64,<?php echo $traduction->getImageMission(); ?>" 
-                                                class="imageDetailsMission rounded border" 
-                                                width="100" height="360"/>
+                                    <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $traduction->getImageMission(); ?>');"></div>
                                         <div class="card-body">
                                             <h5 class="card-title">Titre : <?php echo utf8_encode($traduction->getTitreMission()); ?></h5>
                                             <p class="card-text">Type d'activité : <?php searchNameTypeActivityById($traduction->getIdTypeActivite()); ?></p>
@@ -677,8 +679,7 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
             <!-- section image details -->
             <div class="row h-25">
                 <div class="col-10 col-md-5 m-auto p-0">
-                    <img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" class="imageDetailsMission rounded border" 
-                        width="100" height="360"/>
+                    <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $mission->getImageMission(); ?>');"></div>
                     <hr class="hrGreen">
                 </div>
                 <div class="col-10 col-md-6">
@@ -813,17 +814,17 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
         $idMission = $tabAffichageFormMission['idMission'];
         $idEtablissement = $tabAffichageFormMission['idEtablissement'];
         ?>
-        <div class="col-12 col-md-6 container pt-4 my-4 border rounded">
+        <div class="col-12 col-md-6 container pt-4 my-4 borderGreen rounded">
 
             <h2 class="text-center my-2 pb-2"><?php echo $tabAffichageFormMission['title']; ?></h2>
 
-            <form class="needs-validation p-3" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=$action" 
+            <form class="needs-validation p-3" id="formMission" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=$action" 
                                                                                     : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=$action" ?> 
                                                                                     method="POST" novalidate
                                                                                     enctype="multipart/form-data">
                 <input type="hidden" name="idMission" value="<?php echo isset($idMission) ? $idMission : '' ?>">
 
-                <hr class="mb-4 mt-2">
+                <hr class="my-4 hrGreenLight">
 
                 <input type="hidden" name="idEtablissement" value="<?php echo isset($idEtablissement) ? $idEtablissement : 1 ?>">
                     
@@ -918,7 +919,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                     <input type="file" class="form-control-file" name="imageMission" placeholder="" capture>
                 </div>
 
-                <hr class="mb-4 mt-4">
+                <hr class="my-4 hrGreenLight">
                 
                 <button class="btn btnGreen btn-lg btn-block mb-5" type="submit"><?php echo $tabAffichageFormMission['titleBtn'];?></button>
                 <a href="listeMissionController.php" class="btn btn-primary w-100">Retour à la liste des missions</a>
@@ -927,6 +928,64 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
         <?php      
         echo footer();
         ?>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#formMission").click(function(e){         
+                    if($("form").valid()){
+                        e.preventDefault();
+                    }
+                    var titreMission=$('#titreMission').val();
+                    var idPays=$('#idPays').val();
+                    var idTypeActivite=$('#idTypeActivite').val();
+                    var descriptionMission=$('#descriptionMission').val();
+                    var typeFormation=$('#typeFormation').val();
+                    var dateDebut=$('#dateDebut').val();
+                    var duree=$('#duree').val();
+                    var imageMission=$('#imageMission').val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=<?php echo $action; ?>",
+                        data: 
+                            "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
+                            "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
+                        success: function(html){
+                        document.write(html);
+                        }
+                    });
+                return false;
+                });
+            });
+            $(document).ready(function() {
+                $("#register").submit(function(e) {
+                    //---------------^---------------
+                    e.preventDefault();
+                    var titreMission=$('#titreMission').val();
+                    var idPays=$('#idPays').val();
+                    var idTypeActivite=$('#idTypeActivite').val();
+                    var descriptionMission=$('#descriptionMission').val();
+                    var typeFormation=$('#typeFormation').val();
+                    var dateDebut=$('#dateDebut').val();
+                    var duree=$('#duree').val();
+                    var imageMission=$('#imageMission').val();
+                    
+                    $.ajax({
+                    type: "POST",
+                    url: "doRegister.php",
+                    type: "POST",
+                        url: "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=<?php echo $action; ?>",
+                        data: 
+                            "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
+                            "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
+                    success: function(html) {
+                        console.log(html);
+                    }
+            });
+    return false;
+
+  });
+});
+        </script>
+
     </body>
     </html>
     <?php

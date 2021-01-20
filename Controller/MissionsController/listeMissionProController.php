@@ -50,7 +50,7 @@ if ($professionnel)
                 $dateDebut = $_POST['dateDebut'];
                 $duree = $_POST['duree'];
                 $dateAjout = date("Y-m-d");
-                 $idPays = $_POST['idPays'];
+                $idPays = $_POST['idPays'];
                 $idEtablissement = $_POST['idEtablissement'];
                 $idTypeActivite = $_POST['idTypeActivite'];
 
@@ -186,7 +186,7 @@ if ($professionnel)
                 $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
                 $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                 
-                echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages,$se->getCode());
+                echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
                 die;
             }
             catch (ServiceException $se) {

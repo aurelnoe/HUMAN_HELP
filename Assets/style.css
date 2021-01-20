@@ -88,6 +88,15 @@ body {
 }
 /********FIN BARRE DE RECHERCHE*****/
 
+.imageMissionDiv {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 360px;
+  width: 96%;
+  margin: 15px auto;
+}
+
 .card{
   border: 2px outset #58b368;
 }

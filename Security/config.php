@@ -37,10 +37,10 @@ function searchDenominationById($id):void
     $serviceEtablissement = new ServiceEtablissement();
     echo utf8_encode($serviceEtablissement->searchNameById($id));
 }
-function searchMissionsById($idPays,$idTypeActivite,$idTypeFormation):array
+function searchMissions($idPays,$idTypeActivite,$idTypeFormation,$getPage):array
 {
     $serviceMission = new ServiceMission();
-    return $serviceMission->searchMissions($idPays,$idTypeActivite,$idTypeFormation);
+    return $serviceMission->searchMissions($idPays,$idTypeActivite,$idTypeFormation,$getPage);
 }
 function civilite($idCivilite)
 {

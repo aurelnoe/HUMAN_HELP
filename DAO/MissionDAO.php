@@ -257,22 +257,45 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
         return $pages;
     }
 
-    public function searchMissions(int $getIdPays=null,int $getIdTypeActivite=null,int $getTypeFormation=null):array
+    public function searchMissions(int $getIdPays=null,int $getIdTypeActivite=null,int $getTypeFormation=null,int $getPage=null):array
     {
         try {
             $newConnect = new BddConnect();
             $db = $newConnect->connexion();
 
+            $page = $getPage ?? 1;
+
+            // if(!filter_var($page, FILTER_VALIDATE_INT)){
+            //     throw new Exception('Numéro de page invalide');
+            // }
+        
+            // if ($page === '1') {
+            //     header("Location: /HUMAN_HELP/Controller/MissionsController/searchMissonsController.php?idPays=$getIdPays&idTypeActivite=$getIdTypeActivite&page=");
+            //     http_response_code(301);
+            //     exit;
+            // }
+
+            $currentPage = (int)$page;
+            $limite = 6;
+            $debut = ($currentPage - 1) * $limite;
             $selectAllWhere ='SELECT * FROM mission WHERE';
+
             $query = $selectAllWhere . 1;
-            if(!empty($getIdPays) && empty($getIdTypeActivite)){    // Filtre que par pays
-                $query = "$selectAllWhere idPays = $getIdPays";
-            }else if(empty($getIdPays) && !empty($getIdTypeActivite)){   // Filtre que par type d'activité
-                $query = "$selectAllWhere idTypeActivite = $getIdTypeActivite";
-            }else if(!empty($getIdPays) && !empty($getIdTypeActivite)){   // Filtre par pays ET par type d'activité
-                $query = "$selectAllWhere idPays = $getIdPays AND idTypeActivite = $getIdTypeActivite" ;
-            }else if(!empty($getTypeFormation) && $getIdPays==null && $getIdTypeActivite==null){   // Filtre que par type de formation
-                $query = "$selectAllWhere typeFormation = $getTypeFormation";
+            if(!empty($getIdPays) && empty($getIdTypeActivite))
+            {   // Filtre que par pays
+                $query = "$selectAllWhere idPays = $getIdPays LIMIT $limite OFFSET $debut";
+            }   
+            else if(empty($getIdPays) && !empty($getIdTypeActivite))
+            {   // Filtre que par type d'activité
+                $query = "$selectAllWhere idTypeActivite = $getIdTypeActivite LIMIT $limite OFFSET $debut";
+            }
+            else if(!empty($getIdPays) && !empty($getIdTypeActivite))
+            {   // Filtre par pays ET par type d'activité
+                $query = "$selectAllWhere idPays = $getIdPays AND idTypeActivite = $getIdTypeActivite LIMIT $limite OFFSET $debut";
+            }
+            else if(!empty($getTypeFormation) && $getIdPays==null && $getIdTypeActivite==null)
+            {   // Filtre que par type de formation
+                $query = "$selectAllWhere typeFormation = $getTypeFormation LIMIT $limite OFFSET $debut";
             }
             $stmt = $db->prepare($query);
             $stmt->execute();  
@@ -288,6 +311,37 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
             $db = null;
             $stmt = null;   
         }
+    }
+
+    public function countPageMissions(int $getIdPays=null,int $getIdTypeActivite=null,int $getTypeFormation=null)
+    {
+        $newConnect = new BddConnect();
+        $db = $newConnect->connexion();
+        
+        $countIdMission = "SELECT COUNT(idMission) FROM mission WHERE";
+        if(!empty($getIdPays) && empty($getIdTypeActivite))
+        {   // Filtre que par pays
+            $count = (int)$db->query("$countIdMission idPays = $getIdPays")->fetch(PDO::FETCH_NUM)[0];
+            $pages = ceil($count / 6);
+                
+        }   
+        else if(empty($getIdPays) && !empty($getIdTypeActivite))
+        {   // Filtre que par type d'activité
+            $count = (int)$db->query("$countIdMission idTypeActivite = $getIdTypeActivite")->fetch(PDO::FETCH_NUM)[0];
+            $pages = ceil($count / 6);
+        }
+        else if(!empty($getIdPays) && !empty($getIdTypeActivite))
+        {   // Filtre par pays ET par type d'activité
+            $count = (int)$db->query("$countIdMission idPays = $getIdPays AND idTypeActivite = $getIdTypeActivite")->fetch(PDO::FETCH_NUM)[0];
+            $pages = ceil($count / 6); 
+        }
+        else if(!empty($getTypeFormation) && $getIdPays==null && $getIdTypeActivite==null)
+        {   // Filtre que par type de formation
+            $count = (int)$db->query("$countIdMission typeFormation = $getTypeFormation")->fetch(PDO::FETCH_NUM)[0];
+            $pages = ceil($count / 6);
+        }
+                                
+        return $pages;
     }
 }
 

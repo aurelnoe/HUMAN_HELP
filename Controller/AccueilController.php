@@ -12,13 +12,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'deconnection') {
     session_destroy();
     header('Location: ../index.php');
 }
-
+$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 $service = new ServiceBlog(); 
 $mission = new ServiceMission();
 $newPays = new ServicePays();
 $newTypeActivite = new ServiceTypeActivite();
 
-$missionsADistance = $mission->searchMissions(null,null,A_DISTANCE);
+$missionsADistance = $mission->searchMissions(null,null,A_DISTANCE,$page);
 $allMissions = $mission->searchAll();
 
 $articles = $service->searchAll();
