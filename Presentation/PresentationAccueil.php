@@ -85,9 +85,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 							?> 
 							<div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
                                 <div class="card cardListeMission col-10 col-md-6 p-0">
-									<img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
-											class="imageDetailsMission rounded border" 
-											width="100" height="360"/>						
+								<div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $mission->getImageMission(); ?>');"></div>						
 									<div class="card-body">
 										<h5 class="card-title">Titre : <?php echo utf8_encode($mission->getTitreMission()); ?></h5>
 										<p class="card-text">Type d'activité : <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
@@ -206,10 +204,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 						?>
 							<div class="carousel-item  <?php echo ($key == 0) ? 'active' : ''; ?> mb-5">
 								<div class="card cardListeMission col-10 col-md-6 p-0">
-									<img src="data:image/jpg;base64,<?php echo $article->getImageArticle(); ?>" 
-										class="imageDetailsMission rounded border" 
-										width="100" height="360"/>
-									
+									<div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $article->getImageArticle(); ?>');"></div>
 									<div class="card-body">
 										<h5 class="card-title">Titre : <?php echo $article->getTitreArticle() ?></h5>
 										<p class="card-text">Description : <?php echo $article->getDescriptionArticle() ?></p>
@@ -257,11 +252,14 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 				<div>
 					<ol class="carousel-indicators">
 						<?php foreach ($allMissions as $key => $mission) {
+							if ($key < 6) {
 							?>
 							<li data-target="#carouselMissionAccueil" data-slide-to="<?php echo $key; ?>"
 							<?php echo ($key==0) ? 'class="active"' : '' ?>></li>
 							<?php
-						} ?>
+							}  
+						} 
+						?>
 					</ol>
 				</div>
 				<div class="text-center mx-auto my-1">
@@ -275,13 +273,10 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 					if (!empty($allMissions)) {
 						foreach ($allMissions as $key => $mission) 
 						{
-						?> 
+							?> 
 							<div class="carousel-item <?php echo ($key==0) ? 'active' : ''; ?> mb-5">
 								<div class="card cardListeMission col-10 col-md-6 p-0">
-									
-									<img src="data:image/jpg;base64,<?php echo $mission->getImageMission(); ?>" 
-										class="imageDetailsMission rounded border" 
-										width="100" height="360"/>
+									<div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $mission->getImageMission(); ?>');"></div>
 									<div class="card-body">
 										<h5 class="card-title">Titre : <?php echo utf8_encode($mission->getTitreMission()); ?></h5>
 										<p class="card-text">Type d'activité : <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></p>
@@ -293,7 +288,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 									</div>
 								</div>
 							</div>
-						<?php  
+							<?php
 						} 
 						?>
 						<div class="row my-4">
