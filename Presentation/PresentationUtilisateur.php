@@ -308,7 +308,12 @@ function detailUtilisateur($utilisateur = null)
                     <a class="btn btnGreen w-100 my-4 " href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formModif">
                         Modifier les informations personnelles
                     </a>
-                </div>
+        </div>
+        <div class="col-10 col-md-6 m-auto">
+                    <a class="btn btnGreen w-100 my-4 " href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=delete&idUtilisateur=<?php echo $utilisateur->getIdUtil() ?>">
+                        Supprimer mon compte
+                    </a>
+        </div>
         <hr class="my-4">
     </div>
     <?php      

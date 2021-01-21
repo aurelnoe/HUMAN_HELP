@@ -78,5 +78,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     }
+    
+  
 }
 
