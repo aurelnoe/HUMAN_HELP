@@ -803,7 +803,7 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
     <?php
 }
 
-function formulairesMission(array $tabAffichageFormMission,$mission=null)
+function formulairesMission(array $tabAffichageFormMission,$mission=null,$message=null)
 {
     echo head();
     ?>
@@ -818,11 +818,18 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
 
             <h2 class="text-center my-2 pb-2"><?php echo $tabAffichageFormMission['title']; ?></h2>
 
+            <?php
+                if ($message) {
+                    echo '<div class="alert alert-danger w-100 text-center">'.$message.'</div>';
+                }
+            ?>
+
             <form class="needs-validation p-3" id="formMission" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=$action" 
                                                                                     : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=$action" ?> 
                                                                                     method="POST" novalidate
-                                                                                    enctype="multipart/form-data">
-                <input type="hidden" name="idMission" value="<?php echo isset($idMission) ? $idMission : '' ?>">
+                                                                                    enctype="multipart/form-data"
+                                                                                    onsubmit="return VerifFormMission(this)">
+                <input type="hidden" name="idMission" id="idMission" value="<?php echo isset($idMission) ? $idMission : '' ?>">
 
                 <hr class="my-4 hrGreenLight">
 
@@ -830,7 +837,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                     
                 <div class="mb-3 form-group">
                     <label for="titreMission">Titre de la mission</label>
-                    <input type="text" class="form-control" name="titreMission" placeholder="" value="<?php echo (($_GET['action']) == 'update') ? utf8_encode($mission->getTitreMission()) : '';?>" required>
+                    <input type="text" class="form-control" name="titreMission" id="titreMission" placeholder="" value="<?php echo (($_GET['action']) == 'update') ? utf8_encode($mission->getTitreMission()) : '';?>" required>
                     <div class="invalid-feedback">
                         Ce champ est requis.
                     </div>
@@ -838,7 +845,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                 <div class="row p-0 mb-3">
                     <div class="form-group col-12 col-md-6 w-50 pl-3">
                         <label class="h-50" for="idPays">Pays concerné</label>
-                        <select type="number" name="idPays" class="custom-select list-group d-block h-50 w-100" required>
+                        <select type="number" name="idPays" id="idPays" class="custom-select list-group d-block h-50 w-100" required>
                             <option class="list-group-item" value="<?php echo (($_GET['action']) == 'update') ? $mission->getIdPays() : '' ?>">
                                 <?php echo (($_GET['action']) == 'update') ? searchNamePaysById($mission->getIdPays()) : 'Choisissez...' ?>
                             </option>
@@ -858,7 +865,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                     
                     <div class="form-group col-12 col-md-6 w-50 pl-3">
                         <label class=" h-50" for="idTypeActivite">Type d'activité</label>
-                        <select name="idTypeActivite" class="custom-select list-group d-block h-50 w-100" required>
+                        <select name="idTypeActivite" id="idTypeActivite" class="custom-select list-group d-block h-50 w-100" required>
                             <option class="list-group-item" value="<?php echo (($_GET['action']) == 'update') ? $mission->getIdTypeActivite() : '' ?>">
                                 <?php echo (($_GET['action']) == 'update') ? searchNameTypeActivityById($mission->getIdTypeActivite()) : 'Choisissez...' ?>
                             </option>
@@ -877,7 +884,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                 </div>
                 <div class="mb-3 form-group">
                     <label for="descriptionMission">Description de la mission</label>
-                    <textarea type="textarea" class="form-control" name="descriptionMission" placeholder="" required><?php echo ($_GET['action'] == 'update') ? $mission->getDescriptionMission() : ''; ?></textarea>
+                    <textarea type="textarea" class="form-control" name="descriptionMission" id="descriptionMission" placeholder="" required><?php echo ($_GET['action'] == 'update') ? $mission->getDescriptionMission() : ''; ?></textarea>
                     <div class="invalid-feedback">
                         Ce champ est requis.
                     </div>
@@ -886,11 +893,11 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                     <label>Type de formation</label>
                     <div class="row">
                         <div class="custom-control custom-radio col-10 col-md-3 mx-4">
-                            <input name="typeFormation" id="distance" value=2 type="radio" class="custom-control-input" <?php echo ($action=='update' && $mission->getTypeFormation()==0) ? 'checked' : '' ?>>
+                            <input name="typeFormation" id="distance" value="2" type="radio" class="custom-control-input" <?php echo ($action=='update' && $mission->getTypeFormation()==2) ? 'checked' : '' ?>>
                             <label for="distance" class="custom-control-label">Distance</label>                       
                         </div>
                         <div class="custom-control custom-radio col-10 col-md-3 mx-2">
-                            <input name="typeFormation" id="terrain" value=1 type="radio" class="custom-control-input" <?php echo ($action=='update' && $mission->getTypeFormation()==1) ? 'checked' : '' ?>>
+                            <input name="typeFormation" id="terrain" value="1" type="radio" class="custom-control-input" <?php echo ($action=='update' && $mission->getTypeFormation()==1) ? 'checked' : '' ?>>
                             <label for="terrain" class="custom-control-label">Sur le terrain</label>                       
                         </div>
                     </div>  
@@ -898,7 +905,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                 <div class="mb-3 form-group">
                     <label for="dateDebut">Date de début de la mission</label>
                     <div class="input-group"  data-provide="datepicker">
-                        <input type="date" class="form-control" name="dateDebut" value="<?php echo ($_GET['action'] == 'update') ? $mission->getDateDebut()->format('Y-m-d') : ''; ?>" required>
+                        <input type="date" class="form-control" name="dateDebut" id="dateDebut" value="<?php echo ($_GET['action'] == 'update') ? $mission->getDateDebut()->format('Y-m-d') : ''; ?>" required>
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
@@ -909,14 +916,14 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
                 </div>
                 <div class="mb-3 form-group">
                     <label for="duree">Durée de la mission<span class="text-muted"> (en jour)</span></label>
-                    <input type="number" class="form-control" name="duree" placeholder="" value="<?php echo ($_GET['action'] == 'update') ? $mission->getDuree() : ''; ?>">
+                    <input type="number" class="form-control" name="duree" id="duree" placeholder="" value="<?php echo ($_GET['action'] == 'update') ? $mission->getDuree() : ''; ?>">
                     <div class="invalid-feedback">
                         Ce champ est requis.
                     </div>
                 </div>
                 <div class="mb-3 form-group">
                     <label for="imageMission">Ajouter une image</label>
-                    <input type="file" class="form-control-file" name="imageMission" placeholder="" capture>
+                    <input type="file" class="form-control-file" name="imageMission" id="imageMission" placeholder="" capture>
                 </div>
 
                 <hr class="my-4 hrGreenLight">
@@ -929,61 +936,144 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null)
         echo footer();
         ?>
         <script type="text/javascript">
-            $(document).ready(function(){
-                $("#formMission").click(function(e){         
-                    if($("form").valid()){
-                        e.preventDefault();
-                    }
-                    var titreMission=$('#titreMission').val();
-                    var idPays=$('#idPays').val();
-                    var idTypeActivite=$('#idTypeActivite').val();
-                    var descriptionMission=$('#descriptionMission').val();
-                    var typeFormation=$('#typeFormation').val();
-                    var dateDebut=$('#dateDebut').val();
-                    var duree=$('#duree').val();
-                    var imageMission=$('#imageMission').val();
-                    $.ajax({
-                        type: "POST",
-                        url: "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=<?php echo $action; ?>",
-                        data: 
-                            "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
-                            "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
-                        success: function(html){
-                        document.write(html);
-                        }
-                    });
+        
+        function VerifFormMission(form) {
+            var titreMission=document.getElementById('formMission').titreMission.value;
+            var idPays=document.getElementById('formMission').idPays.value;
+            var idTypeActivite=document.getElementById('formMission').idTypeActivite.value;
+            var descriptionMission=document.getElementById('formMission').descriptionMission.value;
+            var typeFormation=document.getElementById('formMission').typeFormation.value;
+            var dateDebut=document.getElementById('formMission').dateDebut.value;
+            var duree=document.getElementById('formMission').duree.value;
+            var imageMission=document.getElementById('formMission').imageMission.value;
+            if (titreMission == "") {
+                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer le titre de la mission !';
+                document.getElementById('msg_erreur').style.display='block';
+                document.getElementById('msg_erreur').className='focus';
+                form.titreMission.focus();
                 return false;
-                });
-            });
-            $(document).ready(function() {
-                $("#register").submit(function(e) {
-                    //---------------^---------------
-                    e.preventDefault();
-                    var titreMission=$('#titreMission').val();
-                    var idPays=$('#idPays').val();
-                    var idTypeActivite=$('#idTypeActivite').val();
-                    var descriptionMission=$('#descriptionMission').val();
-                    var typeFormation=$('#typeFormation').val();
-                    var dateDebut=$('#dateDebut').val();
-                    var duree=$('#duree').val();
-                    var imageMission=$('#imageMission').val();
-                    
-                    $.ajax({
-                    type: "POST",
-                    url: "doRegister.php",
-                    type: "POST",
-                        url: "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=<?php echo $action; ?>",
-                        data: 
-                            "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
-                            "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
-                    success: function(html) {
-                        console.log(html);
-                    }
-            });
-    return false;
+            } else {
+                document.getElementById('msg_erreur').style.display='none';
+            }
+            if (idPays == "") {
+                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer le pays de la mission !';
+                document.getElementById('msg_erreur').style.display='block';
+                document.getElementById('msg_erreur').className='focus';
+                form.idPays.focus();
+                return false;
+            } else {
+                document.getElementById('msg_erreur').style.display='none';
+            }
+            if (idTypeActivite == "") {
+                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer le type d\'activité !';
+                document.getElementById('msg_erreur').style.display='block';
+                document.getElementById('msg_erreur').className='focus';
+                form.idTypeActivite.focus();
+                return false;
+            } else {
+                document.getElementById('msg_erreur').style.display='none';
+            }
+            if (descriptionMission == "") {
+                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer une description à la mission !';
+                document.getElementById('msg_erreur').style.display='block';
+                document.getElementById('msg_erreur').className='focus';
+                form.descriptionMission.focus();
+                return false;
+            } else {
+                document.getElementById('msg_erreur').style.display='none';
+            }
+            if (typeFormation == "") {
+                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer le type de formation de la mission !';
+                document.getElementById('msg_erreur').style.display='block';
+                document.getElementById('msg_erreur').className='focus';
+                form.typeFormation.focus();
+                return false;
+            } else {
+                document.getElementById('msg_erreur').style.display='none';
+            }
+            if (dateDebut == "") {
+                document.getElementById('msg_erreur').innerHTML= 'Veuillez une date de début !';
+                document.getElementById('msg_erreur').style.display='block';
+                document.getElementById('msg_erreur').className='focus';
+                form.dateDebut.focus();
+                return false;
+            } else {
+                document.getElementById('msg_erreur').style.display='none';
+            }
+            if (duree == "") {
+                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer la durée de la mission !';
+                document.getElementById('msg_erreur').style.display='block';
+                document.getElementById('msg_erreur').className='focus';
+                form.duree.focus();
+                return false;
+            } else {
+                document.getElementById('msg_erreur').style.display='none';
+            }
+            if (imageMission == "") {
+                document.getElementById('msg_erreur').innerHTML= 'Veuillez ajouter une image à la mission !';
+                document.getElementById('msg_erreur').style.display='block';
+                document.getElementById('msg_erreur').className='focus';
+                form.imageMission.focus();
+                return false;
+            } else {
+                document.getElementById('msg_erreur').style.display='none';
+            }
+            return true;
+        }
 
-  });
-});
+//             $(document).ready(function(){
+//                 $("#formMission").click(function(e){         
+//                     if($("form").valid()){
+//                         e.preventDefault();
+//                     }
+//                     var titreMission=$('#titreMission').val();
+//                     var idPays=$('#idPays').val();
+//                     var idTypeActivite=$('#idTypeActivite').val();
+//                     var descriptionMission=$('#descriptionMission').val();
+//                     var typeFormation=$('#typeFormation').val();
+//                     var dateDebut=$('#dateDebut').val();
+//                     var duree=$('#duree').val();
+//                     var imageMission=$('#imageMission').val();
+//                     $.ajax({
+//                         type: "POST",
+//                         url: "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=<?php echo $action; ?>",
+//                         data: 
+//                             "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
+//                             "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
+//                         success: function(html){
+//                         document.write(html);
+//                         }
+//                     });
+//                 return false;
+//                 });
+//             });
+//             $(document).ready(function() {
+//                 $("#register").submit(function(e) {
+//                     //---------------^---------------
+//                     e.preventDefault();
+//                     var titreMission=$('#titreMission').val();
+//                     var idPays=$('#idPays').val();
+//                     var idTypeActivite=$('#idTypeActivite').val();
+//                     var descriptionMission=$('#descriptionMission').val();
+//                     var typeFormation=$('#typeFormation').val();
+//                     var dateDebut=$('#dateDebut').val();
+//                     var duree=$('#duree').val();
+//                     var imageMission=$('#imageMission').val();
+                    
+//                     $.ajax({
+//                     type: "POST",
+//                     url: "/HUMAN_HELP/Controller/MissionsController/FormulairesMissionController.php?action=<?php echo $action; ?>",
+//                     data: 
+//                         "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
+//                         "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
+//                     success: function(html) {
+//                         console.log(html);
+//                     }
+//             });
+//              return false;
+
+//          });
+//      });
         </script>
 
     </body>

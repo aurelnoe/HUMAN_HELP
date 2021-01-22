@@ -53,7 +53,7 @@ function connexion($message=null,$errorCode=null)
     <?php
 }
 
-function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
+function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null,$message=null)
 {
     echo head();
     ?>
@@ -65,6 +65,12 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
             
             ​<form class="form p-4" action="utilisateurController.php?action=<?php echo $tabAffichageFormUser['action']; ?>" method="POST" novalidate>
                 ​<h2 class="text-center pb-2"><?php echo $tabAffichageFormUser['title']; ?></h2>
+
+                <?php
+                    if ($message) {
+                        echo '<div class="alert alert-danger w-100 text-center">'.$message.'</div>';
+                    }
+                ?>
                         
                 <hr class="mb-4 hrGreen">
       
@@ -75,11 +81,11 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
                     <label class="text-center w-100 my-2" for="idRole">Vous êtes ?</label>
                     <div class="row justify-content-between">
                         <div class="custom-control col-4 col-md-3 custom-radio mx-4">
-                            <input name="idRole" value="1" id="particulier" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getIdRole()==0) ? 'checked' : '' ?>>
+                            <input name="idRole" value="1" id="particulier" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getIdRole()==1) ? 'checked' : '' ?>>
                             <label for="particulier" class="custom-control-label">Particulier</label>
                         </div>
                         <div class="custom-control col-4 col-md-3 custom-radio mx-2">
-                            <input name="idRole" value="2" id="professionnel" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getIdRole()==1) ? 'checked' : '' ?>>
+                            <input name="idRole" value="2" id="professionnel" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getIdRole()==2) ? 'checked' : '' ?>>
 
                             <label for="professionnel" class="custom-control-label">Professionnel</label>
                         </div>
@@ -90,11 +96,11 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null)
                     <label for="civilite">Civilité</label>
                     <div class="row">
                         <div class="custom-control col-4 col-md-2 custom-radio mx-4">
-                            <input name="civilite" value="1" id="homme" type="radio" class="custom-control-input">
+                            <input name="civilite" value="1" id="homme" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getCivilite()==1) ? 'checked' : '' ?>>
                             <label for="homme" class="custom-control-label">Homme</label>
                         </div>
                         <div class="custom-control col-4 col-md-2 custom-radio mx-2">
-                            <input name="civilite" value="2" id="femme" type="radio" class="custom-control-input">
+                            <input name="civilite" value="2" id="femme" type="radio" class="custom-control-input" <?php echo (($_GET['action'] == 'formModif') && $utilisateur->getCivilite()==2) ? 'checked' : '' ?>>
                             <label for="femme" class="custom-control-label">Femme</label>
                         </div>
                     </div>  

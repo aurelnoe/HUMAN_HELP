@@ -3,6 +3,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 session_start();
 include_once(PATH_BASE . "/Services/ServiceUtilisateur.php");
 include_once(PATH_BASE . "/Services/ServicePays.php");
+include_once(PATH_BASE . "/Services/ServiceTypeActivite.php");
 include_once(PATH_BASE . "/Exceptions/ServiceException.php");
 include_once(PATH_BASE . "/Presentation/PresentationUtilisateur.php");
 include_once(PATH_BASE . "/Presentation/PresentationAccueil.php");
@@ -16,83 +17,132 @@ $_POST = array_map('htmlentities',$_POST);
 if(!empty($_GET['action']) && isset($_GET['action']))
 {
     $serviceUtilisateur = new ServiceUtilisateur();
+    $servicePays = new ServicePays();
 
     if ($_GET['action'] == 'add')
     {
         if (!empty($_POST) && isset($_POST)) 
         {         
-            $civilite = $_POST['civilite'];
-            $pseudo = $_POST['pseudo'];
-            $nomUtil = utf8_decode($_POST['nomUtil']);
-            $prenomUtil = $_POST['prenomUtil'];           
-            $adresseUtil = $_POST['adresseUtil'];
-            $codePostalUtil = $_POST['codePostalUtil'];
-            $villeUtil = $_POST['villeUtil'];
-            $mailUtil = $_POST['mailUtil'];
-            $telUtil = $_POST['telUtil'];
-            $passwordUtil = $_POST['passwordUtil'];
-            $dateNaissance = new DateTime($_POST['dateNaissance']);
-            $dateInscriptionUtil = date("Y-m-d");
-            $idRole = $_POST['idRole'];
-            $idPays = $_POST['idPays'];
-            
-            $utilisateur = new Utilisateur();
-
-            $utilisateur->setCivilite($civilite)
-                        ->setPseudo($pseudo)
-                        ->setNomUtil($nomUtil)
-                        ->setPrenomUtil($prenomUtil)
-                        ->setAdresseUtil($adresseUtil)
-                        ->setCodePostalUtil($codePostalUtil)
-                        ->setVilleUtil($villeUtil)
-                        ->setMailUtil($mailUtil)
-                        ->setTelUtil($telUtil)
-                        ->setPasswordUtil($passwordUtil)
-                        ->setDateNaissance($dateNaissance)
-                        ->setDateInscriptionUtil($dateInscriptionUtil)
-                        ->setIdRole($idRole)
-                        ->setIdPays($idPays);
-            try {
-                $serviceUtilisateur->add($utilisateur);
-    
-                if ($idRole==1) {     //Particulier
-                    header("location: ../../index.php?action=ajout");
-                    die;
+            // Controle des champs si javascript est desactive
+            $message = '';
+            foreach ($_POST as $value) {
+                if ($value == "") {
+                    $message.= "Tout les champs du formulaire sont obligatoires !</br>";
                 }
-                elseif($idRole==2) {  //Professionnel => ADD ETABLISSEMENT  
-                    
-                    // header("location: Controller/EtablissementsController/formulaireEtablissementController.php?action=add&mail=$mailUtil");
-                    // die;
-                    $servicePays = new ServicePays();
-                    $user = $serviceUtilisateur->searchUserbyMail($mailUtil);
-                    $tabAffichFormAddEtab = array(
-                        'title' => "Ajouter votre établissement",
-                        'titleBtn' => "Ajouter l'établissement",
-                        'action' => 'addEtablissement',
-                        'idEtablissement' => null,
-                        'idUtilisateur' => $user->getIdUtilisateur(),
-                        'allPays' => $servicePays->searchAll(),
-                    );
+                break;
+            }
+            if (isset($_POST['civilite']) && $_POST['civilite'] == "") {
+                $message.= "Veuillez indiquer votre civilite !";
+            } elseif ($_POST['pseudo'] == "") {
+                $message.= "Veuillez indiquer votre pseudo !";
+            } elseif ($_POST['nomUtil'] == "") {
+                $message.= "Veuillez indiquer votre nom !";
+            } elseif ($_POST['prenomUtil'] == "") {
+                $message.= "Veulliez indiquer votre prénom !";
+            } elseif ($_POST['adresseUtil'] == "") {
+                $message.= "Veuillez indiquer le numéro et le libellé de votre voie !";
+            } elseif ($_POST['codePostalUtil'] == "") {
+                $message.= "Veuillez indiquer votre code postal !";
+            } elseif ($_POST['villeUtil'] == "") {
+                $message.= "Veuillez indiquer votre ville !";
+            } elseif ($_POST['mailUtil'] == "") {
+                $message.= "Veuillez indiquer votre adresse mail !";
+            } elseif ($_POST['telUtil'] == "") {
+                $message.= "Veuillez indiquer un numéro de téléphone !";
+            } elseif ($_POST['passwordUtil'] == "") {
+                $message.= "Veuillez indiquer votre mot de passe !";
+            } elseif ($_POST['dateNaissance'] == "") {
+                $message.= "Veuillez indiquer votre date de naissance !";
+            } elseif (isset($_POST['idRole']) && $_POST['idRole'] == "") {
+                $message.= "Veuillez indiquer votre status !";
+            } elseif ($_POST['idPays'] == "") {
+                $message.= "Veuillez indiquer votre pays !";
+            }
 
-                    $_SESSION['mailUtil'] = $mailUtil;
-                    $_SESSION['idUtil'] = $idUtil;
-                    $_SESSION['role'] = nameRole($idRole);
+            if ($message == "") 
+            {
+                $civilite = $_POST['civilite'];
+                $pseudo = $_POST['pseudo'];
+                $nomUtil = utf8_decode($_POST['nomUtil']);
+                $prenomUtil = $_POST['prenomUtil'];           
+                $adresseUtil = $_POST['adresseUtil'];
+                $codePostalUtil = $_POST['codePostalUtil'];
+                $villeUtil = $_POST['villeUtil'];
+                $mailUtil = $_POST['mailUtil'];
+                $telUtil = $_POST['telUtil'];
+                $passwordUtil = $_POST['passwordUtil'];
+                $dateNaissance = new DateTime($_POST['dateNaissance']);
+                $dateInscriptionUtil = date("Y-m-d");
+                $idRole = isset($_POST['idRole']) ? $_POST['idRole'] : "";
+                $idPays = $_POST['idPays'];
+                
+                $utilisateur = new Utilisateur();
     
-                    $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
-                    
-                    if ($professionnel) 
-                    {
-                        echo formulairesEtablissement($tabAffichFormAddEtab,null);
-                        die;           
-                    }
-                    else {
-                        header("Location: ../../index.php");
+                $utilisateur->setCivilite($civilite)
+                            ->setPseudo($pseudo)
+                            ->setNomUtil($nomUtil)
+                            ->setPrenomUtil($prenomUtil)
+                            ->setAdresseUtil($adresseUtil)
+                            ->setCodePostalUtil($codePostalUtil)
+                            ->setVilleUtil($villeUtil)
+                            ->setMailUtil($mailUtil)
+                            ->setTelUtil($telUtil)
+                            ->setPasswordUtil($passwordUtil)
+                            ->setDateNaissance($dateNaissance)
+                            ->setDateInscriptionUtil($dateInscriptionUtil)
+                            ->setIdRole($idRole)
+                            ->setIdPays($idPays);
+                try {
+                    $serviceUtilisateur->add($utilisateur);
+        
+                    if ($idRole==1) {     //Particulier
+                        header("location: ../../index.php?action=ajout");
                         die;
                     }
+                    elseif($idRole==2) {  //Professionnel => ADD ETABLISSEMENT  
+                        
+                        $user = $serviceUtilisateur->searchUserbyMail($mailUtil);
+                        $tabAffichFormAddEtab = array(
+                            'title' => "Ajouter votre établissement",
+                            'titleBtn' => "Ajouter l'établissement",
+                            'action' => 'addEtablissement',
+                            'idEtablissement' => null,
+                            'idUtilisateur' => $user->getIdUtilisateur(),
+                            'allPays' => $servicePays->searchAll(),
+                        );
+    
+                        $_SESSION['mailUtil'] = $mailUtil;
+                        $_SESSION['idUtil'] = $idUtil;
+                        $_SESSION['role'] = nameRole($idRole);
+        
+                        $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
+                        
+                        if ($professionnel) 
+                        {
+                            echo formulairesEtablissement($tabAffichFormAddEtab,null);
+                            die;           
+                        }
+                        else {
+                            header("Location: ../../index.php");
+                            die;
+                        }
+                    }
+                } 
+                catch (ServiceException $se) {
+                    header("Location: ../../index.php");
+                    die;
                 }
-            } 
-            catch (ServiceException $se) {
-                header("Location: ../../index.php");
+               
+            } else{
+                $allPays = $servicePays->searchAll();
+                $tabAffichageFormAddUser = array(
+                    'title' => 'Inscrivez vous',
+                    'titleBtn' => 'Ajouter',
+                    'action' => 'add',
+                    'allPays' => $allPays
+                );
+    
+                echo formulairesUtilisateur($tabAffichageFormAddUser,'',$message);
                 die;
             }
         }
@@ -103,47 +153,98 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     {
         if(!empty($_POST) && isset($_POST))
         {
-            $idUtilisateur = $_POST['idUtilisateur'];
-            $civilite = $_POST['civilite'];
-            $pseudo = $_POST['pseudo'];
-            $nomUtil = $_POST['nomUtil'];
-            $prenomUtile = $_POST['prenomUtil'];           
-            $adresseUtil = $_POST['adresseUtil'];
-            $codePostalUtil = $_POST['codePostalUtil'];
-            $villeUtil = $_POST['villeUtil'];
-            $mailUtil = $_POST['mailUtil'];
-            $telUtil = $_POST['telUtil'];
-            $passwordUtil = $_POST['passwordUtil'];
-            $datenaissance = new DateTime($_POST['dateNaissance']);
-            $dateInscriptionUtil = $_POST['dateInscriptionUtil'];
-            $idRole = $_POST['idRole'];
-            $idPays = $_POST['idPays'];
+            var_dump($_POST);
+            $message = '';
+            foreach ($_POST as $value) {
+                if ($value == "") {
+                    $message.= "Tout les champs du formulaire sont obligatoires !</br>";
+                }
+                break;
+            }
+            if (isset($_POST['civilite']) && $_POST['civilite'] == "") {
+                $message.= "Veuillez indiquer votre civilite !";
+            } elseif ($_POST['pseudo'] == "") {
+                $message.= "Veuillez indiquer votre pseudo !";
+            } elseif ($_POST['nomUtil'] == "") {
+                $message.= "Veuillez indiquer votre nom !";
+            } elseif ($_POST['prenomUtil'] == "") {
+                $message.= "Veulliez indiquer votre prénom !";
+            } elseif ($_POST['adresseUtil'] == "") {
+                $message.= "Veuillez indiquer le numéro et le libellé de votre voie !";
+            } elseif ($_POST['codePostalUtil'] == "") {
+                $message.= "Veuillez indiquer votre code postal !";
+            } elseif ($_POST['villeUtil'] == "") {
+                $message.= "Veuillez indiquer votre ville !";
+            } elseif ($_POST['mailUtil'] == "") {
+                $message.= "Veuillez indiquer votre adresse mail !";
+            } elseif ($_POST['telUtil'] == "") {
+                $message.= "Veuillez indiquer un numéro de téléphone !";
+            } elseif ($_POST['passwordUtil'] == "") {
+                $message.= "Veuillez indiquer votre mot de passe !";
+            } elseif ($_POST['dateNaissance'] == "") {
+                $message.= "Veuillez indiquer votre date de naissance !";
+            } elseif (isset($_POST['idRole']) && $_POST['idRole'] == "") {
+                $message.= "Veuillez indiquer votre status !";
+            } elseif ($_POST['idPays'] == "") {
+                $message.= "Veuillez indiquer votre pays !";
+            }
 
-            $utilisateur = new Utilisateur();
-            $utilisatueur->setIdUtilisateur($idUtilisateur)
-                         ->setCivilite($civilite)
-                         ->setPseudo($pseudo)
-                         ->setNomUtil($nomUtil)
-                         ->setPrenomUtil($prenomUtil)
-                         ->setAdresseUtil($adresseUtil)
-                         ->setCodePostalUtil($codePostalUtil)
-                         ->setVilleUtil($villeUtil)
-                         ->setMailUtil($mailUtil)
-                         ->setTelUtil($telUtil)
-                         ->setPasswordUtil($passwordUtil)
-                         ->setDateNaissance($dateNaissance)
-                         ->setDateInscriptionUtil($dateInscriptionUtil)
-                         ->setIdRole($idRole)
-                         ->setIdPays($idPays);
-            try {
-                $serviceUtilisateur->update($utilisateur);
+            if ($message=="") 
+            {
+                $idUtilisateur = $_POST['idUtilisateur'];
+                $civilite = $_POST['civilite'];
+                $pseudo = $_POST['pseudo'];
+                $nomUtil = $_POST['nomUtil'];
+                $prenomUtil = $_POST['prenomUtil'];           
+                $adresseUtil = $_POST['adresseUtil'];
+                $codePostalUtil = $_POST['codePostalUtil'];
+                $villeUtil = $_POST['villeUtil'];
+                $mailUtil = $_POST['mailUtil'];
+                $telUtil = $_POST['telUtil'];
+                $passwordUtil = $_POST['passwordUtil'];
+                $datenaissance = new DateTime($_POST['dateNaissance']);
+                $dateInscriptionUtil = new DateTime(date("Y-m-d"));;
+                $idRole = (int)$_POST['idRole'];
+                $idPays = (int)$_POST['idPays'];
     
-                //echo detailsCompte();
-                header("location: ../../index.php");
-                die;  
-            } 
-            catch (ServiceException $se) {
-                header("Location: ../../index.php");
+                $utilisateur = new Utilisateur();
+                $utilisatueur->setIdUtilisateur($idUtilisateur)
+                             ->setCivilite($civilite)
+                             ->setPseudo($pseudo)
+                             ->setNomUtil($nomUtil)
+                             ->setPrenomUtil($prenomUtil)
+                             ->setAdresseUtil($adresseUtil)
+                             ->setCodePostalUtil($codePostalUtil)
+                             ->setVilleUtil($villeUtil)
+                             ->setMailUtil($mailUtil)
+                             ->setTelUtil($telUtil)
+                             ->setPasswordUtil($passwordUtil)
+                             ->setDateNaissance($dateNaissance)
+                             ->setDateInscriptionUtil($dateInscriptionUtil)
+                             ->setIdRole($idRole)
+                             ->setIdPays($idPays);
+                try {
+                    $serviceUtilisateur->update($utilisateur);
+                    
+                    $utilisateur = $serviceUtilisateur->searchUserbyMail($mailUtil);
+                    echo detailUtilisateur($utilisateur);
+                    die;  
+                } 
+                catch (ServiceException $se) {
+                    header("Location: ../../index.php");
+                    die;
+                }
+            } else{
+                $tabAffichageFormUpdateUser = array(
+                    'title' => 'Modifier vos informations personnelles',
+                    'titleBtn' => 'Modifier',
+                    'action' => 'update',
+                    'allPays' => $allPays
+                );
+                $service = new ServiceUtilisateur();
+                $utilisateur = $service->searchById(($_SESSION ['idUtil']));
+        
+                echo formulairesUtilisateur($tabAffichageFormUpdateUser,$utilisateur,$message);
                 die;
             }
         }
@@ -190,9 +291,10 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     }
     
     elseif ($_GET['action'] == 'detailUtilisateur'){
-        if(!$_SESSION) 
-            header('location: FormulairesUtilisateurController.php?action=connexion');
-        // var_dump($_SESSION);
+        if(!$_SESSION){
+            connexion('Vous devez être connecté en tant que professionnel',null);
+            die;            
+        }
         $utilisateur = $serviceUtilisateur->searchUserbyMail($_SESSION['mailUtil']);
         echo detailUtilisateur($utilisateur);
 

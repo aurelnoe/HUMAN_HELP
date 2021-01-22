@@ -26,7 +26,7 @@ $servicePays = new ServicePays();
 $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
 
 if ($professionnel)
-{
+{   
     $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 
     if(!empty($_GET['action']) && isset($_GET['action']))
@@ -37,59 +37,103 @@ if ($professionnel)
             if ($_GET['action'] == 'add')
             {
                 /** Encoder l'image avant de l'insérer dans la bdd */
-                if (getimagesize($_FILES['imageMission']['tmp_name']) == False) {
-                    echo "Veulliez ajouter une image";
+                if (!empty($_FILES['imageMission']['tmp_name'])) {
+                    if (getimagesize($_FILES['imageMission']['tmp_name']) == False) {
+                        echo "Veulliez ajouter une image";
+                    }
+                    $imageMission = $_FILES['imageMission']['tmp_name'];
+                    $imageMission = file_get_contents($imageMission);
+                    $imageMission = base64_encode($imageMission);
                 }
-                $imageMission = $_FILES['imageMission']['tmp_name'];
-                $imageMission = file_get_contents($imageMission);
-                $imageMission = base64_encode($imageMission);
+                // Controle des champs si javascript est desactive
+                $message = '';
+                foreach ($_POST as $value) {
+                    if ($value == "") {
+                        $message.= "Tout les champs du formulaire sont obligatoires !</br>";
+                    }
+                    break;
+                }
+                if ($_POST['titreMission'] == "") {
+                    $message.= "Veuillez indiquer un titre à la mission !";
+                } elseif ($_POST['descriptionMission'] == "") {
+                    $message.= "Veuillez indiquer une description !";
+                } elseif ($_POST['typeFormation'] == "") {
+                    $message.= "Veuillez indiquer un type de formation !";
+                } elseif ($_POST['dateDebut'] == "") {
+                    $message.= "Veulliez indiquer une date de début !";
+                } elseif ($_POST['duree'] == "") {
+                    $message.= "Veuillez indiquer la durée !";
+                } elseif ($_POST['idPays'] == "") {
+                    $message.= "Veuillez indiquer un pays !";
+                } elseif ($_POST['idTypeActivite'] == "") {
+                    $message.= "Veuillez indiquer un type d'activité !";
+                }
+
 
                 $titreMission = utf8_decode($_POST['titreMission']);
                 $descriptionMission = $_POST['descriptionMission'];
-                $typeFormation = $_POST['typeFormation'];
+                $typeFormation = isset($_POST['typeFormation']) ? $_POST['typeFormation'] : "";
                 $dateDebut = $_POST['dateDebut'];
                 $duree = $_POST['duree'];
                 $dateAjout = date("Y-m-d");
                 $idPays = $_POST['idPays'];
                 $idEtablissement = $_POST['idEtablissement'];
                 $idTypeActivite = $_POST['idTypeActivite'];
-
-                $mission->setTitreMission($titreMission)
-                        ->setDescriptionMission($descriptionMission)
-                        ->setTypeFormation($typeFormation)
-                        ->setImageMission($imageMission)
-                        ->setDateDebut($dateDebut)
-                        ->setDuree($duree)
-                        ->setDateAjout($dateAjout);
-                $mission->setIdPays($idPays)
-                        ->setIdEtablissement($idEtablissement)
-                        ->setIdTypeActivite($idTypeActivite);
-                try {
-                    $serviceMission->add($mission);   
-                    
-                    $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
-                    $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                    $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
-                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
-                    
-                    echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
-                    die;
-                } 
-                catch (ServiceException $se) {
-                    if ($professionnel) 
-                    {
+                if ($message=="") 
+                {
+                    $mission->setTitreMission($titreMission)
+                            ->setDescriptionMission($descriptionMission)
+                            ->setTypeFormation($typeFormation)
+                            ->setImageMission($imageMission)
+                            ->setDateDebut($dateDebut)
+                            ->setDuree($duree)
+                            ->setDateAjout($dateAjout);
+                    $mission->setIdPays($idPays)
+                            ->setIdEtablissement($idEtablissement)
+                            ->setIdTypeActivite($idTypeActivite);
+                    try {
+                        $serviceMission->add($mission);   
+                        
                         $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
                         $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
                         $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
                         $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
                         
-                        echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages,$se->getCode());
-                        die;           
-                    }
-                    else {
-                        header("Location: ../../index.php");
+                        echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
                         die;
+                    } 
+                    catch (ServiceException $se) {
+                        if ($professionnel) 
+                        {
+                            $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
+                            $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
+                            $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                            $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
+                            
+                            echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages,$se->getCode());
+                            die;           
+                        }
+                        else {
+                            header("Location: ../../index.php");
+                            die;
+                        }
                     }
+                }else {
+                    $serviceTypeActivite = new ServiceTypeActivite();
+                    $servicePays = new ServicePays();
+                    $allPays = $servicePays->searchAll();
+                    $allTypeActivite = $serviceTypeActivite->searchAll();
+                    $tabAffichageFormAddMission = array(
+                        'title' => 'Ajouter une nouvelle mission',
+                        'titleBtn' => 'Ajouter la mission',
+                        'action' => 'add',
+                        'idMission' => null,
+                        'idEtablissement' => $idEtablissement,
+                        'allPays' => $allPays,
+                        'allTypeActivite' => $allTypeActivite
+                    );
+                    echo formulairesMission($tabAffichageFormAddMission,null,$message);
+                    die;
                 }
             }  
             /**************************************** AJOUTER UN ETABLISSEMENT ************************/
