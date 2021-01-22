@@ -151,9 +151,10 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     /************************** MODIFIER UN UTILISATEUR ***************************/
     else if($_GET['action'] == 'update' && isset($_GET['idUtilisateur']))
     {
+        echo "hello";
         if(!empty($_POST) && isset($_POST))
         {
-            var_dump($_POST);
+            //var_dump($_POST);
             $message = '';
             foreach ($_POST as $value) {
                 if ($value == "") {
@@ -235,6 +236,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                     die;
                 }
             } else{
+                $allPays = $servicePays->searchAll();
                 $tabAffichageFormUpdateUser = array(
                     'title' => 'Modifier vos informations personnelles',
                     'titleBtn' => 'Modifier',

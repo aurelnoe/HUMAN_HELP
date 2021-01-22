@@ -60,11 +60,15 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null,$m
     <body>
         <?php
         echo navbar();
+        $action = $tabAffichageFormUser['action'];
+        $idUtilisateur = $utilisateur->getIdUtilisateur();
         ?>
         <div class="col-12 col-md-5 container my-4 borderGreen rounded">    
             
-            ​<form class="form p-4" action="utilisateurController.php?action=<?php echo $tabAffichageFormUser['action']; ?>" method="POST" novalidate>
-                ​<h2 class="text-center pb-2"><?php echo $tabAffichageFormUser['title']; ?></h2>
+            <form class="needs-validation p-4" id="formUtilisateur" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=$action&idUtilisateur=$idUtilisateur" 
+                                                                                    : "/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=$action" ?> 
+                                                                                    method="POST" novalidate>​
+                <h2 class="text-center pb-2"><?php echo $tabAffichageFormUser['title']; ?></h2>
 
                 <?php
                     if ($message) {
@@ -316,7 +320,7 @@ function detailUtilisateur($utilisateur = null)
                     </a>
         </div>
         <div class="col-10 col-md-6 m-auto">
-                    <a class="btn btnGreen w-100 my-4 " href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=delete&idUtilisateur=<?php echo $utilisateur->getIdUtil() ?>">
+                    <a class="btn btn-danger w-100 my-4 " href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=delete&idUtilisateur=<?php echo $utilisateur->getIdUtilisateur() ?>">
                         Supprimer mon compte
                     </a>
         </div>
