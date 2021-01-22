@@ -20,6 +20,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     if ($_GET['action'] == 'formAjout')  //ADD USER
     {
         try {
+            $successCode = 17000;
             $tabAffichageFormAddUser = array(
                 'title' => 'Inscrivez vous',
                 'titleBtn' => 'Ajouter',
