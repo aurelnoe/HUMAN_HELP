@@ -260,9 +260,9 @@ class Utilisateur
     /**
      * Get the value of dateNaissance
      */ 
-    public function getDateNaissance():DateTime
+    public function getDateNaissance():?DateTime
     {
-        return $this->dateNaissance;
+        return new DateTime($this->dateNaissance);
     }
 
     /**
@@ -270,7 +270,7 @@ class Utilisateur
      *
      * @return  self
      */ 
-    public function setDateNaissance(DateTime $dateNaissance):self
+    public function setDateNaissance(?string $dateNaissance):self
     {
         $this->dateNaissance = $dateNaissance;
 
@@ -280,7 +280,7 @@ class Utilisateur
     /**
      * Get the value of dateInscriptionUtil
      */ 
-    public function getDateInscriptionUtil():dateTime
+    public function getDateInscriptionUtil():DateTime
     {
         return new DateTime($this->dateInscriptionUtil);
     }

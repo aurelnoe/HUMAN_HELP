@@ -111,7 +111,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
             $stmt->bindParam(':prenomUtil', $getPrenomUtil);
             $stmt->bindParam(':adresseUtil', $getAdresseUtil);
             $stmt->bindParam(':codePostalUtil', $getCodePostalUtil);
-            $stmt->bindParam(':villeUtiil', $getVilleUtil);
+            $stmt->bindParam(':villeUtil', $getVilleUtil);
             $stmt->bindParam(':mailUtil', $getMailUtil);
             $stmt->bindParam(':telUtil', $getTelUtil);
             $stmt->bindParam(':passwordUtil', $getPasswordUtil);
@@ -120,6 +120,8 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
             $stmt->bindParam(':idRole', $getIdRole);
             $stmt->bindParam(':idPays', $getIdPays);
             $stmt->bindParam(':idUtilisateur', $getIdUtilisateur);
+        
+            $stmt->execute();
         }
         catch (PDOException $e){
             throw new DAOException($e->getMessage(),$e->getCode());

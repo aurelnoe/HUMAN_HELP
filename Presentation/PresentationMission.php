@@ -673,16 +673,16 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
         ?>
         <div class="container justify-content p-4">
 
-            <h2 class="text-center my-3 py-2">Détails de la mission</h2>
+            <h2 class="text-center my-4">Détails de la mission</h2>
 
-            <hr class="mb-4 mt-2">
+            <hr class="my-4 hrGreenLight">
             <!-- section image details -->
-            <div class="row h-25">
-                <div class="col-10 col-md-5 m-auto p-0">
+            <div class="row">
+                <div class="col-10 col-md-5 my-2 mx-auto p-0">
                     <div class="imageMissionDiv rounded" style="background-image: url('data:image/png;base64,<?php echo $mission->getImageMission(); ?>');"></div>
                     <hr class="hrGreen">
                 </div>
-                <div class="col-10 col-md-6">
+                <div class="col-10 col-md-6 my-4">
                     <ul class="liDetailsMission">
                         <li><strong>Titre de la mission :</strong> <?php echo utf8_encode($mission->getTitreMission()); ?></li>
                         <li><strong>Type d'activité :</strong> <?php searchNameTypeActivityById($mission->getIdTypeActivite()); ?></li>
@@ -695,18 +695,18 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
                 </div>
             </div>
 
-            <hr class="mb-4 mt-4">
+            <hr class="my-4 hrGreenLight">
 
-            <h2 class="mb-4 mt-4">Description :</h2>
+            <h2 class="my-4">Description :</h2>
 
             <div class="my-4"><?php echo $mission->getDescriptionMission(); ?></div>
                 
-            <hr class="mb-4 mt-5">
+            <hr class="my-4 hrGreenLight">
 
             <!-- COMMENTAIRES -->
-            <div class="mb-4 pb-4">
+            <div class="my-4">
 
-                <h2 class="mb-4 mt-4">Commentaires :</h2>
+                <h2 class="my-4">Commentaires :</h2>
 
                 <div class="row border billet">
                     <div class="col-12 col-md-4">
@@ -750,7 +750,7 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
 
             </div>
         <!-- BOUTONS -->
-            <hr class="mb-4">
+            <hr class="mb-4 hrGreenLight">
 
             <div class="row mb-4">
                 <div class="col-12 col-md-5 my-2">
@@ -774,16 +774,16 @@ function detailsMission($mission,$professionnel,$errorCode=null,$message=null)
                             Modifier
                         </a>
                     </div>
-                    <div class="col-12 col-md-4 my-2">
-                        <a href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php" class="btn btn-primary w-100">
-                            Mes missions
-                        </a>
-                    </div>
                     <form class="col-12 col-md-4 my-2" action="?action=delete" method="POST">
                         <button type="submit" class="btn btn-danger w-100">
                             Supprimer
                         </button>
                     </form>
+                    <div class="col-12 col-md-4 my-2">
+                        <a href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php" class="btn btn-primary w-100">
+                            Mes missions
+                        </a>
+                    </div>
                 </div>
             <?php  
             }
@@ -827,7 +827,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
 
             <form class="needs-validation p-3" id="formMission" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=$action" 
                                                                                     : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=$action" ?> 
-                                                                                    method="POST" novalidate
+                                                                                    method="POST"
                                                                                     enctype="multipart/form-data"
                                                                                     onsubmit="return VerifFormMission(this)">
                 <input type="hidden" name="idMission" id="idMission" value="<?php echo isset($idMission) ? $idMission : '' ?>">
@@ -948,7 +948,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
             var duree=document.getElementById('formMission').duree.value;
             var imageMission=document.getElementById('formMission').imageMission.value;
             if (titreMission == "") {
-                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer le titre de la mission !';
+                document.getElementById('msg_erreur').innerHTML= '<div class="alert alert-danger text-center w-100">Veuillez indiquer le titre de la mission !</div>';
                 document.getElementById('msg_erreur').style.display='block';
                 document.getElementById('msg_erreur').className='focus';
                 form.titreMission.focus();
@@ -957,7 +957,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
                 document.getElementById('msg_erreur').style.display='none';
             }
             if (idPays == "") {
-                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer le pays de la mission !';
+                document.getElementById('msg_erreur').innerHTML= '<div class="alert alert-danger text-center w-100">Veuillez indiquer le pays de la mission !</div>';
                 document.getElementById('msg_erreur').style.display='block';
                 document.getElementById('msg_erreur').className='focus';
                 form.idPays.focus();
@@ -966,7 +966,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
                 document.getElementById('msg_erreur').style.display='none';
             }
             if (idTypeActivite == "") {
-                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer le type d\'activité !';
+                document.getElementById('msg_erreur').innerHTML= '<div class="alert alert-danger text-center w-100">Veuillez indiquer le type d\'activité !</div>';
                 document.getElementById('msg_erreur').style.display='block';
                 document.getElementById('msg_erreur').className='focus';
                 form.idTypeActivite.focus();
@@ -975,7 +975,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
                 document.getElementById('msg_erreur').style.display='none';
             }
             if (descriptionMission == "") {
-                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer une description à la mission !';
+                document.getElementById('msg_erreur').innerHTML= '<div class="alert alert-danger text-center w-100">Veuillez indiquer une description à la mission !</div>';
                 document.getElementById('msg_erreur').style.display='block';
                 document.getElementById('msg_erreur').className='focus';
                 form.descriptionMission.focus();
@@ -984,7 +984,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
                 document.getElementById('msg_erreur').style.display='none';
             }
             if (typeFormation == "") {
-                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer le type de formation de la mission !';
+                document.getElementById('msg_erreur').innerHTML= '<div class="alert alert-danger text-center w-100">Veuillez indiquer le type de formation de la mission !</div>';
                 document.getElementById('msg_erreur').style.display='block';
                 document.getElementById('msg_erreur').className='focus';
                 form.typeFormation.focus();
@@ -993,7 +993,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
                 document.getElementById('msg_erreur').style.display='none';
             }
             if (dateDebut == "") {
-                document.getElementById('msg_erreur').innerHTML= 'Veuillez une date de début !';
+                document.getElementById('msg_erreur').innerHTML= '<div class="alert alert-danger text-center w-100">Veuillez une date de début !</div>';
                 document.getElementById('msg_erreur').style.display='block';
                 document.getElementById('msg_erreur').className='focus';
                 form.dateDebut.focus();
@@ -1002,7 +1002,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
                 document.getElementById('msg_erreur').style.display='none';
             }
             if (duree == "") {
-                document.getElementById('msg_erreur').innerHTML= 'Veuillez indiquer la durée de la mission !';
+                document.getElementById('msg_erreur').innerHTML= '<div class="alert alert-danger text-center w-100">Veuillez indiquer la durée de la mission !</div>';
                 document.getElementById('msg_erreur').style.display='block';
                 document.getElementById('msg_erreur').className='focus';
                 form.duree.focus();
@@ -1011,7 +1011,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
                 document.getElementById('msg_erreur').style.display='none';
             }
             if (imageMission == "") {
-                document.getElementById('msg_erreur').innerHTML= 'Veuillez ajouter une image à la mission !';
+                document.getElementById('msg_erreur').innerHTML= '<div class="alert alert-danger text-center w-100">Veuillez ajouter une image à la mission !</div>';
                 document.getElementById('msg_erreur').style.display='block';
                 document.getElementById('msg_erreur').className='focus';
                 form.imageMission.focus();

@@ -24,7 +24,7 @@ if (!empty($_GET) && isset($_GET['action']))
             $tabAffichageFormEtablissement = array(
                 'title' => "Modification d'un établissement",
                 'titleBtn' => "Modifier l'établissement",
-                'action' => 'updateEtablissement',
+                'action' => 'update',
                 'idEtablissement' => $_GET['idEtablissement'],
                 'idUtilisateur' => null,
                 'allPays' => $servicePays->searchAll(),

@@ -61,13 +61,19 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null,$m
         <?php
         echo navbar();
         $action = $tabAffichageFormUser['action'];
-        $idUtilisateur = $utilisateur->getIdUtilisateur();
+        if (isset($_GET['action']) && $_GET['action']=="formModif") {
+            $idUtilisateur = $utilisateur->getIdUtilisateur();
+            $birthdate = $utilisateur->getDateNaissance()->format('Y-m-d');
+        }else {
+            $idUtilisateur = "";
+            $birthdate = "";
+        }
         ?>
         <div class="col-12 col-md-5 container my-4 borderGreen rounded">    
             
             <form class="needs-validation p-4" id="formUtilisateur" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=$action&idUtilisateur=$idUtilisateur" 
                                                                                     : "/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=$action" ?> 
-                                                                                    method="POST" novalidate>​
+                                                                                    method="POST">​
                 <h2 class="text-center pb-2"><?php echo $tabAffichageFormUser['title']; ?></h2>
 
                 <?php
@@ -78,7 +84,7 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null,$m
                         
                 <hr class="mb-4 hrGreen">
       
-                <input type="hidden" name="idUtilisateur" value="<?php echo (isset($_GET['action']) && $_GET['action']=="formModif" ) ? $utilisateur->getIdUtilisateur() : "" ?>">
+                <input type="hidden" name="idUtilisateur" value="<?php echo $idUtilisateur; ?>">
                 <input type="hidden" name="dateInscriptionUtil" value="<?php echo (isset($_GET['action']) && $_GET['action']=="formModif" ) ? $utilisateur->getDateInscriptionUtil()->format("Y-m-d") : "" ?>">
 
                 <div class="d-block mb-2 form-group">
@@ -128,7 +134,7 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null,$m
                 <div class="mb-2 form-group">
                     <label for="dateNaissance">Date de naissance</label>
                     <div class="input-group"  data-provide="datepicker">
-                        <input type="date" class="form-control" name="dateNaissance" placeholder="jj/mm/aaaa" value="<?php echo ($_GET['action'] == 'formmodif') ? $utilisateur->getDateNaissance()->format('Y-m-d')  : ''; ?>" required>
+                        <input type="date" class="form-control" name="dateNaissance" placeholder="" value="<?php echo $birthdate; ?>" required>
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
@@ -303,7 +309,7 @@ function detailUtilisateur($utilisateur = null)
                     <div class="col mr-auto">
                         <p>Numéro, libellé de la voie :</p>
                         <p>Ville</p>
-                        <p>Code postale :</p>
+                        <p>Code postal :</p>
                         <p>Pays :</p>
                     </div>
                     <div class="col">
@@ -316,7 +322,12 @@ function detailUtilisateur($utilisateur = null)
             </div>
         </div>
         <div class="col-10 col-md-6 m-auto">
-            <a class="btn btnGreen w-100 my-3 " href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formModif">
+            <a class="btn btnGreen w-100 my-3 " href="/HUMAN_HELP/">
+                Retour accueil
+            </a>
+        </div>
+        <div class="col-10 col-md-6 m-auto">
+            <a class="btn btn-primary w-100 my-3 " href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formModif">
                 Modifier les informations personnelles
             </a>
         </div>

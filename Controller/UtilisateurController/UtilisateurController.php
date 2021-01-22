@@ -71,7 +71,7 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                 $mailUtil = $_POST['mailUtil'];
                 $telUtil = $_POST['telUtil'];
                 $passwordUtil = $_POST['passwordUtil'];
-                $dateNaissance = new DateTime($_POST['dateNaissance']);
+                $dateNaissance = $_POST['dateNaissance'];
                 $dateInscriptionUtil = date("Y-m-d");
                 $idRole = isset($_POST['idRole']) ? $_POST['idRole'] : "";
                 $idPays = $_POST['idPays'];
@@ -101,13 +101,13 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                     }
                     elseif($idRole==2) {  //Professionnel => ADD ETABLISSEMENT  
                         
-                        $user = $serviceUtilisateur->searchUserbyMail($mailUtil);
+                        $utilisateur = $serviceUtilisateur->searchUserbyMail($mailUtil);
                         $tabAffichFormAddEtab = array(
                             'title' => "Ajouter votre établissement",
                             'titleBtn' => "Ajouter l'établissement",
                             'action' => 'addEtablissement',
                             'idEtablissement' => null,
-                            'idUtilisateur' => $user->getIdUtilisateur(),
+                            'idUtilisateur' => $utilisateur->getIdUtilisateur(),
                             'allPays' => $servicePays->searchAll(),
                         );
     
@@ -202,8 +202,8 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                 $mailUtil = $_POST['mailUtil'];
                 $telUtil = $_POST['telUtil'];
                 $passwordUtil = $_POST['passwordUtil'];
-                $dateNaissance = new DateTime($_POST['dateNaissance']);
-                $dateInscriptionUtil = date("Y-m-d");;
+                $dateNaissance = $_POST['dateNaissance'];
+                $dateInscriptionUtil = $_POST['dateInscriptionUtil'];
                 $idRole = (int)$_POST['idRole'];
                 $idPays = (int)$_POST['idPays'];
     

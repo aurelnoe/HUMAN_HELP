@@ -139,38 +139,71 @@ if ($professionnel)
             /**************************************** AJOUTER UN ETABLISSEMENT ************************/
             elseif ($_GET['action'] == 'addEtablissement') 
             {    
-                $denomination = utf8_decode($_POST['denomination']);
-                $adresseEtablissement = $_POST['adresseEtablissement'];
-                $villeEtablissement = $_POST['villeEtablissement'];
-                $codePostalEtablissement = $_POST['codePostalEtablissement'];
-                $mailEtablissement = $_POST['mailEtablissement'];
-                $telEtablissement = $_POST['telEtablissement'];
-                $dateAjoutEtablissement = date("Y-m-d"); 
-                $idUtilisateur = $_POST['idUtilisateur'];
-                $idPays = $_POST['idPays'];
-        
-                $etablissement  ->setDenomination($denomination)
-                                ->setAdresseEtablissement($adresseEtablissement)
-                                ->setVilleEtablissement($villeEtablissement)
-                                ->setCodePostalEtablissement($codePostalEtablissement)
-                                ->setMailEtablissement($mailEtablissement)
-                                ->setTelEtablissement($telEtablissement)
-                                ->setDateAjoutEtablissement($dateAjoutEtablissement)
-                                ->setIdUtilisateur($idUtilisateur)
-                                ->setIdPays($idPays);
-                try {
-                    $serviceEtablissement->add($etablissement);  
-
-                    $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
-                    $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
-                    $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
-                    $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
-                    
-                    echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
-                    die;  
+                $message = '';
+                if ($_POST['denomination'] == "") {
+                    $message.= "Veuillez indiquer une dénomination !";
+                } elseif ($_POST['adresseEtablissement'] == "") {
+                    $message.= "Veuillez indiquer une adresse !";
+                } elseif ($_POST['villeEtablissement'] == "") {
+                    $message.= "Veuillez indiquer une ville !";
+                } elseif ($_POST['codePostalEtablissement'] == "") {
+                    $message.= "Veulliez indiquer un code postal !";
+                } elseif ($_POST['mailEtablissement'] == "") {
+                    $message.= "Veuillez indiquer une adresse mail !";
+                } elseif ($_POST['telEtablissement'] == "") {
+                    $message.= "Veuillez indiquer un pays !";
+                } elseif ($_POST['idPays'] == "") {
+                    $message.= "Veuillez indiquer un pays !";
                 }
-                catch (ServiceException $se) {
-                    header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+                if ($message=="") 
+                {
+                    $denomination = utf8_decode($_POST['denomination']);
+                    $adresseEtablissement = $_POST['adresseEtablissement'];
+                    $villeEtablissement = $_POST['villeEtablissement'];
+                    $codePostalEtablissement = $_POST['codePostalEtablissement'];
+                    $mailEtablissement = $_POST['mailEtablissement'];
+                    $telEtablissement = $_POST['telEtablissement'];
+                    $dateAjoutEtablissement = date("Y-m-d"); 
+                    $idUtilisateur = $_POST['idUtilisateur'];
+                    $idPays = $_POST['idPays'];
+            
+                    $etablissement  ->setDenomination($denomination)
+                                    ->setAdresseEtablissement($adresseEtablissement)
+                                    ->setVilleEtablissement($villeEtablissement)
+                                    ->setCodePostalEtablissement($codePostalEtablissement)
+                                    ->setMailEtablissement($mailEtablissement)
+                                    ->setTelEtablissement($telEtablissement)
+                                    ->setDateAjoutEtablissement($dateAjoutEtablissement)
+                                    ->setIdUtilisateur($idUtilisateur)
+                                    ->setIdPays($idPays);
+                    try {
+                        $serviceEtablissement->add($etablissement);  
+    
+                        $utilisateur = $serviceUtilisateur->searchById($_SESSION['idUtil']);
+                        $etablissement = $serviceEtablissement->searchEtablissementByIdUtilisateur($_SESSION['idUtil']);
+                        $pages = $serviceMission->countPageMissionPro($etablissement->getIdEtablissement());
+                        $missions = $serviceMission->searchMissionByPro($etablissement->getIdEtablissement(),1);
+                        
+                        echo listeMissionsPro($missions,$etablissement,$utilisateur,$page,$pages);
+                        die;  
+                    }
+                    catch (ServiceException $se) {
+                        header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    }
+                } else {
+                    $utilisateur = $serviceUtilisateur->searchUserbyMail($mailUtil);
+                    $tabAffichFormAddEtab = array(
+                        'title' => "Ajouter votre établissement",
+                        'titleBtn' => "Ajouter l'établissement",
+                        'action' => 'addEtablissement',
+                        'idEtablissement' => null,
+                        'idUtilisateur' => $utilisateur->getIdUtilisateur(),
+                        'allPays' => $servicePays->searchAll(),
+                    );
+                    
+                    echo formulairesEtablissement($tabAffichFormAddEtab,null,$message);
+                    die;  
                 }
             }
             /**************************************** MODIFIER UN ETABLISSEMENT ************************/
