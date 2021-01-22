@@ -15,8 +15,8 @@ function footer()
 { 
 	?>
     <footer class="mt-4" style="background-color: #F8F8FF;">
-    <div class="row text-center">
-        <div class="col-xl-4 col-md-12">
+    <div class="row text-center w-100 mx-0">
+        <div class="col-10 col-md-4 mx-0 px-0">
             <ul class="list-footer list-group list-group-flush">
                 <li class="list-group-item" style="background-color: #F8F8FF;" >
                     <a class="nav-link" href="http://localhost/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=detailUtilisateur">
@@ -55,7 +55,7 @@ function footer()
             </ul>
         <!-- changer les liens ancres pour les mettres sur la banière -->
         </div>
-        <div class="col-xl-4 col-md-12">
+        <div class="col-10 col-md-4 mx-0">
             <ul class="list-footer list-group list-group-flush">
                 <li class="list-group-item" style="background-color: #F8F8FF;"><a class="nav-link" href="#">Politiques de confidentialités</a></li>
                 <li class="list-group-item" style="background-color: #F8F8FF;"><a class="nav-link" href="#">Politique d'utilisation des cookies</a></li>
@@ -64,7 +64,7 @@ function footer()
                 <li class="list-group-item" style="background-color: #F8F8FF;"><a class="nav-link" href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php">Blog</a></li>
             </ul>
         </div>
-        <div class="col-xl-4 col-md-12 button-footer">
+        <div class="col-10 col-md-4 button-footer mx-0">
             <button class="btn btnGreen btn-lg  mb-5 button-footer1 text-center" type="submit">
                 S'inscrire à la Newsletter
             </button>

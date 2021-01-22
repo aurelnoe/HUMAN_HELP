@@ -1,11 +1,3 @@
-/*-------------DEBUT CODE GENERAL CSS--------------*/
-.navbardev{
-  max-width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 @import url(https://fonts.googleapis.com/css?family=Raleway);
 
 body {
@@ -14,6 +6,7 @@ body {
   font-family: 'Raleway', sans-serif;
   overflow-x: hidden; /* Permet de cacher lorsque le contenu dépasse des bords droit et gauche de la boîte de contenu. */
   box-sizing: border-box;
+  max-width: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -21,6 +14,16 @@ body {
   height: 100vh;    /*Pour prendre 100% de la hauteur de l'ecran*/
 }
 
+.container-fluid {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
 /******BARRE DE RECHERCHE HEADER******/
 .chosen-container {
   width: 100%!important;

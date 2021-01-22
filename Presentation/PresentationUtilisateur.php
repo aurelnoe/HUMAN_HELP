@@ -142,7 +142,7 @@ function formulairesUtilisateur(array $tabAffichageFormUser,$utilisateur=null,$m
 
                 <div class="form-group">
                     <label for="telUtil">Numéro de téléphone:</label>    ​
-                    <input class="form-control" type="phone" id="phone" name="telUtil" value="<?php echo ($_GET['action'] == 'formModif') ? $utilisateur->getTelUtil() : ''; ?>">
+                    <input class="form-control" type="phone" id="phone" name="telUtil" value="<?php echo ($_GET['action'] == 'formModif') ? "0".$utilisateur->getTelUtil() : ''; ?>">
                 </div>  
 
                 <div class="mb-2 form-group">
@@ -269,62 +269,63 @@ function detailUtilisateur($utilisateur = null)
         <?php
         echo navbar();
         ?>
-    <div class="container">
-        <div>
-            <h2>Détail des informations personnelles</h2> 
-        </div>
-        <hr class="my-4">
-        <div class="row">
-            <div class="col-sm-12 m-5">
-                <h3>Mes coordonnées:</h3>
+    <div class="container w-100">
+            
+        <h2 class="my-4 ml-3">Détail des informations personnelles</h2> 
+        <hr class="hrGreenLight my-4">
+        <div class="row w-100">
+            <div class="col-12 p-4">
+                <h3 class="my-2">Mes coordonnées:</h3>
+                <hr class="hrGreen w-25">
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col">
                         <p>Civilité :</p>
                         <p>Nom :</p>
                         <p>Prénom :</p>
                         <p>Adresse mail :</p>
                         <p>Numéro de téléphone :</p>
-                    </div></br>
-                    <div class="col-3">
-                        <p><?php echo civilite($utilisateur->getCivilite()) ?></p>
-                        <p><?php echo $utilisateur->getNomUtil() ?></p>
-                        <p><?php echo $utilisateur->getPrenomUtil() ?></p>
-                        <p><?php echo $utilisateur->getMailUtil() ?></p>
-                        <p><?php echo $utilisateur->getTelUtil() ?></p>
+                    </div>
+                    <div class="col">
+                        <p><strong><?php echo civilite($utilisateur->getCivilite()); ?></strong></p>
+                        <p><strong><?php echo ucfirst($utilisateur->getNomUtil()) ?></strong></p>
+                        <p><strong><?php echo ucfirst($utilisateur->getPrenomUtil()) ?></strong></p>
+                        <p><strong><?php echo $utilisateur->getMailUtil() ?></strong></p>
+                        <p><strong>0<?php echo $utilisateur->getTelUtil() ?></strong></p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12 m-5">
+        <div class="row w-100">
+            <div class="col-12 p-4">
                 <h3>Votre adresse :</h3>
+                <hr class="hrGreen w-25">
                 <div class="row">
-                    <div class="col-9 mr-auto">
+                    <div class="col mr-auto">
                         <p>Numéro, libellé de la voie :</p>
                         <p>Ville</p>
                         <p>Code postale :</p>
-                        <p>Complément d'adresse :</p>
+                        <p>Pays :</p>
                     </div>
-                    <div class="col-3">
-                        <p><?php echo $utilisateur->getAdresseUtil() ?></p>
-                        <p><?php echo $utilisateur->getVilleUtil() ?></p>
-                        <p><?php echo $utilisateur->getCodePostalUtil() ?></p>
-                        <p>-</p>
+                    <div class="col">
+                        <p><strong><?php echo $utilisateur->getAdresseUtil(); ?></strong></p>
+                        <p><strong><?php echo ucfirst($utilisateur->getVilleUtil()); ?></strong></p>
+                        <p><strong><?php echo $utilisateur->getCodePostalUtil(); ?></strong></p>
+                        <p><strong><?php echo searchNamePaysById($utilisateur->getIdPays()); ?></strong></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-10 col-md-6 m-auto">
-                    <a class="btn btnGreen w-100 my-4 " href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formModif">
-                        Modifier les informations personnelles
-                    </a>
+            <a class="btn btnGreen w-100 my-3 " href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formModif">
+                Modifier les informations personnelles
+            </a>
         </div>
         <div class="col-10 col-md-6 m-auto">
-                    <a class="btn btn-danger w-100 my-4 " href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=delete&idUtilisateur=<?php echo $utilisateur->getIdUtilisateur() ?>">
-                        Supprimer mon compte
-                    </a>
+            <a class="btn btn-danger w-100 my-3 " href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=delete&idUtilisateur=<?php echo $utilisateur->getIdUtilisateur() ?>">
+                Supprimer mon compte
+            </a>
         </div>
-        <hr class="my-4">
+        <hr class="my-4 hrGreenLight">
     </div>
     <?php      
         echo footer();

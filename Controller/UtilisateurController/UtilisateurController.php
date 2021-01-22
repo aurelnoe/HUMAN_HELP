@@ -151,7 +151,6 @@ if(!empty($_GET['action']) && isset($_GET['action']))
     /************************** MODIFIER UN UTILISATEUR ***************************/
     else if($_GET['action'] == 'update' && isset($_GET['idUtilisateur']))
     {
-        echo "hello";
         if(!empty($_POST) && isset($_POST))
         {
             //var_dump($_POST);
@@ -203,13 +202,13 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                 $mailUtil = $_POST['mailUtil'];
                 $telUtil = $_POST['telUtil'];
                 $passwordUtil = $_POST['passwordUtil'];
-                $datenaissance = new DateTime($_POST['dateNaissance']);
-                $dateInscriptionUtil = new DateTime(date("Y-m-d"));;
+                $dateNaissance = new DateTime($_POST['dateNaissance']);
+                $dateInscriptionUtil = date("Y-m-d");;
                 $idRole = (int)$_POST['idRole'];
                 $idPays = (int)$_POST['idPays'];
     
                 $utilisateur = new Utilisateur();
-                $utilisatueur->setIdUtilisateur($idUtilisateur)
+                $utilisateur->setIdUtilisateur($idUtilisateur)
                              ->setCivilite($civilite)
                              ->setPseudo($pseudo)
                              ->setNomUtil($nomUtil)

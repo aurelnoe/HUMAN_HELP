@@ -823,6 +823,7 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
                     echo '<div class="alert alert-danger w-100 text-center">'.$message.'</div>';
                 }
             ?>
+            <div id="msg_erreur"></div>
 
             <form class="needs-validation p-3" id="formMission" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=$action" 
                                                                                     : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=$action" ?> 
