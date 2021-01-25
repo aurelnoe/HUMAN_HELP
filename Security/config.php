@@ -1,5 +1,4 @@
 <?php
-
 define('PATH_BASE',$_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/");
 
 include_once(PATH_BASE . "/Services/ServicePays.php");
@@ -52,7 +51,6 @@ function civilite($idCivilite)
         $civilite = 'Madame';
     }
     return $civilite;
-
 }
 
 function searchUserNameById($idUtilisateur)

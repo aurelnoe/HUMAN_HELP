@@ -16,13 +16,14 @@ body {
 
 .container-fluid {
   max-width: 100%;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .container {
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
+  max-width: 100%;
 }
 /******BARRE DE RECHERCHE HEADER******/
 .chosen-container {

@@ -5,7 +5,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 	?>
 	<div class="container">
 		<h1 class="text-center my-5">Bienvenue sur Human Helps</h1>
-		<div class="row my-4">
+		<div class="row my-4 w-100">
 			<div class="col-10 col-md-3 mx-auto">
 				<div class="card cardEspaceUtil my-2">
 					<div class="card-header">
@@ -127,7 +127,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 
 		<hr class="my-4 hrGreenLight">
 
-		<div class="row mb-4 p-3">
+		<div class="row mb-4 p-0 w-100">
 			<div class="col-12 col-md-4 mt-4">
 				<h2 class="pl-4">Ophélie, 22 ans</h2>
 				<h4 class="font-italic pl-4">10/11/2020</h4>

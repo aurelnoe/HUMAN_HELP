@@ -1022,59 +1022,59 @@ function formulairesMission(array $tabAffichageFormMission,$mission=null,$messag
             return true;
         }
 
-//             $(document).ready(function(){
-//                 $("#formMission").click(function(e){         
-//                     if($("form").valid()){
-//                         e.preventDefault();
-//                     }
-//                     var titreMission=$('#titreMission').val();
-//                     var idPays=$('#idPays').val();
-//                     var idTypeActivite=$('#idTypeActivite').val();
-//                     var descriptionMission=$('#descriptionMission').val();
-//                     var typeFormation=$('#typeFormation').val();
-//                     var dateDebut=$('#dateDebut').val();
-//                     var duree=$('#duree').val();
-//                     var imageMission=$('#imageMission').val();
-//                     $.ajax({
-//                         type: "POST",
-//                         url: "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=<?php echo $action; ?>",
-//                         data: 
-//                             "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
-//                             "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
-//                         success: function(html){
-//                         document.write(html);
-//                         }
-//                     });
-//                 return false;
-//                 });
-//             });
-//             $(document).ready(function() {
-//                 $("#register").submit(function(e) {
-//                     //---------------^---------------
-//                     e.preventDefault();
-//                     var titreMission=$('#titreMission').val();
-//                     var idPays=$('#idPays').val();
-//                     var idTypeActivite=$('#idTypeActivite').val();
-//                     var descriptionMission=$('#descriptionMission').val();
-//                     var typeFormation=$('#typeFormation').val();
-//                     var dateDebut=$('#dateDebut').val();
-//                     var duree=$('#duree').val();
-//                     var imageMission=$('#imageMission').val();
+        //         $(document).ready(function(){
+        //             $("#formMission").click(function(e){         
+        //                 if($("form").valid()){
+        //                     e.preventDefault();
+        //                 }
+        //                 var titreMission=$('#titreMission').val();
+        //                 var idPays=$('#idPays').val();
+        //                 var idTypeActivite=$('#idTypeActivite').val();
+        //                 var descriptionMission=$('#descriptionMission').val();
+        //                 var typeFormation=$('#typeFormation').val();
+        //                 var dateDebut=$('#dateDebut').val();
+        //                 var duree=$('#duree').val();
+        //                 var imageMission=$('#imageMission').val();
+        //                 $.ajax({
+        //                     type: "POST",
+        //                     url: "/HUMAN_HELP/Controller/MissionsController/detailsMissionController.php?action=<?php echo $action; ?>",
+        //                     data: 
+        //                         "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
+        //                         "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
+        //                     success: function(html){
+        //                     document.write(html);
+        //                     }
+        //                 });
+        //             return false;
+        //             });
+        //         });
+        //         $(document).ready(function() {
+        //             $("#register").submit(function(e) {
+        //                      //-----------^---------------
+        //                 e.preventDefault();
+        //                 var titreMission=$('#titreMission').val();
+        //                 var idPays=$('#idPays').val();
+        //                 var idTypeActivite=$('#idTypeActivite').val();
+        //                 var descriptionMission=$('#descriptionMission').val();
+        //                 var typeFormation=$('#typeFormation').val();
+        //                 var dateDebut=$('#dateDebut').val();
+        //                 var duree=$('#duree').val();
+        //                 var imageMission=$('#imageMission').val();
                     
-//                     $.ajax({
-//                     type: "POST",
-//                     url: "/HUMAN_HELP/Controller/MissionsController/FormulairesMissionController.php?action=<?php echo $action; ?>",
-//                     data: 
-//                         "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
-//                         "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
-//                     success: function(html) {
-//                         console.log(html);
-//                     }
-//             });
-//              return false;
+        //                 $.ajax({
+        //                 type: "POST",
+        //                 url: "/HUMAN_HELP/Controller/MissionsController/FormulairesMissionController.php?action=<?php echo $action; ?>",
+        //                 data: 
+        //                     "titreMission=" +titreMission+ "&idPays=" +idPays+ "&idTypeActivite="+ idTypeActivite+ "&descriptionMission="+ descriptionMission+ 
+        //                     "&typeFormation="+ typeFormation + "&dateDebut="+ dateDebut + "&duree="+ duree + "&imageMission="+ imageMission ,
+        //                 success: function(html) {
+        //                     console.log(html);
+        //                 }
+        //         });
+        //          return false;
 
-//          });
-//      });
+        //      });
+        //  });
         </script>
 
     </body>
