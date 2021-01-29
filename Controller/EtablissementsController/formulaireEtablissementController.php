@@ -13,13 +13,26 @@ $_POST = array_map('htmlentities',$_POST);
 
 if (!empty($_GET) && isset($_GET['action'])) 
 {
+    $servicePays = new ServicePays();
     //$serviceUtilisateur = new ServiceUtilisateur();
+    if ($_GET['action'] == 'addEtablissement' && !isset($_GET['idEtablissement']))
+    { 
+        $tabAffichFormAddEtab = array(
+            'title' => "Ajouter votre établissement",
+            'titleBtn' => "Ajouter l'établissement",
+            'action' => 'addEtablissement',
+            'idEtablissement' => null,
+            'idUtilisateur' => $_SESSION['idUtil'],
+            'allPays' => $servicePays->searchAll(),
+        );
+        echo formulairesEtablissement($tabAffichFormAddEtab,null);
+        die; 
 
-    if ($_GET['action'] == 'update' && isset($_GET['idEtablissement']))
+    } else if ($_GET['action'] == 'update' && isset($_GET['idEtablissement']))
     {  
         try { //UPDATE ETABLISSEMENT
             $serviceEtablissement = new ServiceEtablissement();
-            $servicePays = new ServicePays();
+            
             $etablissement = $serviceEtablissement->searchById($_GET['idEtablissement']);
             $tabAffichageFormEtablissement = array(
                 'title' => "Modification d'un établissement",

@@ -13,7 +13,7 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
             $allPays = $tabAffichageFormEtablissement['allPays'];
             $action = $tabAffichageFormEtablissement['action'];
             $idEtablissement = isset($tabAffichageFormEtablissement['idEtablissement']) ? $tabAffichageFormEtablissement['idEtablissement'] : '';
-            $idUtilisateur = isset($tabAffichageFormEtablissement['idUtilisateur']) ? $tabAffichageFormEtablissement['idUtilisateur'] : $etablissement->getIdUtilisateur();
+            $idUtilisateur = isset($tabAffichageFormEtablissement['idUtilisateur']) ? $tabAffichageFormEtablissement['idUtilisateur'] : $_SESSION['idUtil'];
         ?>
         <div class="col-12 col-md-6 formEtablissement container p-4 mb-5 borderGreen rounded">
 
@@ -27,9 +27,13 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
             <div id="msg_erreur"></div>
 
             <form class="needs-validation p-3" id="formEtablissement" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=updateEtablissement&idEtablissement=$idEtablissement" 
-                                                                                                                        : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=$action" ?> 
+                                                                                                                        : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=addEtablissement" ?> 
                                                                                                                         method="POST">
-                <input type="hidden" name="idEtablissement" value="<?php echo $idEtablissement ?>">
+                <?php 
+                //var_dump($tabAffichageFormEtablissement);
+                //var_dump($_POST);
+                ?>
+                <input type="hidden" name="idEtablissement" value="<?php echo isset($idEtablissement) ? $idEtablissement : '' ?>">
                 <input type="hidden" name="idUtilisateur" value="<?php echo $idUtilisateur; ?>">
 
                 <hr class="my-4 hrGreenLight">

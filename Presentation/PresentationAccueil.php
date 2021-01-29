@@ -14,7 +14,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 						?>
 							<div>
 								<p>Bonjour</p>
-								<h3 class="ml-3 "><?php searchUserNameById($_SESSION['idUtil']); ?></h3>
+								<h3 class="ml-3 "><?php (isset($_SESSION['idUtil'])) ? searchUserNameById($_SESSION['idUtil']) : ""; ?></h3>
 							</div>	
 						<?php
 						}else { ?>

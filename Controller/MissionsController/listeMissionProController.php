@@ -47,12 +47,6 @@ if ($professionnel)
                 }
                 // Controle des champs si javascript est desactive
                 $message = '';
-                foreach ($_POST as $value) {
-                    if ($value == "") {
-                        $message.= "Tout les champs du formulaire sont obligatoires !</br>";
-                    }
-                    break;
-                }
                 if ($_POST['titreMission'] == "") {
                     $message.= "Veuillez indiquer un titre à la mission !";
                 } elseif ($_POST['descriptionMission'] == "") {
@@ -68,7 +62,6 @@ if ($professionnel)
                 } elseif ($_POST['idTypeActivite'] == "") {
                     $message.= "Veuillez indiquer un type d'activité !";
                 }
-
 
                 $titreMission = utf8_decode($_POST['titreMission']);
                 $descriptionMission = $_POST['descriptionMission'];
@@ -165,8 +158,8 @@ if ($professionnel)
                     $mailEtablissement = $_POST['mailEtablissement'];
                     $telEtablissement = $_POST['telEtablissement'];
                     $dateAjoutEtablissement = date("Y-m-d"); 
-                    $idUtilisateur = $_POST['idUtilisateur'];
-                    $idPays = $_POST['idPays'];
+                    $idUtilisateur = (int)$_POST['idUtilisateur'];
+                    $idPays = (int)$_POST['idPays'];
             
                     $etablissement  ->setDenomination($denomination)
                                     ->setAdresseEtablissement($adresseEtablissement)

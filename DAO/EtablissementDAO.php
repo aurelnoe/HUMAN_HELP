@@ -25,7 +25,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
 
             $query = "INSERT INTO etablissement VALUES (NULL,:denomination,:adresseEtablissement,:villeEtablissement,
                                                     :codePostalEtablissement,:mailEtablissement,:telEtablissement,
-                                                    :dateAjoutEtablissement,:idUtilisateur,NULL,:idPays)";            
+                                                    :dateAjoutEtablissement,:idUtilisateur,:idPays)";            
             $stmt = $db->prepare($query); 
             
             $stmt->bindParam(':denomination', $getDenomination);           

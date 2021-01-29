@@ -25,12 +25,6 @@ if(!empty($_GET['action']) && isset($_GET['action']))
         {         
             // Controle des champs si javascript est desactive
             $message = '';
-            foreach ($_POST as $value) {
-                if ($value == "") {
-                    $message.= "Tout les champs du formulaire sont obligatoires !</br>";
-                }
-                break;
-            }
             if (isset($_POST['civilite']) && $_POST['civilite'] == "") {
                 $message.= "Veuillez indiquer votre civilite !";
             } elseif ($_POST['pseudo'] == "") {
@@ -102,25 +96,16 @@ if(!empty($_GET['action']) && isset($_GET['action']))
                     elseif($idRole==2) {  //Professionnel => ADD ETABLISSEMENT  
                         
                         $utilisateur = $serviceUtilisateur->searchUserbyMail($mailUtil);
-                        $tabAffichFormAddEtab = array(
-                            'title' => "Ajouter votre établissement",
-                            'titleBtn' => "Ajouter l'établissement",
-                            'action' => 'addEtablissement',
-                            'idEtablissement' => null,
-                            'idUtilisateur' => $utilisateur->getIdUtilisateur(),
-                            'allPays' => $servicePays->searchAll(),
-                        );
-    
                         $_SESSION['mailUtil'] = $mailUtil;
-                        $_SESSION['idUtil'] = $idUtil;
+                        $_SESSION['idUtil'] = $utilisateur->getIdUtilisateur();
                         $_SESSION['role'] = nameRole($idRole);
-        
+                        
                         $professionnel = isset($_SESSION['mailUtil']) && isset($_SESSION['idUtil']) && $_SESSION['role'] == 'professionnel';
                         
                         if ($professionnel) 
                         {
-                            echo formulairesEtablissement($tabAffichFormAddEtab,null);
-                            die;           
+                            header("Location: ../EtablissementsController/formulaireEtablissementController.php?action=addEtablissement");  
+                            die;        
                         }
                         else {
                             header("Location: ../../index.php");
@@ -155,12 +140,6 @@ if(!empty($_GET['action']) && isset($_GET['action']))
         {
             //var_dump($_POST);
             $message = '';
-            foreach ($_POST as $value) {
-                if ($value == "") {
-                    $message.= "Tout les champs du formulaire sont obligatoires !</br>";
-                }
-                break;
-            }
             if (isset($_POST['civilite']) && $_POST['civilite'] == "") {
                 $message.= "Veuillez indiquer votre civilite !";
             } elseif ($_POST['pseudo'] == "") {

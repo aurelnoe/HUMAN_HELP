@@ -219,10 +219,10 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
                                     WHERE idEtablissement = $idEtablissement"
                                     )->fetch(PDO::FETCH_NUM)[0];
             $limite = 6;
-            $pages = ceil($count / 6);
-            if ($currentPage > $pages) {
-                throw new Exception('Cette page n\'existe pas');
-            }
+            // $pages = ceil($count / 6);
+            // // if ($currentPage > $pages) {
+            // //     throw new Exception('Cette page n\'existe pas');
+            // // }
             $debut = ($currentPage - 1) * $limite;
             $query = "SELECT * FROM mission 
                         WHERE idEtablissement = $idEtablissement
