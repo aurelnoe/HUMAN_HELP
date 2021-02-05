@@ -65,12 +65,16 @@ function footer()
             </ul>
         </div>
         <div class="col-10 col-md-4 button-footer mx-0">
-            <button class="btn btnGreen btn-lg  mb-5 button-footer1 text-center" type="submit">
+            <a href="#" class="btn btnGreen btn-lg  mb-5 button-footer1 text-center" type="submit">
                 S'inscrire à la Newsletter
-            </button>
-            <a href="/HUMAN_HELP/Controller/ContactController/contactController.php"><button class="btn btnGreen btn-lg  mb-5 button-footer2 text-center" type="submit">
+            </a>
+			<a href="#" class="btn btnGreen btn-lg  mb-5 button-footer1 text-center" type="submit">
+                Faire un don
+            </a>
+            <a href="/HUMAN_HELP/Controller/ContactController/contactController.php" 
+				class="btn btnGreen btn-lg  mb-5 button-footer2 text-center">
                 Contact
-            </button></a>
+            </a>
         </div>
     </div>
 	</footer>

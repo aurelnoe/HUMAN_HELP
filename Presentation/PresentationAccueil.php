@@ -6,8 +6,8 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 	<div class="container">
 		<h1 class="text-center my-5">Bienvenue sur Human Helps</h1>
 		<div class="row my-4 w-100">
-			<div class="col-10 col-md-3 mx-auto">
-				<div class="card cardEspaceUtil my-2">
+			<div class="col-12 col-md-3 m-auto">
+				<div class="card cardEspaceUtil my-2 mx-2 w-100">
 					<div class="card-header">
 						<?php
 						if ($_SESSION) {
