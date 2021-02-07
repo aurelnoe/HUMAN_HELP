@@ -253,8 +253,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
     <body>
         <?php
         echo navbar();
-        
-        echo head();
+
         if ($errorCode) {
             if($errorCode == 9999){    //Error mission not found
                 echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
@@ -293,7 +292,7 @@ function listeMissions($professionnel,$errorCode=null,$message=null)
                             </a>
                         </div>
                     </div>
-                </div>     
+                </div>  
             </div>
 
             <hr class="my-4 hrGreenLight">
