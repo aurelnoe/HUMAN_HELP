@@ -19,7 +19,7 @@ function footer()
         <div class="col-10 col-md-4 mx-0 px-0">
             <ul class="list-footer list-group list-group-flush">
                 <li class="list-group-item" style="background-color: #F8F8FF;" >
-                    <a class="nav-link" href="http://localhost/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=detailUtilisateur">
+                    <a class="nav-link" href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=detailUtilisateur">
                         Détail compte perso
                     </a>
                 </li>
@@ -83,8 +83,6 @@ function footer()
 
 function navbar()
 {
-	?>
-	<?php
 		include_once(PATH_BASE . "/Controller/HeaderController/headerController.php");
 	?>
 

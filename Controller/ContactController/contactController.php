@@ -2,8 +2,6 @@
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/Presentation/PresentationContact.php");
 
-
-
 if (isset($_GET['action'])) 
 {
 
@@ -24,9 +22,11 @@ if (isset($_GET['action']))
         $demande=$_POST['messageContact'];
         $message= $nom. ',' . $prenom . ', Tel :' . $tel . ', Sujet : ' . $sujet . ', Message : ' . $demande ." ";
         
-                    mail($to, $sujet, $message, $header);
-                    // header("Location: ../../index.php");
-                    // die;
-                    echo formulaireContact($successCode);
+        mail($to, $sujet, $message, $header);
+        // header("Location: ../../index.php");
+        // die;
+        echo formulaireContact($successCode);
+        die;
     }
 }
+echo formulaireContact();

@@ -115,7 +115,6 @@ if (!empty($_GET['action']) && isset($_GET['action'])) {
                 echo listeArticle($articles,$admin,$page,$pages,$se->getCode(),$se->getMessage());
                 die;
             }
-            
         }
     }
     /**************************************** SUPPRIME ARTICLE ************************/
@@ -152,4 +151,3 @@ try{
 catch (ServiceException $se) {
     header('Location: ../../index.php');
 }
-

@@ -1,11 +1,11 @@
 <?php 
 require_once("../../Presentation/PresentationCommun.php");
 
-function formulaireContact($successCode = null)
+function formulaireContact($successCode=null)
 {
     echo head();
     ?>
- <body>
+<body>
         <?php
             echo navbar();
             if ($successCode) {

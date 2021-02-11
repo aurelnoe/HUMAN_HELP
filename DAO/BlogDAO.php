@@ -186,7 +186,7 @@ class BlogDAO extends BddConnect implements DAOInterface,BlogInterface
             $db = $newConnect->connexion();
 
             $page = $getPage ?? 1;
-            echo $page;
+            //echo $page;
             if(!filter_var($page, FILTER_VALIDATE_INT)){
                 throw new Exception('Numéro de page invalide');
             }

@@ -10,7 +10,7 @@ include_once(PATH_BASE . "/Services/ServiceUtilisateur.php");
 function formulaireArticle(array $tabFormArticle, $article = null)
 {
     echo head();
-?>
+    ?>
 
     <body>
         <?php
@@ -206,7 +206,6 @@ function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUt
     <body>
         <div class="container">
 
-
             <h2 class="text-center my-5"><?php echo $article->getTitreArticle(); ?></h2>
 
             <div class="p-2">
@@ -215,8 +214,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUt
                 </p>
             </div>
 
-
-            <hr class="my-4">
+            <hr class="my-4 hrGreenLight">
 
             <div class="row my-4 m-auto">
                 <div class="*col-12 col-md-6 m-auto">
@@ -232,8 +230,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUt
                 </div>
             </div>
 
-
-            <hr class="my-4">
+            <hr class="my-4 hrGreenLight">
 
             <div class="text-center my-3">
                 <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php" class="btn btnGreen w-50">Retour à la liste des articles</a>
@@ -250,10 +247,7 @@ function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUt
             }
             echo listeAvis($avis, $article->getIdArticle());
 
-
             ?>
-        </div>
-
         </div>
         <?php
         echo footer();
@@ -289,24 +283,35 @@ function listeAvis($avis, $idArticle)
 
 ?>
     <?php if (!empty($avis)) { ?>
-        <h1 style="font-size: 24px;">Commentaires : </h1>
+        <h1 class="px-3" style="font-size: 24px;">Commentaires : </h1>
     <?php } ?>
-    <div>
+    <div class="p-4">
         <?php foreach ($avis as $commentaire) { ?>
             <input type=hidden id="<?php echo "idAvis" . $commentaire->getIdAvis(); ?>" name="idAvis" value="<?php echo $commentaire->getIdAvis(); ?>">
             <input type=hidden id="idUtil" value="<?php echo $commentaire->getIdUtilisateur(); ?>">
 
             <div class="avis" style="background: #eee ; border-radius:10px;">
-                <p><span style="font-weight: bold;"> De <?php echo (searchUserNameById($commentaire->getIdUtilisateur())); ?> :</span><span id="<?php echo "modifTemoignage" . $commentaire->getIdAvis(); ?>"> <?php echo $commentaire->getTemoignage(); ?></span> . </br> <span style="font-size:12px;"> Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?></span> </p>
+                <p>
+                    <span style="font-weight: bold;"> 
+                        De <?php echo (searchUserNameById($commentaire->getIdUtilisateur())); ?> :
+                    </span>
+                    <span id="<?php echo "modifTemoignage" . $commentaire->getIdAvis(); ?>"> 
+                        <?php echo $commentaire->getTemoignage(); ?>
+                    </span> . </br> <span style="font-size:12px;"> 
+                        Le <?php echo $commentaire->getDateCommentaire()->format('d-m-Y'); ?>
+                    </span> 
+                </p>
             </div>
 
             <?php if (!empty($_SESSION) && $_SESSION['idUtil'] == $commentaire->getIdUtilisateur()) { ?>
                 <div>
-                    <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">Supprimer</a>
+                    <a href="/HUMAN_HELP/Controller/AvisController/listeAvisController.php?action=delete&idAvis=<?php echo $commentaire->getIdAvis(); ?>&idArticle=<?php echo $idArticle; ?>" class="btn btn-danger w-25">
+                        Supprimer
+                    </a>
                     <button id = "btnModif" class="btn btn-success w-25" onclick="update()">Modifier</button>
                 </div>
             <?php } ?>
-            <hr class="my-4">
+            <hr class="my-4 hrGreenLight">
 
         <?php } ?>
 
