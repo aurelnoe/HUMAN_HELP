@@ -1,8 +1,4 @@
 <?php
-
-
-include_once($_SERVER['DOCUMENT_ROOT'] . "/HUMAN_HELP/Security/config.php");
-session_start();
 include_once(PATH_BASE . "/Services/ServiceBlog.php");
 include_once(PATH_BASE . "/Services/ServiceAvis.php");
 include_once(PATH_BASE . "/Services/ServiceUtilisateur.php");
@@ -37,7 +33,7 @@ if (!empty($_GET)) {
             
             
         } catch (ServiceException $se) {
-            echo listeArticle($article,$admin,$se->getCode());
+            echo listeArticle($article,$admin,null,null,$se->getCode());
         }
     }
 }

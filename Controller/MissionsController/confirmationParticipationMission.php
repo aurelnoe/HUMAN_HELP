@@ -1,6 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-include_once(PATH_BASE . "/Presentation/PresentationMission.php");
+include_once(PATH_BASE . "Presentation/PresentationMission.php");
 
 // echo formParticipationMission();
 

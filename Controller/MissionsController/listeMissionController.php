@@ -1,6 +1,4 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-session_start();
 include_once(PATH_BASE . "/Services/ServiceMission.php");
 include_once(PATH_BASE . "/Services/serviceTypeActivite.php");
 require_once(PATH_BASE . "/Services/ServicePays.php");

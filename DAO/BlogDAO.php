@@ -1,22 +1,23 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-include_once(PATH_BASE . "/Class/Blog.php");
-include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
 include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
 class BlogDAO extends BddConnect implements DAOInterface,BlogInterface
 {
-    //probablement mettre une fonction IsAdmin
+    private $bddConnect;
 
-     /******************* FONCTION AJOUTER UN ARTICLE *****************************/
+    public function __construct() 
+    {
+        $this->bddConnect = new BddConnect();
+    }
 
-     public function add(object $article)
+    /******************* FONCTION AJOUTER UN ARTICLE *****************************/
+
+    public function add(object $article)
     {   
         try {
-
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             //$getIdArticle = $artcile->getIdArticle();
             $getTitreArticle = $article->getTitreArticle();
@@ -53,9 +54,7 @@ class BlogDAO extends BddConnect implements DAOInterface,BlogInterface
     public function update(object $article)
     {   
         try {
-
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $getIdArticle = $article->getIdArticle();
             $getTitreArticle = $article->getTitreArticle();
@@ -86,8 +85,6 @@ class BlogDAO extends BddConnect implements DAOInterface,BlogInterface
                 throw new DAOException("L'article a bien été mise à jour",9958);
             }
             $stmt->execute();
-
-                    
         } 
         catch (PDOException $e){
             throw new DAOException($e->getMessage(),$e->getCode());
@@ -103,9 +100,7 @@ class BlogDAO extends BddConnect implements DAOInterface,BlogInterface
     public function delete($idArticle)
     {
         try 
-        {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+        {           $db = $this->bddConnect->connexion();
 
             $query = "DELETE FROM blog WHERE idArticle = :idArticle";
             $stmt = $db->prepare($query);
@@ -153,9 +148,7 @@ class BlogDAO extends BddConnect implements DAOInterface,BlogInterface
     public function searchById($idArticle)
     {
         try 
-        {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+        {           $db = $this->bddConnect->connexion();
             
             $query = "SELECT * FROM blog WHERE idArticle = :idArticle";   
             $stmt = $db->prepare($query);
@@ -181,9 +174,7 @@ class BlogDAO extends BddConnect implements DAOInterface,BlogInterface
     public function searchAllArticle(int $getPage=null)
     {
         try 
-        {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+        {           $db = $this->bddConnect->connexion();
 
             $page = $getPage ?? 1;
             //echo $page;

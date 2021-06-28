@@ -1,5 +1,4 @@
 <?php
-
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/DAO/AvisDAO.php");
 include_once(PATH_BASE . "/Exceptions/DAOException.php");
@@ -52,6 +51,7 @@ class ServiceAvis
             throw new ServiceException($de->getMessage(),$de->getCode());
         }         
     }
+    
     public function searchById($idAvis)
     {
         try 
@@ -62,6 +62,7 @@ class ServiceAvis
             throw new ServiceException($de->getMessage(),$de->getCode());
         }       
     }
+
     public function searchByIdArticle($idBlog)
     {
         try 

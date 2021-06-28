@@ -1,6 +1,6 @@
 <?php
 
-function Accueil(array $articles=null,array $missionsADistance=null,array $allMissions=null)
+function Accueil(array $articles=null,array $missionsADistance=null,array $allMissions=null,array $session=null)
 {
 	?>
 	<div class="container">
@@ -10,34 +10,34 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 				<div class="card cardEspaceUtil my-2 mx-2 w-100">
 					<div class="card-header">
 						<?php
-						if ($_SESSION) {
+						if ($session) {
 						?>
 							<div>
 								<p>Bonjour</p>
-								<h3 class="ml-3 "><?php (isset($_SESSION['idUtil'])) ? searchUserNameById($_SESSION['idUtil']) : ""; ?></h3>
+								<h3 class="ml-3 "><?php (isset($session['idUtil'])) ? searchUserNameById($session['idUtil']) : ""; ?></h3>
 							</div>	
 						<?php
 						}else { ?>
-							<a class="btn btnGreen w-100" href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=connexion">
+							<a class="btn btnGreen w-100" href="/HUMAN_HELP/?q=UtilisateurController/FormulairesUtilisateurController?action=connexion">
 								Connexion
 							</a>
 							<p class="pt-3 mb-0">Nouveau client ?</p> 
-							<a class="pt-0 linkCreateCompte" href="/HUMAN_HELP/Controller/UtilisateurController/FormulairesUtilisateurController.php?action=formAjout">
+							<a class="pt-0 linkCreateCompte" href="/HUMAN_HELP/?q=UtilisateurController/FormulairesUtilisateurController?action=formAjout">
 								Crée un compte
 							</a>
 						<?php } ?>
 					</div>
 					<div class="card-body">	
-					<?php if ($_SESSION) { ?>
-						<a class="btn btnGreen w-100 my-1" href="/HUMAN_HELP/Controller/UtilisateurController/UtilisateurController.php?action=detailUtilisateur">
+					<?php if ($session) { ?>
+						<a class="btn btnGreen w-100 my-1" href="/HUMAN_HELP/?q=UtilisateurController/UtilisateurController?action=detailUtilisateur">
 							Espace personnel
 						</a>
-						<?php if ($_SESSION['role'] == 'professionnel') { ?>
-							<a class="btn btnGreen w-100 my-1" href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php">
+						<?php if ($session['role'] == 'professionnel') { ?>
+							<a class="btn btnGreen w-100 my-1" href="/HUMAN_HELP/?q=MissionsController/listeMissionProController">
 								Espace Pro
 							</a>
 						<?php } ?>
-						<a class="btn btn-danger w-100 my-1" href="/HUMAN_HELP/Controller/AccueilController.php?action=deconnection">
+						<a class="btn btn-danger w-100 my-1" href="/HUMAN_HELP/?q=AccueilController?action=deconnection">
 							Déconnexion
 						</a>
 					<?php } else { ?>
@@ -72,7 +72,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 				</div>
 
 				<div class="text-center mx-auto my-1">
-					<a class="button btn pb-1 w-50" href="Controller/MissionsController/searchMissionsController.php?idTypeActivite=1">
+					<a class="button btn pb-1 w-50" href="/HUMAN_HELP/?q=MissionsController/searchMissionsController?idTypeActivite=1">
 						<h3>Une mission à distance avec Human Helps :</h3>
 					</a>
 				</div>
@@ -93,7 +93,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 										<p class="card-text">Date de début : <?php echo $mission->getDateDebut()->format('d-m-Y'); ?></p>
 									</div>
 									<div class="card-footer">
-										<a href="Controller/MissionsController/detailsMissionController.php?idMission=<?php echo $mission->getIdMission(); ?>" class="btn btn-primary">
+										<a href="/HUMAN_HELP/?q=MissionsController/detailsMissionController?idMission=<?php echo $mission->getIdMission(); ?>" class="btn btn-primary">
 											Voir la mission
 										</a>
 									</div>
@@ -212,7 +212,7 @@ function Accueil(array $articles=null,array $missionsADistance=null,array $allMi
 										<p class="card-text">Date : <?php echo $article->getDateArticle()->format('d-m-Y'); ?></p>
 									</div>
 									<div class="card-footer">
-										<a href="/HUMAN_HELP/Controller/BlogController/detailsBlogController.php?idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-primary">
+										<a href="/HUMAN_HELP?q=/BlogController/detailsBlogController.php?idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-primary">
 											Voir plus
 										</a>
 									</div>

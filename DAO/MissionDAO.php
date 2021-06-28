@@ -1,18 +1,23 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-include_once(PATH_BASE . "/Class/Mission.php");
-include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
 include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
 class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
 {
+    private $bddConnect;
+
+    public function __construct() 
+    {
+        $this->bddConnect = new BddConnect();
+    }
+    
     /******************* AJOUTE MISSION *****************************/
     public function add(object $mission)
     {   
-        try {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion(); 
+        try 
+        {
+            $db = $this->bddConnect->connexion(); 
 
             $getTitreMission = $mission->getTitreMission();
             $getDescriptionMission = $mission->getDescriptionMission();
@@ -57,8 +62,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     { 
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion(); 
+            $db = $this->bddConnect->connexion(); 
 
             $getIdMission = $mission->getIdMission();
             $getTitreMission = $mission->getTitreMission();
@@ -118,8 +122,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "DELETE FROM mission WHERE idMission = :idMission";
             $stmt = $db->prepare($query);
@@ -141,8 +144,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = 'SELECT * FROM mission';
             $stmt = $db->prepare($query);
@@ -167,8 +169,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
             
             $query = "SELECT * FROM mission WHERE idMission = :idMission";   
             $stmt = $db->prepare($query);
@@ -195,8 +196,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     public function searchMissionByPro(int $idEtablissement,int $getPage):array
     {
         try {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $page = $getPage ?? 1;
 
@@ -260,8 +260,7 @@ class MissionDAO extends BddConnect implements DAOInterface,MissionInterface
     public function searchMissions(int $getIdPays=null,int $getIdTypeActivite=null,int $getTypeFormation=null,int $getPage=null):array
     {
         try {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $page = $getPage ?? 1;
 

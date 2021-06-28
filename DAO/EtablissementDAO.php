@@ -1,17 +1,22 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-require_once(PATH_BASE . "/Class/Etablissement.php");
-include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
 include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
 class EtablissementDAO  implements DAOInterface,EtablissementInterface
 {
+    private $bddConnect;
+
+    public function __construct() 
+    {
+        $this->bddConnect = new BddConnect();
+    }
+
     public function add(object $etablissement)
     {
-        try {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion(); 
+        try 
+        {
+            $db = $this->bddConnect->connexion(); 
 
             $getDenomination = $etablissement->getDenomination();
             $getAdresseEtablissement = $etablissement->getAdresseEtablissement();
@@ -54,8 +59,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
     { 
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion(); 
+            $db = $this->bddConnect->connexion(); 
 
             $getIdEtablissement = $etablissement->getIdEtablissement();
             $getDenomination = $etablissement->getDenomination();
@@ -110,8 +114,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "DELETE FROM etablissement WHERE idEtablissement = :idEtablissement";
             $stmt = $db->prepare($query);
@@ -135,8 +138,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
             
             $query = "SELECT * FROM etablissement WHERE idEtablissement = :idEtablissement";   
             $stmt = $db->prepare($query);
@@ -161,8 +163,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = 'SELECT * FROM etablissement';
             $stmt = $db->prepare($query);
@@ -185,8 +186,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT denomination FROM etablissement WHERE idEtablissement = :idEtablissement";
             $stmt = $db->prepare($query);
@@ -210,8 +210,7 @@ class EtablissementDAO  implements DAOInterface,EtablissementInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT * FROM etablissement WHERE idUtilisateur = :idUtilisateur";
             $stmt = $db->prepare($query);

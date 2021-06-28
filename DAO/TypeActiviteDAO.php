@@ -1,18 +1,22 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-include_once(PATH_BASE . "/Class/TypeActivite.php");
-include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
 include_once(PATH_BASE . "/Interfaces/TypeActiviteInterface.php");
 
 class TypeActiviteDAO extends BddConnect implements TypeActiviteInterface
 {
+    private $bddConnect;
+
+    public function __construct() 
+    {
+        $this->bddConnect = new BddConnect();
+    }
+
     public function searchAll():array
     {
         try 
         {
-        $newConnect = new BddConnect();
-        $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = 'SELECT * FROM type_activite';
             $stmt = $db->prepare($query);

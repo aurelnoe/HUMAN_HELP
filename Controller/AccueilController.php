@@ -1,7 +1,6 @@
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 session_start();
-//var_dump(getcwd());
+include_once(PATH_BASE . "Presentation/PresentationAccueil.php");
 include_once(PATH_BASE . "/Services/serviceBlog.php");
 include_once(PATH_BASE . "/Services/ServiceMission.php");
 include_once(PATH_BASE . "/Services/ServicePays.php");
@@ -12,6 +11,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'deconnection') {
     session_destroy();
     header('Location: ../index.php');
 }
+
 $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 $service = new ServiceBlog(); 
 $mission = new ServiceMission();
@@ -22,3 +22,5 @@ $missionsADistance = $mission->searchMissions(null,null,A_DISTANCE,$page);
 $allMissions = $mission->searchAll();
 
 $articles = $service->searchAll();
+
+echo accueil($articles,$missionsADistance,$allMissions,$_SESSION);

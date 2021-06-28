@@ -3,18 +3,7 @@ require_once("../../Presentation/PresentationCommun.php");
 
 function formulaireContact($successCode=null)
 {
-    echo head();
     ?>
-<body>
-        <?php
-            echo navbar();
-            if ($successCode) {
-                if($successCode == 16000){
-                    $message = "Votre email a bien été envoyé, nous traiterons votre demande dans les plus brefs délais.";
-                    echo "<div class='alert alert-success text-center'> $message</div>";
-                } 
-            }
-        ?>
     <div class="container col-12 col-md-6 pt-4 my-4 border rounded">
 
         <h2 class="text-center my-2 pb-2">Formulaire de contact</h2>
@@ -79,10 +68,4 @@ function formulaireContact($successCode=null)
         </form>
     </div>
     <?php
-         echo footer();
-    ?>
-    </body>
-    </html>
-    <?php
 }
-?>

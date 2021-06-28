@@ -124,8 +124,3 @@ if (!empty($_SESSION) && !empty($_GET['action']) && isset($_GET['action'])) {
     catch (ServiceException $se) {
         header('Location: ../../index.php');
     }
-    
-     
-    
-    
-    

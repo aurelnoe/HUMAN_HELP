@@ -1,18 +1,22 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-require_once(PATH_BASE . "/Class/Role.php");
-require_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
 include_once(PATH_BASE . "/Interfaces/RoleInterface.php");
 
-class RoleDAO extends BddConnect implements RoleInterface
+class RoleDAO implements RoleInterface
 {
+    private $bddConnect;
+
+    public function __construct() 
+    {
+        $this->bddConnect = new BddConnect();
+    }
+
     public function searchAll():array
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = 'SELECT * FROM role';
             $stmt = $db->prepare($query);
@@ -34,8 +38,7 @@ class RoleDAO extends BddConnect implements RoleInterface
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
             
             $query = "SELECT * FROM Role WHERE idRole = :idRole";   
             $stmt = $db->prepare($query);

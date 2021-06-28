@@ -1,260 +1,222 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . "/HUMAN_HELP/Security/config.php");
 include_once(PATH_BASE . "/Presentation/PresentationCommun.php");
-// include_once(PATH_BASE . "/Controller/AvisController/formulaireAvisController.php");
 include_once(PATH_BASE . "/Services/ServiceUtilisateur.php");
-
-
-
 
 function formulaireArticle(array $tabFormArticle, $article = null)
 {
-    echo head();
+    $action = $tabFormArticle['action'];
+    $idArticle = $tabFormArticle['idArticle'];
+    $titleBtn = $tabFormArticle['titleBtn'];
+    $title = $tabFormArticle['title'];
+
     ?>
+    <div class="container col-12 col-md-6 pt-4 my-4 border rounded">
 
-    <body>
-        <?php
+        <h2 class="text-center my-2 pb-2"><?php echo $title; ?></h2>
 
-        echo navbar();
-        $action = $tabFormArticle['action'];
-        $idArticle = $tabFormArticle['idArticle'];
-        $titleBtn = $tabFormArticle['titleBtn'];
-        $title = $tabFormArticle['title'];
+        <form class="needs-validation  p-3" action="/HUMAN_HELP//Controller/BlogController/listeBlogController.php?action=<?php echo $action; ?>" method="POST" enctype="multipart/form-data" novalidate>
+            <input type="hidden" name="idArticle" value="<?php echo isset($idArticle) ? $idArticle : '' ?>">
 
-        ?>
-        <div class="container col-12 col-md-6 pt-4 my-4 border rounded">
+            <hr class="mb-4 mt-2">
 
-            <h2 class="text-center my-2 pb-2"><?php echo $title; ?></h2>
+            <div class="mb-3 form-group">
+                <label for="titleArticle">Titre de l'article</label>
+                <input type="text" class="form-control" name="titreArticle" placeholder="" value="<?php if (($_GET['action']) == 'update') {
+                                                                                                        echo $article->getTitreArticle();
+                                                                                                    } ?>" required>
+                <div class="invalid-feedback">
+                    Ce champ est requis.
+                </div>
+            </div>
 
-            <form class="needs-validation  p-3" action="/HUMAN_HELP//Controller/BlogController/listeBlogController.php?action=<?php echo $action; ?>" method="POST" enctype="multipart/form-data" novalidate>
-                <input type="hidden" name="idArticle" value="<?php echo isset($idArticle) ? $idArticle : '' ?>">
+            <div class="mb-3 form-group">
+                <label for="descriptionArticle">Description de l'article</label>
+                <textarea type="textarea" class="form-control" name="descriptionArticle" placeholder="" required><?php echo ($_GET['action'] == 'update') ? $article->getDescriptionArticle() : ''; ?> </textarea>
+                <div class="invalid-feedback">
+                    Ce champ est requis.
+                </div>
+            </div>
 
-                <hr class="mb-4 mt-2">
+            <div class="mb-3 form-group">
+                <label for="imageArticle">Ajouter une image</label>
+                <input type="file" class="form-control-file" name="imageArticle" placeholder="" accept="image/png, image/jpeg" value="<?php echo ($_GET['action'] == 'update') ? $article->getImageArticle() : ''; ?>" required>
+            </div>
 
-                <div class="mb-3 form-group">
-                    <label for="titleArticle">Titre de l'article</label>
-                    <input type="text" class="form-control" name="titreArticle" placeholder="" value="<?php if (($_GET['action']) == 'update') {
-                                                                                                            echo $article->getTitreArticle();
-                                                                                                        } ?>" required>
-                    <div class="invalid-feedback">
-                        Ce champ est requis.
+            <div class="mb-3 form-group">
+                <label for="dateArticle">Date de l'article</label>
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="date" class="form-control" name="dateArticle" placeholder="jj/mm/aaaa" value="<?php echo ($_GET['action'] == 'update') ? $article->getDateArticle()->format('Y-m-d') : ''; ?>" required>
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
                     </div>
                 </div>
-
-                <div class="mb-3 form-group">
-                    <label for="descriptionArticle">Description de l'article</label>
-                    <textarea type="textarea" class="form-control" name="descriptionArticle" placeholder="" required><?php echo ($_GET['action'] == 'update') ? $article->getDescriptionArticle() : ''; ?> </textarea>
-                    <div class="invalid-feedback">
-                        Ce champ est requis.
-                    </div>
+                <div class="invalid-feedback">
+                    Ce champ est requis.
                 </div>
+            </div>
 
-                <div class="mb-3 form-group">
-                    <label for="imageArticle">Ajouter une image</label>
-                    <input type="file" class="form-control-file" name="imageArticle" placeholder="" accept="image/png, image/jpeg" value="<?php echo ($_GET['action'] == 'update') ? $article->getImageArticle() : ''; ?>" required>
-                </div>
+            <hr class="mb-4 mt-4">
 
-                <div class="mb-3 form-group">
-                    <label for="dateArticle">Date de l'article</label>
-                    <div class="input-group date" data-provide="datepicker">
-                        <input type="date" class="form-control" name="dateArticle" placeholder="jj/mm/aaaa" value="<?php echo ($_GET['action'] == 'update') ? $article->getDateArticle()->format('Y-m-d') : ''; ?>" required>
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
-                    </div>
-                    <div class="invalid-feedback">
-                        Ce champ est requis.
-                    </div>
-                </div>
-
-                <hr class="mb-4 mt-4">
-
-                <button class="btn btnGreen btn-lg btn-block mb-5" type="submit"><?php echo $titleBtn; ?></button>
-                <a href="listeBlogController.php" class="btn btn-primary w-100">Retour à la liste des articles</a>
-            </form>
-        </div>
-        <?php
-        echo footer();
-        ?>
-    </body>
-
-    </html>
+            <button class="btn btnGreen btn-lg btn-block mb-5" type="submit"><?php echo $titleBtn; ?></button>
+            <a href="listeBlogController.php" class="btn btn-primary w-100">Retour à la liste des articles</a>
+        </form>
+    </div>
 <?php
 }
 
 function listeArticle($articles, $admin,$page,$pages, $errorCode = null, $message = null,$successCode = null)
 {
-    echo head();
+    if ($errorCode) {
+        if ($errorCode == 9999) {    //Error Article not found
+            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+        } else if ( $errorCode == 1027) {
+            $message = "L'article n'a pas était modifiée, une erreur est survenue.";
+            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+        }else if($errorCode == 9998){
+            echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
+        }
+    }
+    if ($successCode) {
+        if($successCode == 15000){
+            $message = "L'article à bien été ajouté";
+            echo "<div class='alert alert-success text-center'> $message</div>";
+        } else if($successCode == 15001){
+            $message = "L'article à bien été modifié";
+            echo "<div class='alert alert-success text-center'> $message</div>";
+        } else if($successCode == 15002){
+            $message = "L'article à bien été supprimé";
+            echo "<div class='alert alert-success text-center'> $message</div>";
+        } 
+    }
     ?>
-    <body>
-        <?php
-
-        echo navbar();
-        if ($errorCode) {
-            if ($errorCode == 9999) {    //Error Article not found
-                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-            } else if ( $errorCode == 1027) {
-                $message = "L'article n'a pas était modifiée, une erreur est survenue.";
-                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-            }else if($errorCode == 9998){
-                echo "<div class='alert alert-danger text-center'>Code : $errorCode,\n Message : $message</div>";
-            }
-        }
-        if ($successCode) {
-            if($successCode == 15000){
-                $message = "L'article à bien été ajouté";
-                echo "<div class='alert alert-success text-center'> $message</div>";
-            } else if($successCode == 15001){
-                $message = "L'article à bien été modifié";
-                echo "<div class='alert alert-success text-center'> $message</div>";
-            } else if($successCode == 15002){
-                $message = "L'article à bien été supprimé";
-                echo "<div class='alert alert-success text-center'> $message</div>";
-            } 
-        }
-        ?>
-        <div class="container">
-            <h2 class="text-center my-4">Liste des articles</h2>
-            <ul class="pagination justify-content-end">
-                    <?php if ($page > 1): ?>
-                        <li class="page-item <?php if ($page < $pages): ?>disabled<?php endif ?>">
-                            <?php //PAGINATION
-                            $link="/HUMAN_HELP/Controller/BlogController/listeBlogController.php"; 
-                            if ($page > 2) $link .= '?page=' . ($page - 1);
-                            ?>
-                            <a class="page-link" href="<?= $link ?>" tabindex="-1">
-                                Précedente
-                            </a>
-                        </li>
-                    <?php endif ?>
-                    <?php for ($i=1;$i<$pages+1;$i++) : ?>
-                        <li class="page-item">
-                            <a class="page-link" href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?page=<?php echo $i; ?>">
-                                <?= $i ?>
-                            </a>
-                        </li>
-                    <?php endfor ?>
-                    
-                    <li class="page-item <?php if ($page > 1): ?>disabled<?php endif ?>">
-                        <a class="page-link" href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?page=<?php echo $page + 1; ?>">
-                            Suivante
+    <div class="container">
+        <h2 class="text-center my-4">Liste des articles</h2>
+        <ul class="pagination justify-content-end">
+                <?php if ($page > 1): ?>
+                    <li class="page-item <?php if ($page < $pages): ?>disabled<?php endif ?>">
+                        <?php //PAGINATION
+                        $link="/HUMAN_HELP/Controller/BlogController/listeBlogController.php"; 
+                        if ($page > 2) $link .= '?page=' . ($page - 1);
+                        ?>
+                        <a class="page-link" href="<?= $link ?>" tabindex="-1">
+                            Précedente
                         </a>
                     </li>
-                </ul>
-            <?php
+                <?php endif ?>
+                <?php for ($i=1;$i<$pages+1;$i++) : ?>
+                    <li class="page-item">
+                        <a class="page-link" href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?page=<?php echo $i; ?>">
+                            <?= $i ?>
+                        </a>
+                    </li>
+                <?php endfor ?>
+                
+                <li class="page-item <?php if ($page > 1): ?>disabled<?php endif ?>">
+                    <a class="page-link" href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?page=<?php echo $page + 1; ?>">
+                        Suivante
+                    </a>
+                </li>
+            </ul>
+        <?php
 
-            foreach ($articles as $article) {
-            ?>
-                <div class="card cardBorder m-auto px-0 col-12 my-5">
-                    <div class="row card-body">
+        foreach ($articles as $article) {
+        ?>
+            <div class="card cardBorder m-auto px-0 col-12 my-5">
+                <div class="row card-body">
 
-                        <div class="col-10 col-md-5 m-auto p-0">
-                            <img src="data:image/jpg;base64,<?php echo $article->getImageArticle(); ?>" class="imageDetailsMission rounded border" width="100" height="360" />
-                            <hr class="hrGreen">
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <h4>Date : <?php echo $article->getDateArticle()->format('d-m-Y'); ?> </h4>
-                            <hr class="my-2">
-                            <div>
-                                <h4>Description</h4>
-                                <p><?php echo $article->getDescriptionArticle(); ?>
-                                </p>
-                            </div>
-                        </div>
-
+                    <div class="col-10 col-md-5 m-auto p-0">
+                        <img src="data:image/jpg;base64,<?php echo $article->getImageArticle(); ?>" class="imageDetailsMission rounded border" width="100" height="360" />
+                        <hr class="hrGreen">
                     </div>
 
-                    <div class="card-footer text-center w-100">
-                        <h4 class="card-title"><?php echo $article->getTitreArticle() ?></h4>
-                        <div class="m-auto my-1">
-                            <a href="/HUMAN_HELP/Controller/BlogController/detailsBlogController.php?idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btnGreen w-50">Lire l'article</a>
+                    <div class="col-12 col-md-6">
+                        <h4>Date : <?php echo $article->getDateArticle()->format('d-m-Y'); ?> </h4>
+                        <hr class="my-2">
+                        <div>
+                            <h4>Description</h4>
+                            <p><?php echo $article->getDescriptionArticle(); ?>
+                            </p>
                         </div>
-                        <?php if ($admin) { ?>
-                            <div class="m-auto">
-                                <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?action=delete&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-danger w-50">Supprimer</a>
-                            </div>
-                        <?php } ?>
                     </div>
+
                 </div>
 
-                <hr class="my-4">
-
-            <?php
-            }
-            ?>
-        </div>
-        <?php if ($admin) { ?>
-            <div class="col-10 col-md-6 m-auto">
-                <a class="btn btnGreen w-100 mb-4" href="/HUMAN_HELP/Controller/BlogController/formulaireArticleController.php?action=add">Ajouter un nouvel article</a>
+                <div class="card-footer text-center w-100">
+                    <h4 class="card-title"><?php echo $article->getTitreArticle() ?></h4>
+                    <div class="m-auto my-1">
+                        <a href="/HUMAN_HELP/Controller/BlogController/detailsBlogController.php?idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btnGreen w-50">Lire l'article</a>
+                    </div>
+                    <?php if ($admin) { ?>
+                        <div class="m-auto">
+                            <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?action=delete&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-danger w-50">Supprimer</a>
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
-        <?php } ?>
-        <?php
-        echo footer();
-        ?>
-    </body>
 
-    </html>
-<?php
+            <hr class="my-4">
+
+        <?php
+        }
+        ?>
+    </div>
+    <?php 
+    if ($admin) { ?>
+        <div class="col-10 col-md-6 m-auto">
+            <a class="btn btnGreen w-100 mb-4" href="/HUMAN_HELP/Controller/BlogController/formulaireArticleController.php?action=add">Ajouter un nouvel article</a>
+        </div>
+    <?php 
+    }
 }
 
 function detailArticle($article, $avis, $admin = null, $idUtil = null, $pseudoUtil = null)
 {
-    echo head();
-?>
+    ?>
+    <div class="container">
 
-    <body>
-        <div class="container">
+        <h2 class="text-center my-5"><?php echo $article->getTitreArticle(); ?></h2>
 
-            <h2 class="text-center my-5"><?php echo $article->getTitreArticle(); ?></h2>
+        <div class="p-2">
+            <p>
+                <?php echo $article->getDescriptionArticle(); ?>
+            </p>
+        </div>
 
-            <div class="p-2">
+        <hr class="my-4 hrGreenLight">
+
+        <div class="row my-4 m-auto">
+            <div class="*col-12 col-md-6 m-auto">
+                <h3>Description :</h3>
                 <p>
                     <?php echo $article->getDescriptionArticle(); ?>
                 </p>
+                <p>Date : <?php echo $article->getDateArticle()->format('d-m-Y'); ?> </p>
             </div>
-
-            <hr class="my-4 hrGreenLight">
-
-            <div class="row my-4 m-auto">
-                <div class="*col-12 col-md-6 m-auto">
-                    <h3>Description :</h3>
-                    <p>
-                        <?php echo $article->getDescriptionArticle(); ?>
-                    </p>
-                    <p>Date : <?php echo $article->getDateArticle()->format('d-m-Y'); ?> </p>
-                </div>
-                <div class="col-10 col-md-5 m-auto p-0">
-                            <img src="data:image/jpg;base64,<?php echo $article->getImageArticle(); ?>" class="imageDetailsMission rounded border" width="100" height="360" />
-                            <hr class="hrGreen">
-                </div>
+            <div class="col-10 col-md-5 m-auto p-0">
+                        <img src="data:image/jpg;base64,<?php echo $article->getImageArticle(); ?>" class="imageDetailsMission rounded border" width="100" height="360" />
+                        <hr class="hrGreen">
             </div>
-
-            <hr class="my-4 hrGreenLight">
-
-            <div class="text-center my-3">
-                <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php" class="btn btnGreen w-50">Retour à la liste des articles</a>
-            </div>
-            <?php if ($admin) { ?>
-                <div class="offset-4">
-                    <a href="/HUMAN_HELP/Controller/BlogController/formulaireArticleController.php?action=update&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-primary col-12 col-md-3 my-2 w-50">Modifier</a>
-                    <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?action=delete&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-danger col-12 col-md-3 my-2 w-50">Supprimer</a>
-                </div>
-            <?php } ?>
-            <?php
-            if (!empty($_SESSION)) {
-                echo FormulaireAvis($article->getIdArticle(), $idUtil, $pseudoUtil);
-            }
-            echo listeAvis($avis, $article->getIdArticle());
-
-            ?>
         </div>
-        <?php
-        echo footer();
-        ?>
-    </body>
 
-    </html>
+        <hr class="my-4 hrGreenLight">
+
+        <div class="text-center my-3">
+            <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php" class="btn btnGreen w-50">Retour à la liste des articles</a>
+        </div>
+        <?php if ($admin) { ?>
+            <div class="offset-4">
+                <a href="/HUMAN_HELP/Controller/BlogController/formulaireArticleController.php?action=update&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-primary col-12 col-md-3 my-2 w-50">Modifier</a>
+                <a href="/HUMAN_HELP/Controller/BlogController/listeBlogController.php?action=delete&idArticle=<?php echo $article->getIdArticle(); ?>" class="btn btn-danger col-12 col-md-3 my-2 w-50">Supprimer</a>
+            </div>
+        <?php } ?>
+        <?php
+        if (!empty($_SESSION)) {
+            echo FormulaireAvis($article->getIdArticle(), $idUtil, $pseudoUtil);
+        }
+        echo listeAvis($avis, $article->getIdArticle());
+
+        ?>
+    </div>
 <?php
 }
 
@@ -278,9 +240,9 @@ function FormulaireAvis(int $idArticle, $idUtil = null, $pseudoUtil = null)
     </div>
 <?php
 }
+
 function listeAvis($avis, $idArticle)
 {
-
 ?>
     <?php if (!empty($avis)) { ?>
         <h1 class="px-3" style="font-size: 24px;">Commentaires : </h1>
@@ -405,7 +367,6 @@ function listeAvis($avis, $idArticle)
             })
         }
     </script>
-
 <?php
 }
 ?>

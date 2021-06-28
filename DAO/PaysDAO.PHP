@@ -1,18 +1,22 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-include_once(PATH_BASE . "/Class/Pays.php");
-require_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
 include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
-class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
+class PaysDAO implements DAOInterface,PaysInterface
 {
+    private $bddConnect;
+
+    public function __construct() 
+    {
+        $this->bddConnect = new BddConnect();
+    }
+
     public function add(object $pays)
     {   
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             //  $getIdPays = $pays->getIdPays();
              $getNomPays = $pays->getNomPays();
@@ -41,8 +45,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
              $getIdPays = $pays->getIdPays();
              $getNomPays = $pays->getNomPays();
@@ -72,8 +75,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "DELETE FROM pays WHERE idPays = :idPays";
             $stmt = $db->prepare($query);
@@ -93,8 +95,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = 'SELECT * FROM pays';
             $stmt = $db->prepare($query);
@@ -116,8 +117,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT * FROM pays WHERE idPays = :idPays";
             $stmt = $db->prepare($query);
@@ -141,8 +141,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT nomPays FROM pays WHERE idPays = :idPays";
             $stmt = $db->prepare($query);
@@ -166,8 +165,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT * FROM pays WHERE nomPays = :nomPays";
             $stmt = $db->prepare($query);
@@ -191,8 +189,7 @@ class PaysDAO extends BddConnect implements DAOInterface,PaysInterface
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT continent FROM pays WHERE idPays = :idPays";
             $stmt = $db->prepare($query);

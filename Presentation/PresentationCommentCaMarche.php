@@ -1,15 +1,8 @@
 <?php 
-require("../../Presentation/PresentationCommun.php");
-
-function commentCaMarche():void
+function commentCaMarche()
 {
-    echo head();
     ?> 
-    <body>
-        <?php
-        	echo navbar();
-        ?>
-        <div class="container">
+    <div class="container">
 		<h1 class="text-center">Comment ça marche ?</h1>
 		<div class="p-2">
 			<p class="my-4">
@@ -71,11 +64,5 @@ function commentCaMarche():void
 		}
 		?>
 	</div>
-	<?php      
-    	echo footer();
-    ?>
-	</body>
-	</html>
-	<?php
+<?php
 }
-?>

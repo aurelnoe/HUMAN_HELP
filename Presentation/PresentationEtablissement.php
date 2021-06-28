@@ -1,20 +1,11 @@
 <?php
 function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=null,$message=null) 
 {
+    $allPays = $tabAffichageFormEtablissement['allPays'];
+    $action = $tabAffichageFormEtablissement['action'];
+    $idEtablissement = isset($tabAffichageFormEtablissement['idEtablissement']) ? $tabAffichageFormEtablissement['idEtablissement'] : '';
+    $idUtilisateur = isset($tabAffichageFormEtablissement['idUtilisateur']) ? $tabAffichageFormEtablissement['idUtilisateur'] : $_SESSION['idUtil'];
     ?>
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <?php include("../../head.php"); ?>
-        </head> 
-    <body>
-        <?php
-            echo navbar();
-            $allPays = $tabAffichageFormEtablissement['allPays'];
-            $action = $tabAffichageFormEtablissement['action'];
-            $idEtablissement = isset($tabAffichageFormEtablissement['idEtablissement']) ? $tabAffichageFormEtablissement['idEtablissement'] : '';
-            $idUtilisateur = isset($tabAffichageFormEtablissement['idUtilisateur']) ? $tabAffichageFormEtablissement['idUtilisateur'] : $_SESSION['idUtil'];
-        ?>
         <div class="col-12 col-md-6 formEtablissement container p-4 mb-5 borderGreen rounded">
 
             <h2 class="text-center my-2 pb-2"><?php echo $tabAffichageFormEtablissement['title']; ?></h2>
@@ -26,8 +17,8 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
             ?>
             <div id="msg_erreur"></div>
 
-            <form class="needs-validation p-3" id="formEtablissement" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=updateEtablissement&idEtablissement=$idEtablissement" 
-                                                                                                                        : "/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php?action=addEtablissement" ?> 
+            <form class="needs-validation p-3" id="formEtablissement" role="form" action=<?php echo ($action=='update') ? "/HUMAN_HELP/?q=MissionsController/listeMissionProController?action=updateEtablissement&idEtablissement=$idEtablissement" 
+                                                                                                                        : "/HUMAN_HELP/?q=MissionsController/listeMissionProController?action=addEtablissement" ?> 
                                                                                                                         method="POST">
                 <?php 
                 //var_dump($tabAffichageFormEtablissement);
@@ -108,17 +99,11 @@ function formulairesEtablissement($tabAffichageFormEtablissement,$etablissement=
                 <button class="btn btnGreen btn-lg btn-block mb-5" type="submit"><?php echo $tabAffichageFormEtablissement['titleBtn'];?></button>
             </form>
             <div class=" text-center m-auto">
-                <a href="/HUMAN_HELP/Controller/MissionsController/listeMissionProController.php" class="btn btn-primary w-50">
+                <a href="/HUMAN_HELP/?q=MissionsController/listeMissionProController" class="btn btn-primary w-50">
                     Retour à votre espace Pro
                 </a>   
             </div>
         </div>
-
-        <?php      
-        echo footer();
-        ?>
-    </body>
-    </html>
     <?php
 }
 ?>

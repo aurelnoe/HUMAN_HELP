@@ -1,5 +1,4 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
 session_start();
 include_once(PATH_BASE . "/Services/ServiceMission.php");
 include_once(PATH_BASE . "/Services/ServicePays.php");
@@ -7,6 +6,7 @@ include_once(PATH_BASE . "/Services/ServiceTypeActivite.php");
 include_once(PATH_BASE . "/Services/ServiceEtablissement.php");
 include_once(PATH_BASE . "/Presentation/PresentationMission.php");
 include_once(PATH_BASE . "/Exceptions/ServiceException.php");
+
 $_GET = array_map('htmlentities',$_GET); 
 $_COOKIE = array_map('htmlentities',$_COOKIE);
 $_REQUEST = array_map('htmlentities',$_REQUEST);

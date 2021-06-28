@@ -1,23 +1,24 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-include_once(PATH_BASE . "/Class/Avis.php");
-include_once(PATH_BASE . "/Class/BddConnect.php");
 include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 
 class AvisDAO extends BddConnect implements DAOInterface,AvisInterface
 {
-    //probablement mettre une fonction IsAdmin
+    private $bddConnect;
+
+    public function __construct() 
+    {
+        $this->bddConnect = new BddConnect();
+    }
 
      /******************* FONCTION AJOUTER UN AVIS/COMMENTAIRE *****************************/
 
-     public function add(Object $avis)
+    public function add(Object $avis)
     {   
-        try {
+        try 
+        {
+            $db = $this->bddConnect->connexion();
 
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
-
-           
             $getTemoignage = $avis->getTemoignage();
             $getDateCommentaire = $avis->getDateCommentaire()->format('Y-m-d'); 
             $getIdUtilisateur = $avis->getIdUtilisateur();
@@ -52,8 +53,7 @@ class AvisDAO extends BddConnect implements DAOInterface,AvisInterface
     {   
         try {
 
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $getIdAvis = $avis->getIdAvis();
             $getTemoignage = $avis->getTemoignage();
@@ -123,18 +123,17 @@ class AvisDAO extends BddConnect implements DAOInterface,AvisInterface
      {
          try 
          {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
  
-             $query = 'SELECT * FROM avis';
-             $stmt = $db->prepare($query);
-             $stmt->execute();
-             $avis = $stmt->fetchAll(PDO::FETCH_CLASS,'Avis');
- 
-             $db = null;
-             $stmt = null;
-             
-             return $avis;
+            $query = 'SELECT * FROM avis';
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $avis = $stmt->fetchAll(PDO::FETCH_CLASS,'Avis');
+
+            $db = null;
+            $stmt = null;
+            
+            return $avis;
          } 
          catch (PDOException $e){
             throw new DAOException($e->getMessage(),$e->getCode());
@@ -150,8 +149,7 @@ class AvisDAO extends BddConnect implements DAOInterface,AvisInterface
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
             
             $query = "SELECT * FROM avis WHERE idAvis = :idAvis";   
             $stmt = $db->prepare($query);
@@ -176,8 +174,7 @@ public function searchByIdArticle($idBlog)
     {
         try 
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
             
             $query = "SELECT * FROM avis WHERE idBlog = :idBlog";   
             $stmt = $db->prepare($query);

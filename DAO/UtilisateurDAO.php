@@ -1,19 +1,23 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/HUMAN_HELP/Security/config.php");
-include_once(PATH_BASE . "/Class/Utilisateur.php");
-include_once(PATH_BASE . "/Class/BddConnect.php");
 require_once(PATH_BASE . "/Exceptions/DAOException.php");
 include_once(PATH_BASE . "/Interfaces/DAOInterface.php");
 include_once(PATH_BASE . "/Interfaces/UtilisateurInterface.php");
 
 class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInterface
 {
+    private $bddConnect;
+
+    public function __construct() 
+    {
+        $this->bddConnect = new BddConnect();
+    }
+
     public function add(object $utilisateur)
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
             
             $getCivilite = $utilisateur->getCivilite();
             $getPseudo = $utilisateur->getPseudo();
@@ -67,8 +71,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $getIdUtilisateur = $utilisateur->getIdUtilisateur();
             $getCivilite = $utilisateur->getCivilite();
@@ -137,8 +140,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "DELETE FROM utilisateur WHERE idUtilisateur = :idUtilisateur";
             $stmt = $db->prepare($query);
@@ -159,8 +161,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = 'SELECT * FROM utilisateur';
             $stmt = $db->prepare($query);
@@ -183,8 +184,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT * FROM utilisateur WHERE idUtilisateur = :idUtilisateur";
             $stmt = $db->prepare($query);
@@ -208,8 +208,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT * FROM utilisateur WHERE mailUtil = :mailUtil";
             $stmt = $db->prepare($query);
@@ -235,8 +234,7 @@ class UtilisateurDAO extends BddConnect implements DAOInterface,UtilisateurInter
     {
         try
         {
-            $newConnect = new BddConnect();
-            $db = $newConnect->connexion();
+            $db = $this->bddConnect->connexion();
 
             $query = "SELECT pseudo FROM utilisateur WHERE idUtilisateur = :idUtilisateur";
             $stmt = $db->prepare($query);
